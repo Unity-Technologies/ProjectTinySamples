@@ -1,0 +1,25 @@
+{
+    "name": "TinyRacing.Authoring.Hybrid",
+    "references": [
+        "Unity.Entities",
+        "Unity.Transforms",
+        "Unity.Jobs",
+        "Unity.Burst",
+        "Unity.Mathematics",
+        "Unity.Physics",
+        "Unity.Rendering.Hybrid",
+        "Unity.Entities.Hybrid",
+        "Unity.Collections",
+        "TinyRacing",
+        "TinyRacing.Hybrid"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

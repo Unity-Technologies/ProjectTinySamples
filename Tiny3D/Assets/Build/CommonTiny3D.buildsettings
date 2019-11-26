@@ -1,0 +1,20 @@
+{
+    "Dependencies": [],
+    "Components": [{
+        "$type": "Unity.Build.Common.GeneralSettings, Unity.Build.Common",
+        "ProductName": "Tiny3D",
+        "CompanyName": "Unity"
+    }, {
+        "$type": "Unity.Build.Common.SceneList, Unity.Build.Common",
+        "BuildCurrentScene": false,
+        "Scenes": [
+            "GlobalObjectId_V1-1-1b436f617d6d3bb49aba65ff9f2581c7-102900000-0"
+        ]
+    }, {
+        "$type": "Unity.Entities.Conversion.ConversionSystemFilterSettings, Unity.Entities.Hybrid",
+        "ExcludedConversionSystemAssemblies": [
+            "GlobalObjectId_V1-1-7a450cf7ca9694b5a8bfa3fd83ec635a-5897886265953266890-0",
+            "GlobalObjectId_V1-1-55025fa6b25937b44b7346488f91ebc8-5897886265953266890-0"
+        ]
+    }]
+}

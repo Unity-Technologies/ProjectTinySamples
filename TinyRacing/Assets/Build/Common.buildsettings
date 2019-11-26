@@ -1,0 +1,20 @@
+{
+    "Dependencies": [],
+    "Components": [{
+        "$type": "Unity.Build.Common.GeneralSettings, Unity.Build.Common",
+        "ProductName": "Tiny Racing",
+        "CompanyName": "Unity"
+    }, {
+        "$type": "Unity.Build.Common.SceneList, Unity.Build.Common",
+        "BuildCurrentScene": false,
+        "Scenes": [
+            "GlobalObjectId_V1-1-ead95ae8a6288294c98220eeaff82fe6-102900000-0"
+        ]
+    }, {
+        "$type": "Unity.Entities.Conversion.ConversionSystemFilterSettings, Unity.Entities.Hybrid",
+        "ExcludedConversionSystemAssemblies": [
+            "GlobalObjectId_V1-1-7a450cf7ca9694b5a8bfa3fd83ec635a-5897886265953266890-0",
+            "GlobalObjectId_V1-1-5c8a0d85861be0b4a835311d2a97b8b5-5897886265953266890-0"
+        ]
+    }]
+}

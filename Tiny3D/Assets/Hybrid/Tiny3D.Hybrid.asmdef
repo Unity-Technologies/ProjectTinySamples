@@ -1,0 +1,23 @@
+{
+    "name": "Tiny3D.Hybrid",
+    "references": [
+        "Unity.Entities",
+        "Unity.Mathematics",
+        "Unity.Jobs",
+        "Unity.Burst",
+        "Unity.Entities.Hybrid",
+        "Unity.Collections",
+        "Unity.Transforms",
+        "Unity.Rendering.Hybrid",
+        "Tiny3D"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,0 +1,27 @@
+{
+    "name": "TinyRacing",
+    "references": [
+        "Unity.Entities",
+        "Unity.Jobs",
+        "Unity.Burst",
+        "Unity.Mathematics",
+        "Unity.Transforms",
+        "Unity.Collections",
+        "Unity.Tiny.Main",
+        "Unity.Tiny.EntryPoint",
+        "Unity.Tiny.Input",
+        "Unity.Tiny.RendererExtras",
+        "Unity.Tiny.Core",
+        "Unity.Tiny.Rendering",
+        "Unity.Tiny.Audio"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
