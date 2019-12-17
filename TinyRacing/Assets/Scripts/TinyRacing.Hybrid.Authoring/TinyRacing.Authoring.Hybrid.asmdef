@@ -6,7 +6,6 @@
         "Unity.Jobs",
         "Unity.Burst",
         "Unity.Mathematics",
-        "Unity.Physics",
         "Unity.Rendering.Hybrid",
         "Unity.Entities.Hybrid",
         "Unity.Collections",
