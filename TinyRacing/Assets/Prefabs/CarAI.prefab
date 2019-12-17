@@ -293,6 +293,8 @@ MonoBehaviour:
     y: 0
     z: -1.1
   SpawnTimer: 0
+  SmokePrefab: {fileID: 5312453364359420, guid: 9e1ada267c91de44f980009b1bf1ef69,
+    type: 3}
 --- !u!114 &8120410053859619024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -309,6 +311,7 @@ MonoBehaviour:
   MaxSpeed: 600
   RotationSpeed: 90
   IsEngineDestroyed: 0
+  PlayCrashAudio: 0
 --- !u!114 &8120410053859619027
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -385,6 +388,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8120410055477623919}
     m_Modifications:
+    - target: {fileID: -4583913637259000950, guid: 57880d34d3cbd604cafaf0971dfc3e94,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ebfc03a52e432b84fb2bd38ffa98f082, type: 2}
     - target: {fileID: -4216859302048453862, guid: 57880d34d3cbd604cafaf0971dfc3e94,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -445,17 +453,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: Kart
       objectReference: {fileID: 0}
-    - target: {fileID: 574165032808307723, guid: 57880d34d3cbd604cafaf0971dfc3e94,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: ebfc03a52e432b84fb2bd38ffa98f082, type: 2}
-    - target: {fileID: -4583913637259000950, guid: 57880d34d3cbd604cafaf0971dfc3e94,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: ebfc03a52e432b84fb2bd38ffa98f082, type: 2}
     - target: {fileID: -167423591363347547, guid: 57880d34d3cbd604cafaf0971dfc3e94,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ebfc03a52e432b84fb2bd38ffa98f082, type: 2}
+    - target: {fileID: 574165032808307723, guid: 57880d34d3cbd604cafaf0971dfc3e94,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 

@@ -2,6 +2,7 @@
 
 namespace TinyRacing
 {
+    [GenerateAuthoringComponent]
     public struct PrefabReferences : IComponentData
     {
         public Entity carSmokePrefab;
