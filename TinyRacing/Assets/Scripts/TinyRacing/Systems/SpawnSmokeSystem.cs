@@ -11,22 +11,12 @@ namespace TinyRacing.Systems
     public class SpawnSmoke : ComponentSystem
     {
         private Random Random;
-        private PrefabReferences PrefabReferences;
-        private Entity PrefabReferencesEntity;
 
         protected override void OnCreate()
         {
             base.OnCreate();
             Random = new Random();
             Random.InitState();
-            RequireSingletonForUpdate<PrefabReferences>();
-        }
-
-        protected override void OnStartRunning()
-        {
-            base.OnStartRunning();
-            PrefabReferencesEntity = GetSingletonEntity<PrefabReferences>();
-            PrefabReferences = EntityManager.GetComponentData<PrefabReferences>(PrefabReferencesEntity);
         }
 
         protected override void OnUpdate()
@@ -35,45 +25,34 @@ namespace TinyRacing.Systems
             Entities.ForEach((ref SmokeSpawner smokeSpawner, ref Car car, ref Translation translation,
                 ref LocalToWorld localToWorld) =>
             {
+                if (smokeSpawner.SmokePrefab == Entity.Null)
+                    return;
+
                 smokeSpawner.SpawnTimer += deltaTime;
-                if (smokeSpawner.SpawnTimer > smokeSpawner.SpawnInterval)
+                if (smokeSpawner.SpawnTimer < smokeSpawner.SpawnInterval)
+                    return;
+
+                smokeSpawner.SpawnTimer = 0f;
+                var scale = car.IsEngineDestroyed ? Random.NextFloat(2f, 3.5f) : Random.NextFloat(0.5f, 1.2f);
+                var duration = car.IsEngineDestroyed ? 2f : 0.45f;
+                var startAngle = Random.NextFloat(-180f, 180f);
+                var smokeEntity = EntityManager.Instantiate(smokeSpawner.SmokePrefab);
+
+                EntityManager.SetComponentData(smokeEntity,
+                    new Smoke {Duration = duration, BaseScale = scale, Speed = 2f});
+                EntityManager.SetComponentData(smokeEntity, new Translation
                 {
-                    smokeSpawner.SpawnTimer = 0f;
-                    var scale = car.IsEngineDestroyed ? Random.NextFloat(2f, 3.5f) : Random.NextFloat(0.5f, 1.2f);
-                    var duration = car.IsEngineDestroyed ? 2f : 0.45f;
-                    var startAngle = Random.NextFloat(-180f, 180f);
-                    Entity smokeEntity;
-
-                    if (car.IsEngineDestroyed)
-                        smokeEntity = EntityManager.Instantiate(PrefabReferences.carSmokeDestroyedPrefab);
-                    else
-                        smokeEntity = EntityManager.Instantiate(PrefabReferences.carSmokePrefab);
-
-                    PostUpdateCommands.AddComponent(smokeEntity,
-                        new Smoke {Duration = duration, BaseScale = scale, Speed = 2f});
-                    PostUpdateCommands.AddComponent(smokeEntity, new Translation
-                    {
-                        Value =
-                            translation.Value +
-                            localToWorld.Right * smokeSpawner.SpawnOffset.x +
-                            localToWorld.Up * smokeSpawner.SpawnOffset.y +
-                            localToWorld.Forward * smokeSpawner.SpawnOffset.z
-                    });
-                    PostUpdateCommands.AddComponent(smokeEntity, new LocalToWorld());
-                    PostUpdateCommands.AddComponent(smokeEntity,
-                        new Rotation
-                            {Value = math.mul(quaternion.identity, quaternion.RotateZ(math.radians(startAngle)))});
-                    PostUpdateCommands.AddComponent(smokeEntity, new Scale {Value = scale});
-#if UNITY_DOTSPLAYER
-                    MeshRenderer meshRenderer = EntityManager.GetComponentData<MeshRenderer>(smokeEntity);
-                    LitMaterial litMaterial = EntityManager.GetComponentData<LitMaterial>(meshRenderer.material);
-
-                    PostUpdateCommands.AddComponent(smokeEntity, litMaterial);
-                    meshRenderer.material = smokeEntity;
-                    PostUpdateCommands.AddComponent(smokeEntity, meshRenderer);
-                    PostUpdateCommands.AddComponent(smokeEntity, new DynamicMaterial());
-#endif
-                }
+                    Value =
+                        translation.Value +
+                        localToWorld.Right * smokeSpawner.SpawnOffset.x +
+                        localToWorld.Up * smokeSpawner.SpawnOffset.y +
+                        localToWorld.Forward * smokeSpawner.SpawnOffset.z
+                });
+                EntityManager.SetComponentData(smokeEntity,
+                    new Rotation
+                        {Value = math.mul(quaternion.identity, quaternion.RotateZ(math.radians(startAngle)))});
+                // scale isn't present by default during transform conversion
+                EntityManager.AddComponentData(smokeEntity, new Scale {Value = scale});
             });
         }
     }

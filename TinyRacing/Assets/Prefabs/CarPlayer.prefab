@@ -214,6 +214,8 @@ MonoBehaviour:
     y: 0
     z: -1.1
   SpawnTimer: 0
+  SmokePrefab: {fileID: 5312453364359420, guid: 9e1ada267c91de44f980009b1bf1ef69,
+    type: 3}
 --- !u!114 &7076360675072105140
 MonoBehaviour:
   m_ObjectHideFlags: 0

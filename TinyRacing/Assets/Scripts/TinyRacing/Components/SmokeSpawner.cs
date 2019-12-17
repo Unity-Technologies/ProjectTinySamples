@@ -9,5 +9,6 @@ namespace TinyRacing
         public float SpawnInterval;
         public float3 SpawnOffset;
         public float SpawnTimer;
+        public Entity SmokePrefab;
     }
 }

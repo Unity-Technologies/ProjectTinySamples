@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 819923213100895471}
   - component: {fileID: 8519672974594733785}
   - component: {fileID: 2668237665861437984}
+  - component: {fileID: 6220947221143206356}
   m_Layer: 0
   m_Name: SmokeDestroyed
   m_TagString: Untagged
@@ -79,3 +80,19 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &6220947221143206356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4412307218195496700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6243cb2825db0b440b64d8056a0b1887, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Timer: 0
+  Duration: 0
+  BaseScale: 0
+  Speed: 2

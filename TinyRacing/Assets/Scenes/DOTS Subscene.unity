@@ -99,7 +99,7 @@ LightmapSettings:
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 112000004, guid: c907e8caaa7a4164c8916ca1eef4eb49,
     type: 2}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -6255,11 +6255,6 @@ MonoBehaviour:
   - {fileID: 2100000, guid: d0d855e6ab6a08a4dae118f529e3fd51, type: 2}
   - {fileID: 2100000, guid: c4e1afc14b9c6a640b6de2362617abfd, type: 2}
   - {fileID: 2100000, guid: 297a972aa05aa8d46885c7c79e8f4b6d, type: 2}
-  CarSmokeMesh: {fileID: 289301614986012343, guid: 587988ab696006b4bbbbef7ff82d68d8,
-    type: 3}
-  CarSmokeMaterial: {fileID: 2100000, guid: f6950a7daf50901489f4d2e6827964d4, type: 2}
-  CarDestroyedSmokeMaterial: {fileID: 2100000, guid: b7f612b4d0ae1a3418f7773d15e744d7,
-    type: 2}
 --- !u!4 &755579060
 Transform:
   m_ObjectHideFlags: 0
@@ -9974,12 +9969,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1116771990}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f102f7f58f224264e8dd364de8132eea, type: 3}
+  m_Script: {fileID: 11500000, guid: fedd7fc26f6a6464dbad38d9e1bd2942, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CarSmokePrefabMeshRenderer: {fileID: 5312453364359420, guid: 9e1ada267c91de44f980009b1bf1ef69,
+  carSmokePrefab: {fileID: 5312453364359420, guid: 9e1ada267c91de44f980009b1bf1ef69,
     type: 3}
-  CarSmokeDestroyedPrefabMeshRenderer: {fileID: 4412307218195496700, guid: de33c846abbce2844ad96c35431e3705,
+  carSmokeDestroyedPrefab: {fileID: 4412307218195496700, guid: de33c846abbce2844ad96c35431e3705,
     type: 3}
 --- !u!4 &1116771992
 Transform:

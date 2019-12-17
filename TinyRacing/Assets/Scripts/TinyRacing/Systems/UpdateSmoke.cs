@@ -18,25 +18,18 @@ namespace TinyRacing.Systems
             var deltaTime = Time.DeltaTime;
             var ecb = ecbSystem.CreateCommandBuffer().ToConcurrent();
 
-            var jobHandle = Entities.ForEach((Entity entity, int entityInQueryIndex, ref Smoke smoke,
-                ref Translation translation, ref Scale scale,
-                ref MeshRenderer renderer
-                #if UNITY_DOTSPLAYER
-                , ref LitMaterial litMaterial
-                #endif
-                ) =>
+            var jobHandle = Entities.ForEach((Entity entity, int nativeThreadIndex,
+                ref Smoke smoke, ref Translation translation, ref Scale scale) =>
             {
                 smoke.Timer += deltaTime;
+                if (smoke.Timer > smoke.Duration)
+                {
+                    ecb.DestroyEntity(nativeThreadIndex, entity);
+                    return;
+                }
+
                 translation.Value += new float3(0f, smoke.Speed, 0f) * deltaTime;
                 scale.Value = smoke.BaseScale * smoke.Timer / smoke.Duration;
-#if UNITY_DOTSPLAYER
-                litMaterial.transparent = true;
-                var delta = smoke.Timer / smoke.Duration;
-                // Inverse quadratic ease-in for smoke transparency
-                litMaterial.constOpacity = 1 - delta * delta;
-#endif
-                if (smoke.Timer > smoke.Duration)
-                    ecb.DestroyEntity(entityInQueryIndex, entity);
             }).Schedule(inputDeps);
 
             ecbSystem.AddJobHandleForProducer(jobHandle);

@@ -46,9 +46,6 @@ namespace TinyRacing.Systems.Hybrid
     {
         public Material Empty;
         public Material[] Numbers;
-        public Mesh CarSmokeMesh;
-        public Material CarSmokeMaterial;
-        public Material CarDestroyedSmokeMaterial;
 
         public bool Equals(MaterialReferences other)
         {
