@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1707020224432959572}
+  - component: {fileID: 5313568447536676242}
   m_Layer: 0
   m_Name: TrackCurveSmall
   m_TagString: Untagged
@@ -31,6 +32,79 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5313568447536676242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6208911268713367613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b275e5f92732148048d7b77e264ac30e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShapeType: 31
+  m_PrimitiveCenter:
+    x: 1.4514551
+    y: 0.49488413
+    z: 8.549235
+  m_PrimitiveSize:
+    x: 17.302917
+    y: 1.2085421
+    z: 17.302696
+  m_PrimitiveOrientation:
+    Value:
+      x: -0
+      y: 0
+      z: 0
+    RotationOrder: 4
+  m_Capsule:
+    Height: 17.302917
+    Radius: 8.651348
+    Axis: 0
+  m_Cylinder:
+    Height: 1.2085421
+    Radius: 8.651459
+    Axis: 1
+  m_CylinderSideCount: 20
+  m_SphereRadius: 8.651459
+  m_MinimumSkinnedVertexWeight: 0.1
+  m_ConvexHullGenerationParameters:
+    m_SimplificationTolerance: 0.25954375
+    m_BevelRadius: 0.05
+    m_MinimumAngle: 2.5000002
+  m_CustomMesh: {fileID: 4300000, guid: c9da9a4eb5561534cb8d191a9e1d31da, type: 3}
+  m_ForceUnique: 0
+  m_Material:
+    m_SupportsTemplate: 1
+    m_Template: {fileID: 0}
+    m_IsTrigger:
+      m_Override: 0
+      m_Value: 0
+    m_Friction:
+      m_Override: 0
+      m_Value:
+        Value: 0
+        CombineMode: 0
+    m_Restitution:
+      m_Override: 0
+      m_Value:
+        Value: 0
+        CombineMode: 2
+    m_BelongsTo:
+      m_Override: 0
+      m_Value: 0101010101010101010101010101010101010101010101010101010101010101
+    m_CollidesWith:
+      m_Override: 0
+      m_Value: 0101010101010101010101010101010101010101010101010101010101010101
+    m_RaisesCollisionEvents:
+      m_Override: 0
+      m_Value: 0
+    m_CustomTags:
+      m_Override: 0
+      m_Value: 0000000000000000
+  m_ConvexRadius_Deprecated: -1
 --- !u!1001 &5361845383472975389
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -38,6 +112,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1707020224432959572}
     m_Modifications:
+    - target: {fileID: 100004, guid: 6aba5d5cbbb6df346ba45c2991fcaf00, type: 3}
+      propertyPath: m_Name
+      value: TrackCurveSmall
+      objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 6aba5d5cbbb6df346ba45c2991fcaf00, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -81,10 +159,6 @@ PrefabInstance:
     - target: {fileID: 400004, guid: 6aba5d5cbbb6df346ba45c2991fcaf00, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 100004, guid: 6aba5d5cbbb6df346ba45c2991fcaf00, type: 3}
-      propertyPath: m_Name
-      value: TrackCurveSmall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6aba5d5cbbb6df346ba45c2991fcaf00, type: 3}

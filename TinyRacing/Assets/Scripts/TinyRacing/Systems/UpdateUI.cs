@@ -19,12 +19,17 @@ namespace TinyRacing.Systems
             RequireSingletonForUpdate<UINumbers>();
         }
 
-        protected override void OnUpdate()
+        protected override void OnStartRunning()
         {
+            base.OnStartRunning();
+
             UInumber = GetSingletonEntity<UINumbers>();
             var nBuffer = EntityManager.GetBuffer<UINumberMaterial>(UInumber);
             Numbers = nBuffer.ToNativeArray(Allocator.Persistent);
+        }
 
+        protected override void OnUpdate()
+        {
             if (Numbers.Length == 0)
                 return;
             var ecb = new EntityCommandBuffer(Allocator.Temp);
@@ -45,6 +50,10 @@ namespace TinyRacing.Systems
             });
             ecb.Playback(EntityManager);
             ecb.Dispose();
+        }
+
+        protected override void OnStopRunning()
+        {
             Numbers.Dispose();
         }
     }

@@ -1,6 +1,5 @@
 ﻿using Unity.Entities;
 using Unity.Mathematics;
-using Unity.Tiny.Rendering;
 using Unity.Transforms;
 
 namespace TinyRacing.Systems
@@ -31,12 +30,15 @@ namespace TinyRacing.Systems
                 smokeSpawner.SpawnTimer += deltaTime;
                 if (smokeSpawner.SpawnTimer < smokeSpawner.SpawnInterval)
                     return;
+                var smokePrefab = smokeSpawner.SmokePrefab;
+                if (car.IsEngineDestroyed)
+                    smokePrefab = smokeSpawner.SmokeDestroyedPrefab;
 
                 smokeSpawner.SpawnTimer = 0f;
                 var scale = car.IsEngineDestroyed ? Random.NextFloat(2f, 3.5f) : Random.NextFloat(0.5f, 1.2f);
                 var duration = car.IsEngineDestroyed ? 2f : 0.45f;
                 var startAngle = Random.NextFloat(-180f, 180f);
-                var smokeEntity = EntityManager.Instantiate(smokeSpawner.SmokePrefab);
+                var smokeEntity = EntityManager.Instantiate(smokePrefab);
 
                 EntityManager.SetComponentData(smokeEntity,
                     new Smoke {Duration = duration, BaseScale = scale, Speed = 2f});

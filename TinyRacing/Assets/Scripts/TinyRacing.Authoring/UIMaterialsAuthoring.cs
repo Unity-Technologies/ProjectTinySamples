@@ -1,4 +1,5 @@
 ﻿using Unity.Entities;
+using Unity.Entities.Runtime.Build;
 using UnityEngine;
 using Unity.Tiny.Rendering;
 
@@ -15,6 +16,9 @@ public class UIMaterialsAuthoring : MonoBehaviour, IConvertGameObjectToEntity
     {
         dstManager.AddComponent<UINumbers>(entity);
         dstManager.AddBuffer<UINumberMaterial>(entity);
+
+        if (!conversionSystem.TryGetBuildSettingsComponent<DotsRuntimeBuildProfile>(out var _))
+            return;
 
         //Add additional entity for the Empty material
         var primaryEntity = conversionSystem.GetPrimaryEntity(Empty);
@@ -38,6 +42,14 @@ public class UIMaterialsAuthoring : MonoBehaviour, IConvertGameObjectToEntity
 [UpdateInGroup(typeof(GameObjectAfterConversionGroup))]
 internal class AddUIMaterialsReference : GameObjectConversionSystem
 {
+    public override bool ShouldRunConversionSystem()
+    {
+        //Workaround for running the tiny conversion systems only if the BuildSettings have the DotsRuntimeBuildProfile component, so these systems won't run in play mode
+        if (GetBuildSettingsComponent<DotsRuntimeBuildProfile>() == null)
+            return false;
+        return base.ShouldRunConversionSystem();
+    }
+
     protected override void OnUpdate()
     {
         Entities.ForEach((UIMaterialsAuthoring uNum) =>

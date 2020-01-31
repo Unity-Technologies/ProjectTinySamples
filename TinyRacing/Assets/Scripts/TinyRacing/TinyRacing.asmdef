@@ -13,7 +13,8 @@
         "Unity.Tiny.RendererExtras",
         "Unity.Tiny.Core",
         "Unity.Tiny.Rendering",
-        "Unity.Tiny.Audio"
+        "Unity.Tiny.Audio",
+        "Unity.Physics"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

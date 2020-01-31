@@ -1,7 +1,9 @@
-﻿using Unity.Entities;
+﻿using Unity.Burst;
+using Unity.Collections;
+using Unity.Entities;
 using Unity.Jobs;
-using Unity.Mathematics;
-using Unity.Transforms;
+using Unity.Physics;
+using Unity.Physics.Systems;
 
 namespace TinyRacing.Systems
 {
@@ -9,38 +11,67 @@ namespace TinyRacing.Systems
     ///     Detect when the player's car bumps into an AI car to destroy their engine.
     ///     Do not use physics collisions but compare distances between cars
     /// </summary>
+    [UpdateAfter(typeof(EndFramePhysicsSystem))]
     public class BumpCar : JobComponentSystem
     {
-        private Entity m_CarDestroyedSmoke;
+        private BuildPhysicsWorld _buildPhysicsWorldSystem;
+        private StepPhysicsWorld _stepPhysicsWorldSystem;
 
         protected override void OnCreate()
         {
             base.OnCreate();
             RequireSingletonForUpdate<PlayerTag>();
-        }
-
-        protected override void OnStartRunning()
-        {
-            base.OnStartRunning();
-            m_CarDestroyedSmoke = GetSingleton<PrefabReferences>().carSmokeDestroyedPrefab;
+            _buildPhysicsWorldSystem = World.GetOrCreateSystem<BuildPhysicsWorld>();
+            _stepPhysicsWorldSystem = World.GetOrCreateSystem<StepPhysicsWorld>();
         }
 
         protected override JobHandle OnUpdate(JobHandle inputDeps)
         {
-            var playerCarEntity = GetSingletonEntity<PlayerTag>();
-            var playerCarPosition = EntityManager.GetComponentData<Translation>(playerCarEntity).Value;
-            var destroyedSmoke = m_CarDestroyedSmoke;
-
-            return Entities.WithNone<PlayerTag>().ForEach((ref Car car, ref SmokeSpawner smoke, in Translation translation) =>
+            var jobHandle = new BumbCarJob
             {
-                var distanceSq = math.distancesq(translation.Value, playerCarPosition);
-                if (distanceSq < 1f && !car.IsEngineDestroyed)
+                AIGroup = GetComponentDataFromEntity<AI>(true),
+                CarGroup = GetComponentDataFromEntity<Car>(),
+                PlayerGroup = GetComponentDataFromEntity<PlayerTag>()
+            }.Schedule(_stepPhysicsWorldSystem.Simulation, ref _buildPhysicsWorldSystem.PhysicsWorld, inputDeps);
+
+            return jobHandle;
+        }
+
+        [BurstCompile]
+        private struct BumbCarJob : ICollisionEventsJob
+        {
+            [ReadOnly] public ComponentDataFromEntity<AI> AIGroup;
+            public ComponentDataFromEntity<Car> CarGroup;
+            [ReadOnly] public ComponentDataFromEntity<PlayerTag> PlayerGroup;
+
+            public Entity GetEntityFromComponentGroup<T>(Entity entityA, Entity entityB,
+                ComponentDataFromEntity<T> componentGroup) where T : struct, IComponentData
+            {
+                if (componentGroup.Exists(entityA))
+                    return entityA;
+                if (componentGroup.Exists(entityB))
+                    return entityB;
+                return Entity.Null;
+            }
+
+            public void Execute(CollisionEvent collisionEvent)
+            {
+                var entityA = collisionEvent.Entities.EntityA;
+                var entityB = collisionEvent.Entities.EntityB;
+                var playerEntity = GetEntityFromComponentGroup(entityA, entityB, PlayerGroup);
+                var aiEntity = GetEntityFromComponentGroup(entityA, entityB, AIGroup);
+                if (playerEntity != Entity.Null && aiEntity != Entity.Null)
                 {
-                    car.IsEngineDestroyed = true;
-                    car.PlayCrashAudio = true;
-                    smoke.SmokePrefab = destroyedSmoke;
+                    var car = CarGroup[aiEntity];
+                    if (!car.IsEngineDestroyed)
+                    {
+                        car.IsEngineDestroyed = true;
+                        car.PlayCrashAudio = true;
+                    }
+
+                    CarGroup[aiEntity] = car;
                 }
-            }).Schedule(inputDeps);
+            }
         }
     }
 }

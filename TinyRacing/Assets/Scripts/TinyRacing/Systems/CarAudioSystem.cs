@@ -1,4 +1,5 @@
 ﻿using Unity.Entities;
+using Unity.Mathematics;
 using Unity.Tiny.Audio;
 
 namespace TinyRacing.Systems
@@ -30,6 +31,7 @@ namespace TinyRacing.Systems
                 {
                     if (currentSpeed > 50)
                     {
+                        audioSource.volume = math.min(.8f, currentSpeed / 1000.0f);
                         if (!audioSource.isPlaying)
                             PostUpdateCommands.AddComponent<AudioSourceStart>(entity);
                     }

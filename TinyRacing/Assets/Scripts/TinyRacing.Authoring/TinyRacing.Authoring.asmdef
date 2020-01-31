@@ -12,7 +12,9 @@
         "TinyRacing",
         "TinyRacing.Hybrid",
         "Unity.Tiny.Rendering",
-        "Unity.Tiny.Core"
+        "Unity.Tiny.Core",
+        "Unity.Build",
+        "Unity.Entities.Runtime.Build"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
