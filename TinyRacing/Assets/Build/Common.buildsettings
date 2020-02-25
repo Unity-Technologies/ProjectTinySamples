@@ -21,5 +21,12 @@
         "ScriptingDefines": [
             "UNITY_DOTSPLAYER_EXPERIMENTAL_FIXED_SIM"
         ]
+    }, {
+        "$type": "Unity.Tiny.Rendering.Settings.TinyRenderingSettings, Unity.Tiny.Rendering.Authoring",
+        "ResolutionX": 1280,
+        "ResolutionY": 720,
+        "AutoResizeFrame": true,
+        "DisableVsync": false,
+        "DisableSRGB": false
     }]
 }
