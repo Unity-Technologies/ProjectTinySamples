@@ -16,5 +16,12 @@
             "GlobalObjectId_V1-1-7a450cf7ca9694b5a8bfa3fd83ec635a-5897886265953266890-0",
             "GlobalObjectId_V1-1-55025fa6b25937b44b7346488f91ebc8-5897886265953266890-0"
         ]
+    }, {
+        "$type": "Unity.Tiny.Rendering.Settings.TinyRenderingSettings, Unity.Tiny.Rendering.Authoring",
+        "ResolutionX": 1280,
+        "ResolutionY": 720,
+        "AutoResizeFrame": true,
+        "DisableVsync": false,
+        "DisableSRGB": false
     }]
 }

@@ -718,7 +718,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c0f909f262d24376bd784e04f3f6205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animationClip: {fileID: 7400000, guid: 3fd939d09be05694492ae0d09b640941, type: 2}
+  animationClips:
+  - {fileID: 7400000, guid: 3fd939d09be05694492ae0d09b640941, type: 2}
   playAutomatically: 1
   patchMissingScaleIfNeeded: 1
 --- !u!95 &382744256
