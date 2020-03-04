@@ -1,0 +1,17 @@
+{
+    "Dependencies": [
+        "GlobalObjectId_V1-1-9cda9cf506faf49bcbfee5f349aaaa76-93214019566545601-0"
+    ],
+    "Components": [{
+        "$type": "Unity.Entities.Runtime.Build.DotsRuntimeBuildProfile, Unity.Entities.Runtime.Build",
+        "ShouldWriteDataFiles": true,
+        "EnableManagedDebugging": false,
+        "EnableMultiThreading": false,
+        "EnableBurst": true,
+        "RootAssembly": "GlobalObjectId_V1-1-fcc94cc8659b14e08aab6830b0dec199-5897886265953266890-0",
+        "Target": "windows-il2cpp",
+        "Configuration": 2,
+        "Pipeline": "GlobalObjectId_V1-1-56241f83dacec1141b7d967eb30bf934-93214019566545601-0",
+        "BeeTargetOverride": null
+    }]
+}

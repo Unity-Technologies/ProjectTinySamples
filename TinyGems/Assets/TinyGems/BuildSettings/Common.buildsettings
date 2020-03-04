@@ -1,0 +1,21 @@
+{
+    "Dependencies": [],
+    "Components": [{
+        "$type": "Unity.Build.Common.GeneralSettings, Unity.Build.Common",
+        "ProductName": "TinyMatch",
+        "CompanyName": "Unity"
+    }, {
+        "$type": "Unity.Build.Common.SceneList, Unity.Build.Common",
+        "BuildCurrentScene": false,
+        "Scenes": [
+            "GlobalObjectId_V1-1-f17be26d84eed4a7886804c2b15424d4-102900000-0"
+        ]
+    }, {
+        "$type": "Unity.Tiny.Rendering.Settings.TinyRenderingSettings, Unity.Tiny.Rendering.Authoring",
+        "ResolutionX": 1280,
+        "ResolutionY": 720,
+        "AutoResizeFrame": true,
+        "DisableVsync": false,
+        "DisableSRGB": false
+    }]
+}
