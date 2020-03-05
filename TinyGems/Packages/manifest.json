@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "com.unity.2d.entities": "0.22.0-preview.7",
+    "com.unity.2d.entities": "0.22.0-preview.8",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.2d.tilemap": "1.0.0",
     "com.unity.collab-proxy": "1.2.16",
