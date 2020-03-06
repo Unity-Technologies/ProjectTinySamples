@@ -16,4 +16,4 @@ The package provides tools to work with 2D content, such as Sprites and Physics 
 
 For discussion about the 2D Entities package, please join us at the [forums](https://forum.unity.com/threads/first-batch-of-2d-features-for-project-tiny-is-now-available.830652/). 
 
-For a list of common questions, see the [common questions post](https://forum.unity.com/threads/2d-entities-common-questions.838729/).
+For a list of common questions, see the [common questions post](https://forum.unity.com/threads/first-batch-of-2d-features-for-project-tiny-is-now-available.830652/#post-5556979).
