@@ -1,0 +1,29 @@
+{
+    "name": "TinyGems",
+    "references": [
+        "Unity.Entities",
+        "Unity.Transforms",
+        "Unity.Mathematics",
+        "Unity.Collections",
+        "Unity.Jobs",
+        "Unity.Tiny.Core",
+        "Unity.Tiny.Rendering",
+        "Unity.Tiny.Audio",
+        "Unity.Tiny.Input",
+        "Unity.Tiny.EntryPoint",
+        "Unity.Tiny.Main",
+        "Unity.Burst",
+        "Unity.2D.Entities",
+        "Unity.2D.Entities.Runtime",
+        "Unity.2D.Entities.Physics"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

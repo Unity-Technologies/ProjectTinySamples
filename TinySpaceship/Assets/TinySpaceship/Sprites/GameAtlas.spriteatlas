@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: GameAtlas
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings: []
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 0
+      enableTightPacking: 1
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: 94b40f80a33e0074294d7769a226f606, type: 3}
+    - {fileID: 102900000, guid: 6136a481ae2160a4e90b20656445c9fa, type: 3}
+    - {fileID: 102900000, guid: 8c74efdf78c414c4192c5a48ed9df654, type: 3}
+    - {fileID: 102900000, guid: ffd3b4fd9b0f88645a05f06862df9940, type: 3}
+    totalSpriteSurfaceArea: 929679
+    bindAsDefault: 1
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: c7e7ab03a14ec3e41af63158afe42530, type: 3}
+  - {fileID: 21300000, guid: 9c286ca44d9e54c3c84e145058449c98, type: 3}
+  - {fileID: 21300000, guid: a4dda1059ce68c144a58e5e12b0e2619, type: 3}
+  - {fileID: 21300000, guid: 71405135101904754826b0d59d8cf801, type: 3}
+  - {fileID: 21300000, guid: d9b6df65c88957a4698dca330fe8c267, type: 3}
+  - {fileID: 21300000, guid: 9500891681d8d4ee5a61144a5b1c4773, type: 3}
+  - {fileID: 21300000, guid: 5b7ef21b1e4e7435f8e8b6b33ca20e54, type: 3}
+  - {fileID: 21300000, guid: 6557682deff884488ba63f6c97aaf084, type: 3}
+  - {fileID: 21300000, guid: e2dfa27e0377cba40ad854d503e978f3, type: 3}
+  - {fileID: 21300000, guid: ab72467e062206645b32971dc962d595, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - Mine
+  - Explosion_0
+  - LaserSmall
+  - Explosion_1
+  - Cheese
+  - Explosion_3
+  - Explosion_2
+  - Explosion_4
+  - Asteroid
+  - SpaceshipRed
+  m_Tag: GameAtlas
+  m_IsVariant: 0
