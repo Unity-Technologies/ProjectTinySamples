@@ -17,3 +17,5 @@ build/**
 PackageSources
 Packages/.gitignore
 
+SceneDependencyCache.meta
+SceneDependencyCache/
