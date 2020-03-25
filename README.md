@@ -7,5 +7,5 @@ Current samples:
 - Tiny3D sample is a "Hello World" style sample with minimal assets & code
 - TinyFactory sample project demonstrates how Animations can be added to a scene (no code).
 - TinyGems and TinySpaceship are 2D sample projects that showcases some of the features that can be found inside the 2D Entities package.
-- RuntimeGeometry3D samples demonstrates how to do Dynamic meshes creation at runtime. 
+- RuntimeGeometry3D sample demonstrates how to do Dynamic meshes creation at runtime. 
 
