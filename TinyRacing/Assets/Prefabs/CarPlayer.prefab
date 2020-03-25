@@ -176,6 +176,7 @@ GameObject:
   - component: {fileID: 581041778424962025}
   - component: {fileID: 8264952045957585272}
   - component: {fileID: 1168170751813627301}
+  - component: {fileID: 59084561905354439}
   m_Layer: 0
   m_Name: CarPlayer
   m_TagString: Untagged
@@ -427,6 +428,28 @@ MonoBehaviour:
     Tag05: 0
     Tag06: 0
     Tag07: 0
+--- !u!114 &59084561905354439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7076360675633108487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 136530708bdcc264481e59d0296811b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StartPosition:
+    x: 0
+    y: 0
+    z: 0
+  StartRotation:
+    value:
+      x: 0
+      y: 0
+      z: 0
+      w: 0
 --- !u!1 &7344030946474822202
 GameObject:
   m_ObjectHideFlags: 0

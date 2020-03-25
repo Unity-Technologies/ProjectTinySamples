@@ -17,14 +17,13 @@ public class UIMaterialsAuthoring : MonoBehaviour, IConvertGameObjectToEntity
         dstManager.AddComponent<UINumbers>(entity);
         dstManager.AddBuffer<UINumberMaterial>(entity);
 
-        if (!conversionSystem.TryGetBuildSettingsComponent<DotsRuntimeBuildProfile>(out var _))
+        if (!conversionSystem.TryGetBuildConfigurationComponent<DotsRuntimeBuildProfile>(out var _))
             return;
 
         //Add additional entity for the Empty material
         var primaryEntity = conversionSystem.GetPrimaryEntity(Empty);
         var mat = dstManager.GetComponentData<SimpleMaterial>(primaryEntity);
         Entity additionalEntity = conversionSystem.CreateAdditionalEntity(Empty);
-        dstManager.AddComponent<DynamicMaterial>(additionalEntity);
         dstManager.AddComponentData<SimpleMaterial>(additionalEntity, mat);
 
         //Add additional entities for each numbers material
@@ -33,7 +32,6 @@ public class UIMaterialsAuthoring : MonoBehaviour, IConvertGameObjectToEntity
             primaryEntity = conversionSystem.GetPrimaryEntity(Numbers[i]);
             mat = dstManager.GetComponentData<SimpleMaterial>(primaryEntity);
             additionalEntity = conversionSystem.CreateAdditionalEntity(Numbers[i]);
-            dstManager.AddComponent<DynamicMaterial>(additionalEntity);
             dstManager.AddComponentData<SimpleMaterial>(additionalEntity, mat);
         }
     }
@@ -45,7 +43,7 @@ internal class AddUIMaterialsReference : GameObjectConversionSystem
     public override bool ShouldRunConversionSystem()
     {
         //Workaround for running the tiny conversion systems only if the BuildSettings have the DotsRuntimeBuildProfile component, so these systems won't run in play mode
-        if (GetBuildSettingsComponent<DotsRuntimeBuildProfile>() == null)
+        if (GetBuildConfigurationComponent<DotsRuntimeBuildProfile>() == null)
             return false;
         return base.ShouldRunConversionSystem();
     }

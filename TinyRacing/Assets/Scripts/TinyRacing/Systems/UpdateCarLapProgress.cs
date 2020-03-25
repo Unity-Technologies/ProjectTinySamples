@@ -37,12 +37,50 @@ namespace TinyRacing.Systems
                 controlPointsEntities.Dispose();
             }
 
-            var jobHandle = new UpdateCarLapProgressJob
+            var controlPoints = ControlPoints;
+            var handle = Entities.ForEach((ref Car car, ref Translation translation, ref LapProgress lapProgress) =>
             {
-                ControlPoints = ControlPoints
-            };
+                var carPosition = translation.Value;
 
-            return jobHandle.Schedule(this, inputDeps);
+                var closestSegmentIndex = -1;
+                var closestDistance = float.MaxValue;
+                var closestPointOnSegment = float3.zero;
+
+                for (var i = 0; i < controlPoints.Length; i++)
+                {
+                    var current = controlPoints[i];
+                    var next = controlPoints[(i + 1) % controlPoints.Length];
+                    var pointOnSegment = GetClosestPointOnSegment(carPosition, current, next);
+                    var distanceToSegment = math.distance(carPosition, pointOnSegment);
+
+                    if (distanceToSegment < closestDistance)
+                    {
+                        closestSegmentIndex = i;
+                        closestDistance = distanceToSegment;
+                        closestPointOnSegment = pointOnSegment;
+                    }
+                }
+
+                var currentPoint = controlPoints[closestSegmentIndex];
+                var nextPoint = controlPoints[(closestSegmentIndex + 1) % controlPoints.Length];
+                var currentSegmentProgress = math.distance(closestPointOnSegment, currentPoint) /
+                                             math.distance(currentPoint, nextPoint);
+                var controlPointProgress = closestSegmentIndex + currentSegmentProgress;
+
+                if (controlPointProgress > lapProgress.CurrentControlPoint + lapProgress.CurrentControlPointProgress)
+                {
+                    lapProgress.CurrentControlPoint = closestSegmentIndex;
+                    lapProgress.CurrentControlPointProgress = currentSegmentProgress;
+                }
+                else if (controlPointProgress < 1f && lapProgress.CurrentControlPoint >= controlPoints.Length - 1)
+                {
+                    lapProgress.CurrentControlPoint = closestSegmentIndex;
+                    lapProgress.CurrentControlPointProgress = currentSegmentProgress;
+                    lapProgress.CurrentLap++;
+                }
+            }).WithReadOnly(controlPoints).Schedule(inputDeps);
+
+            return handle;
         }
 
         public static float3 GetClosestPointOnSegment(float3 subject, float3 pA, float3 pB)
@@ -65,53 +103,6 @@ namespace TinyRacing.Systems
         {
             if (AreControlPointsInitialized)
                 ControlPoints.Dispose();
-        }
-
-        private struct UpdateCarLapProgressJob : IJobForEach<Car, Translation, LapProgress>
-        {
-            [ReadOnly] public NativeList<float3> ControlPoints;
-
-            public void Execute(ref Car car, ref Translation translation, ref LapProgress lapProgress)
-            {
-                var carPosition = translation.Value;
-
-                var closestSegmentIndex = -1;
-                var closestDistance = float.MaxValue;
-                var closestPointOnSegment = float3.zero;
-
-                for (var i = 0; i < ControlPoints.Length; i++)
-                {
-                    var current = ControlPoints[i];
-                    var next = ControlPoints[(i + 1) % ControlPoints.Length];
-                    var pointOnSegment = GetClosestPointOnSegment(carPosition, current, next);
-                    var distanceToSegment = math.distance(carPosition, pointOnSegment);
-
-                    if (distanceToSegment < closestDistance)
-                    {
-                        closestSegmentIndex = i;
-                        closestDistance = distanceToSegment;
-                        closestPointOnSegment = pointOnSegment;
-                    }
-                }
-
-                var currentPoint = ControlPoints[closestSegmentIndex];
-                var nextPoint = ControlPoints[(closestSegmentIndex + 1) % ControlPoints.Length];
-                var currentSegmentProgress = math.distance(closestPointOnSegment, currentPoint) /
-                                             math.distance(currentPoint, nextPoint);
-                var controlPointProgress = closestSegmentIndex + currentSegmentProgress;
-
-                if (controlPointProgress > lapProgress.CurrentControlPoint + lapProgress.CurrentControlPointProgress)
-                {
-                    lapProgress.CurrentControlPoint = closestSegmentIndex;
-                    lapProgress.CurrentControlPointProgress = currentSegmentProgress;
-                }
-                else if (controlPointProgress < 1f && lapProgress.CurrentControlPoint >= ControlPoints.Length - 1)
-                {
-                    lapProgress.CurrentControlPoint = closestSegmentIndex;
-                    lapProgress.CurrentControlPointProgress = currentSegmentProgress;
-                    lapProgress.CurrentLap++;
-                }
-            }
         }
     }
 }

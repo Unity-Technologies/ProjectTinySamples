@@ -7,13 +7,8 @@
         "Unity.Transforms",
         "Unity.Tiny.Core",
         "Unity.Tiny.Rendering",
-        "Unity.Tiny.Image2D",
-        "Unity.Tiny.GLFW",
-        "Unity.Tiny.Web",
         "Unity.Tiny.Input",
-        "Unity.Tiny.RendererExtras",
-        "Unity.Tiny.Main",
-        "Unity.Tiny.EntryPoint"
+        "Unity.Tiny.RendererExtras"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

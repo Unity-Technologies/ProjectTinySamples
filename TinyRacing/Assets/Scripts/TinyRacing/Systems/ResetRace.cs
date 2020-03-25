@@ -1,9 +1,10 @@
 ﻿using Unity.Entities;
 using Unity.Mathematics;
-using Unity.Transforms;
 using Unity.Physics;
+using Unity.Transforms;
 #if UNITY_DOTSPLAYER
 using Unity.Tiny.Input;
+
 #else
 using UnityEngine;
 #endif
@@ -56,20 +57,24 @@ namespace TinyRacing.Systems
                 race.GameOverTimer = 0f;
                 SetSingleton(race);
 
-                Entities.ForEach((Entity entity, ref CarDefaultState defaultState, ref Translation translation, 
-                    ref PhysicsVelocity physicsVelocity,
-                    ref Rotation rotation, ref Car car, ref LapProgress lapProgress) =>
+                Entities.ForEach((Entity entity, ref StoreDefaultState defaultState, ref Translation translation,
+                    ref Rotation rotation) =>
                 {
                     translation.Value = defaultState.StartPosition;
                     rotation.Value = defaultState.StartRotation;
+                });
 
+                Entities.ForEach((Entity entity, ref Translation translation,
+                    ref PhysicsVelocity physicsVelocity,
+                    ref Rotation rotation, ref Car car, ref LapProgress lapProgress) =>
+                {
                     car.CurrentSpeed = 0f;
                     car.IsEngineDestroyed = false;
 
                     lapProgress.CurrentLap = 0;
                     lapProgress.CurrentControlPoint = 0;
                     lapProgress.CurrentControlPointProgress = 0f;
-                    
+
                     physicsVelocity.Linear = float3.zero;
                     physicsVelocity.Angular = float3.zero;
                 });
@@ -78,7 +83,6 @@ namespace TinyRacing.Systems
                 {
                     speedMultiplier.RemainingTime = 0f;
                 });
-                
             }
         }
     }

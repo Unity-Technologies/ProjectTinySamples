@@ -1,5 +1,6 @@
 ﻿using System;
 using Unity.Entities;
+using Unity.Transforms;
 #if UNITY_DOTSPLAYER
 using Unity.Tiny.Input;
 using Unity.Tiny.Audio;
@@ -41,9 +42,21 @@ namespace TinyRacing.Systems
                 race.CountdownTimer = race.CountdownTime;
                 race.RaceTimer = 0f;
                 SetSingleton(race);
+                StoreDefaultState();
             }
 
             SetMenuVisibility(!race.IsRaceStarted);
+        }
+
+        private void StoreDefaultState()
+        {
+            Entities.ForEach(
+                (ref StoreDefaultState defaultState, ref Translation translation,
+                    ref Rotation rotation) =>
+                {
+                    defaultState.StartPosition = translation.Value;
+                    defaultState.StartRotation = rotation.Value;
+                });
         }
 
         private void SetMenuVisibility(bool isVisible)

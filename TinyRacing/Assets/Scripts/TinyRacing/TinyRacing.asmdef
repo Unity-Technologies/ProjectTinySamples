@@ -7,14 +7,13 @@
         "Unity.Mathematics",
         "Unity.Transforms",
         "Unity.Collections",
-        "Unity.Tiny.Main",
-        "Unity.Tiny.EntryPoint",
         "Unity.Tiny.Input",
         "Unity.Tiny.RendererExtras",
         "Unity.Tiny.Core",
         "Unity.Tiny.Rendering",
         "Unity.Tiny.Audio",
-        "Unity.Physics"
+        "Unity.Physics",
+        "Unity.Tiny.Animation"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
