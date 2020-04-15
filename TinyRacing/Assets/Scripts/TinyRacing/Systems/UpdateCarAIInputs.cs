@@ -10,18 +10,18 @@ namespace TinyRacing.Systems
     ///     Move the AI controlled cars along the control points of the track by simulating controller inputs
     /// </summary>
     [UpdateBefore(typeof(TransformSystemGroup))]
-    public class UpdateCarAIInputs : JobComponentSystem
+    public class UpdateCarAIInputs : SystemBase
     {
-        protected override JobHandle OnUpdate(JobHandle inputDeps)
+        protected override void OnUpdate()
         {
             var updateCarLapSystem = EntityManager.World.GetExistingSystem<UpdateCarLapProgress>();
 
             if (updateCarLapSystem.AreControlPointsInitialized == false)
-                return inputDeps;
+                return;
           
             var controlPoints = updateCarLapSystem.ControlPoints;
             
-            return Entities.ForEach((ref Car car, ref CarInputs inputs, ref AI opponent, ref LocalToWorld localToWorld, ref LapProgress lapProgress,
+            Entities.ForEach((ref Car car, ref CarInputs inputs, ref AI opponent, ref LocalToWorld localToWorld, ref LapProgress lapProgress,
                 ref Translation translation) =>
             {
                 var controlPointIndex = lapProgress.CurrentControlPoint;
@@ -51,7 +51,7 @@ namespace TinyRacing.Systems
 
                 // AI cars always accelerate to full speed
                 inputs.AccelerationAxis = 1f;
-            }).WithReadOnly(controlPoints).Schedule(inputDeps);
+            }).WithReadOnly(controlPoints).ScheduleParallel();
         }
     }
 }

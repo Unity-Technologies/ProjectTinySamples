@@ -7,7 +7,7 @@ namespace TinyRacing.Systems
     ///     current lap.
     /// </summary>
     [UpdateAfter(typeof(UpdateCarLapProgress))]
-    public class UpdateCarRank : ComponentSystem
+    public class UpdateCarRank : SystemBase
     {
         protected override void OnCreate()
         {
@@ -32,10 +32,10 @@ namespace TinyRacing.Systems
             {
                 playerCarEntity = entity;
                 playerProgressValue = CalculateProgressValue(ref lapProgress);
-
+                var isRaceEnded = lapProgress.CurrentLap <= raceLapCount;
                 // Do not update player rank if the race is not started or if it has ended
-                updatePlayerRank = isRaceStarted && lapProgress.CurrentLap <= raceLapCount;
-            });
+                updatePlayerRank = isRaceStarted && isRaceEnded;
+            }).WithoutBurst().Run();
 
             if (updatePlayerRank)
             {
@@ -45,7 +45,7 @@ namespace TinyRacing.Systems
                     var aiProgressValue = CalculateProgressValue(ref lapProgress);
                     if (aiProgressValue > playerProgressValue)
                         playerRank++;
-                });
+                }).WithoutBurst().Run();
 
                 EntityManager.SetComponentData(playerCarEntity, new CarRank {Value = playerRank});
             }

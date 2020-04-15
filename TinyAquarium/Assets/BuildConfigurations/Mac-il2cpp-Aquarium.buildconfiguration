@@ -1,0 +1,13 @@
+{
+    "Dependencies": [
+        "GlobalObjectId_V1-1-7445a63fcf477484c98e24f947a64850-93214019566545601-0"
+    ],
+    "Components": [
+        {
+            "$type": "Unity.Entities.Runtime.Build.DotsRuntimeBuildProfile, Unity.Entities.Runtime.Build",
+            "Target": "macos-il2cpp",
+            "Configuration": 2,
+            "Pipeline": "GlobalObjectId_V1-1-56241f83dacec1141b7d967eb30bf934-93214019566545601-0"
+        }
+    ]
+}

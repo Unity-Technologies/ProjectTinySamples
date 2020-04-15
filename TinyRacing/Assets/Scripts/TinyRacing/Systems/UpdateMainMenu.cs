@@ -2,6 +2,7 @@
 using Unity.Entities;
 using Unity.Transforms;
 #if UNITY_DOTSPLAYER
+using Unity.Tiny;
 using Unity.Tiny.Input;
 using Unity.Tiny.Audio;
 
@@ -15,11 +16,15 @@ namespace TinyRacing.Systems
     ///     Update the main menu UI
     /// </summary>
     [UpdateBefore(typeof(ResetRace))]
-    public class UpdateMainMenu : ComponentSystem
+    public class UpdateMainMenu : SystemBase
     {
         protected override void OnCreate()
         {
             base.OnCreate();
+#if UNITY_DOTSPLAYER
+            var window = World.GetExistingSystem<WindowSystem>();
+            window.SetOrientationMask(ScreenOrientation.AutoRotationLandscape);
+#endif
             RequireSingletonForUpdate<Race>();
         }
 
@@ -56,28 +61,29 @@ namespace TinyRacing.Systems
                 {
                     defaultState.StartPosition = translation.Value;
                     defaultState.StartRotation = rotation.Value;
-                });
+                }).Run();
         }
 
         private void SetMenuVisibility(bool isVisible)
         {
             if (isVisible)
             {
-                Entities.WithAll<MainMenuTag, Disabled>().ForEach(entity =>
-                {
-                    PostUpdateCommands.RemoveComponent<Disabled>(entity);
-                });
 #if UNITY_DOTSPLAYER
-                Entities.WithAll<MainMenuTag, AudioSource, Disabled>().ForEach(entity =>
+                Entities.WithAll<MainMenuTag, AudioSource, Disabled>().ForEach((Entity entity) =>
                 {
-                    PostUpdateCommands.AddComponent<AudioSourceStart>(entity);
-                });
+                    EntityManager.AddComponent<AudioSourceStart>(entity);
+                }).WithStructuralChanges().Run();
 #endif
+                Entities.WithAll<MainMenuTag, Disabled>().ForEach((Entity entity) =>
+                {
+                    EntityManager.RemoveComponent<Disabled>(entity);
+                }).WithStructuralChanges().Run();
             }
             else
             {
                 Entities.WithAll<MainMenuTag>()
-                    .ForEach(entity => { PostUpdateCommands.AddComponent<Disabled>(entity); });
+                    .ForEach((Entity entity) => { EntityManager.AddComponent<Disabled>(entity); })
+                    .WithStructuralChanges().Run();
             }
         }
     }

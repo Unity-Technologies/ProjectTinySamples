@@ -11,16 +11,15 @@ namespace TinyRacing.Systems
     ///     Move cars without physics.
     /// </summary>
     [UpdateInGroup(typeof(SimulationSystemGroup))]
-    public class MoveCar : JobComponentSystem
+    public class MoveCar : SystemBase
     {
-        protected override JobHandle OnUpdate(JobHandle inputDeps)
+        protected override void OnUpdate()
         {
             var race = GetSingleton<Race>();
             var isRaceStarted = race.IsRaceStarted && race.CountdownTimer <= 0f;
             var deltaTime = Time.DeltaTime;
             var totalLapCount = race.LapCount;
-
-            return Entities.ForEach((ref Car car, ref SpeedMultiplier speedMultiplier, ref Rotation rotation, ref Translation translation,
+            Entities.ForEach((ref Car car, ref SpeedMultiplier speedMultiplier, ref Rotation rotation, ref Translation translation,
                 ref CarInputs inputs, ref LocalToWorld localToWorld,  ref PhysicsVelocity velocity, in LapProgress lapProgress) =>
             {
                 var isRaceEnded = lapProgress.CurrentLap > totalLapCount;
@@ -60,7 +59,8 @@ namespace TinyRacing.Systems
                 {
                     car.CurrentSpeed = 0;
                 }
-            }).Schedule(inputDeps);
+            }).ScheduleParallel();
         }
+        
     }
 }

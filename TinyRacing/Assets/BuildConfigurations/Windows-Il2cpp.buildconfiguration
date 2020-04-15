@@ -7,7 +7,7 @@
         "ShouldWriteDataFiles": true,
         "EnableManagedDebugging": false,
         "EnableMultiThreading": false,
-        "EnableBurst": true,
+        "EnableBurst": false,
         "RootAssembly": "GlobalObjectId_V1-1-b8054f08a81e46349ae9c9fe5bf3b267-5897886265953266890-0",
         "Target": "windows-il2cpp",
         "Configuration": 2,

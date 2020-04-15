@@ -6305,8 +6305,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5006512735170174375}
   - component: {fileID: 8296172669366136759}
-  - component: {fileID: 8296172669366136758}
-  - component: {fileID: 8296172669366136757}
   m_Layer: 0
   m_Name: Cupcake
   m_TagString: Untagged
@@ -6314,33 +6312,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &8296172669366136757
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8296172669366136756}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ddad4e1513d0400084dfaa3e400f2643, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  disableScalePatching: 0
---- !u!114 &8296172669366136758
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8296172669366136756}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c0f909f262d24376bd784e04f3f6205, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mecanimClips:
-  - {fileID: 7400000, guid: 3fd939d09be05694492ae0d09b640941, type: 2}
 --- !u!111 &8296172669366136759
 Animation:
   m_ObjectHideFlags: 0
@@ -6350,8 +6321,9 @@ Animation:
   m_GameObject: {fileID: 8296172669366136756}
   m_Enabled: 1
   serializedVersion: 3
-  m_Animation: {fileID: 0}
-  m_Animations: []
+  m_Animation: {fileID: 7400000, guid: 3fd939d09be05694492ae0d09b640941, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 3fd939d09be05694492ae0d09b640941, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0

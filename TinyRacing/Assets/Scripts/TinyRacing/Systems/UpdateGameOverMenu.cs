@@ -11,7 +11,7 @@ namespace TinyRacing.Systems
     /// </summary>
     [UpdateAfter(typeof(ResetRace))]
     [UpdateAfter(typeof(UpdateMainMenu))]
-    public class UpdateGameOverMenu : ComponentSystem
+    public class UpdateGameOverMenu : SystemBase
     {
         protected override void OnCreate()
         {
@@ -26,8 +26,9 @@ namespace TinyRacing.Systems
             var isGameOver = false;
             Entities.WithNone<AI>().ForEach((ref Car car, ref LapProgress lapProgress) =>
             {
-                isGameOver = race.IsRaceStarted && lapProgress.CurrentLap > race.LapCount;
-            });
+                var raceFinished = lapProgress.CurrentLap > race.LapCount;
+                isGameOver = race.IsRaceStarted && raceFinished;
+            }).WithoutBurst().Run();
 
             SetMenuVisibility(isGameOver);
         }
@@ -37,22 +38,22 @@ namespace TinyRacing.Systems
             if (isVisible)
             {
 #if UNITY_DOTSPLAYER
-                Entities.WithAll<GameOverMenuTag, AudioSource, Disabled>().ForEach(entity =>
+                Entities.WithAll<GameOverMenuTag, AudioSource, Disabled>().ForEach((Entity entity) =>
                 {
-                    PostUpdateCommands.AddComponent<AudioSourceStart>(entity);
-                });
+                    EntityManager.AddComponent<AudioSourceStart>(entity);
+                }).WithStructuralChanges().Run();
 #endif
-                Entities.WithAll<GameOverMenuTag, Disabled>().ForEach(entity =>
+                Entities.WithAll<GameOverMenuTag, Disabled>().ForEach((Entity entity) =>
                 {
-                    PostUpdateCommands.RemoveComponent<Disabled>(entity);
-                });
+                    EntityManager.RemoveComponent<Disabled>(entity);
+                }).WithStructuralChanges().Run();
             }
             else
             {
-                Entities.WithAll<GameOverMenuTag>().ForEach(entity =>
+                Entities.WithAll<GameOverMenuTag>().ForEach((Entity entity) =>
                 {
-                    PostUpdateCommands.AddComponent<Disabled>(entity);
-                });
+                    EntityManager.AddComponent<Disabled>(entity);
+                }).WithStructuralChanges().Run();
             }
         }
     }

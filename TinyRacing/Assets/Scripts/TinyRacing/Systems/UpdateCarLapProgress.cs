@@ -9,7 +9,7 @@ namespace TinyRacing.Systems
     /// <summary>
     ///     For each car, find the closest control point around the race track to help calculate the progress and current lap.
     /// </summary>
-    public class UpdateCarLapProgress : JobComponentSystem
+    public class UpdateCarLapProgress : SystemBase
     {
         private EntityQuery ControlPointsQuery;
         public bool AreControlPointsInitialized { get; set; }
@@ -22,7 +22,7 @@ namespace TinyRacing.Systems
             ControlPointsQuery = GetEntityQuery(ComponentType.ReadOnly<ControlPoints>());
         }
 
-        protected override JobHandle OnUpdate(JobHandle inputDeps)
+        protected override void OnUpdate()
         {
             if (!AreControlPointsInitialized)
             {
@@ -38,7 +38,7 @@ namespace TinyRacing.Systems
             }
 
             var controlPoints = ControlPoints;
-            var handle = Entities.ForEach((ref Car car, ref Translation translation, ref LapProgress lapProgress) =>
+            Entities.ForEach((ref Car car, ref Translation translation, ref LapProgress lapProgress) =>
             {
                 var carPosition = translation.Value;
 
@@ -78,9 +78,7 @@ namespace TinyRacing.Systems
                     lapProgress.CurrentControlPointProgress = currentSegmentProgress;
                     lapProgress.CurrentLap++;
                 }
-            }).WithReadOnly(controlPoints).Schedule(inputDeps);
-
-            return handle;
+            }).WithReadOnly(controlPoints).ScheduleParallel();
         }
 
         public static float3 GetClosestPointOnSegment(float3 subject, float3 pA, float3 pB)

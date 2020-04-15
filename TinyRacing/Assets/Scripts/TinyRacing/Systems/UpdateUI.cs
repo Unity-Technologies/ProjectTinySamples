@@ -8,7 +8,7 @@ namespace TinyRacing.Systems
     ///     Update game the UI labels
     /// </summary>
     [UpdateAfter(typeof(ResetRace))]
-    public class UpdateUI : ComponentSystem
+    public class UpdateUI : SystemBase
     {
         private NativeArray<UINumberMaterial> Numbers;
         private Entity UInumber;
@@ -32,7 +32,6 @@ namespace TinyRacing.Systems
         {
             if (Numbers.Length == 0)
                 return;
-            var ecb = new EntityCommandBuffer(Allocator.Temp);
             Entities.ForEach((Entity entity, ref MeshRenderer renderMesh, ref LabelNumber labelNumber) =>
             {
                 var e = Entity.Null;
@@ -45,11 +44,10 @@ namespace TinyRacing.Systems
                 {
                     var newMaterial = EntityManager.GetComponentData<SimpleMaterial>(e);
                     var currentMaterial = EntityManager.GetComponentData<SimpleMaterial>(renderMesh.material);
-                    if (!newMaterial.Equals(currentMaterial)) ecb.SetComponent(renderMesh.material, newMaterial);
+                    if (!newMaterial.Equals(currentMaterial)) 
+                        EntityManager.SetComponentData(renderMesh.material, newMaterial);
                 }
-            });
-            ecb.Playback(EntityManager);
-            ecb.Dispose();
+            }).WithStructuralChanges().Run();
         }
 
         protected override void OnStopRunning()

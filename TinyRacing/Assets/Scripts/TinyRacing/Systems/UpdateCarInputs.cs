@@ -16,7 +16,7 @@ namespace TinyRacing.Systems
     /// </summary>
     [AlwaysUpdateSystem]
     [UpdateBefore(typeof(UpdateCarAIInputs))]
-    public class UpdateCarInputs : ComponentSystem
+    public class UpdateCarInputs : SystemBase
     {
         protected override void OnUpdate()
         {
@@ -68,6 +68,12 @@ namespace TinyRacing.Systems
 #endif
 
             CarInputs inputs = default;
+#if UNITY_DOTSPLAYER
+            var carSteering = GetSingleton<CarAccelerometerSteering>();
+            if (carSteering.HorizontalAxis != 0.0f)
+                inputs.HorizontalAxis = carSteering.HorizontalAxis;
+            else
+#endif
             if (left)
                 inputs.HorizontalAxis = -1f;
             else if (right)
@@ -78,7 +84,7 @@ namespace TinyRacing.Systems
             else if (reverse)
                 inputs.AccelerationAxis = -1f;
 
-            Entities.WithNone<AI>().ForEach((ref CarInputs iv) => { iv = inputs; });
+            Entities.WithNone<AI>().ForEach((ref CarInputs iv) => { iv = inputs; }).Run();
         }
 
         private void PressAtPosition(float2 inputScreenPosition, ref bool isLeftPressed, ref bool isRightPressed,

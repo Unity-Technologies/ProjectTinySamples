@@ -5,9 +5,8 @@ namespace TinyRacing
     [GenerateAuthoringComponent]
     public struct Smoke : IComponentData
     {
-        public float Timer;
-        public float Duration;
-        public float BaseScale;
-        public float Speed;
+        public Entity CarSmoke;
+        public Entity Explosion;
+        public Entity ExplosionPrefab;
     }
 }

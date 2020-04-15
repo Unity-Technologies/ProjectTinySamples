@@ -1,4 +1,4 @@
-Project Tiny Samples copyright © 2019 Unity Technologies ApS
+Project Tiny Samples copyright © 2020 Unity Technologies ApS
 
 Licensed under the Unity Companion License for Unity-dependent projects--see [Unity Companion License](https://unity3d.com/legal/licenses/Unity_Companion_License). 
 

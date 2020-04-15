@@ -14,7 +14,7 @@ namespace TinyRacing.Systems
     /// </summary>
     [UpdateBefore(typeof(TransformSystemGroup))]
     [UpdateAfter(typeof(MoveCar))]
-    public class UpdateCameraFollow : ComponentSystem
+    public class UpdateCameraFollow : SystemBase
     {
         private float3 DefaultCameraPosition;
         private quaternion DefaultCameraRot;
@@ -54,7 +54,7 @@ namespace TinyRacing.Systems
                     carPosition = translation.Value;
                     carDirection = localToWorld.Forward;
                     carRotation = rotation.Value;
-                });
+                }).Run();
             // Position the camera behind the car
             var race = GetSingleton<Race>();
             var targetPosition = carPosition + new float3(0f, 1.75f, 0f) + carDirection * -5.5f;
@@ -100,7 +100,7 @@ namespace TinyRacing.Systems
             {
                 pos.Value = cameraPos;
                 rot.Value = cameraRot;
-            });
+            }).ScheduleParallel();
         }
     }
 }

@@ -8,13 +8,12 @@ namespace TinyRacing.Systems
     ///     Update start of race countdown label, rank labels and lap labels
     /// </summary>
     [UpdateAfter(typeof(ResetRace))]
-    public class UpdateGameplayMenu : ComponentSystem
+    public class UpdateGameplayMenu : SystemBase
     {
         protected override void OnCreate()
         {
             base.OnCreate();
             RequireSingletonForUpdate<Race>();
-            InitEntityQueryCache(16);
         }
 
         protected override void OnUpdate()
@@ -35,15 +34,15 @@ namespace TinyRacing.Systems
                     var number = (int) math.ceil(countdownTimer);
                     labelNumber.Number = number;
                 }
-            });
+            }).WithStructuralChanges().Run();
 
-            Entities.WithAll<LabelCountdownTag, AudioSource>().ForEach((Entity entity, ref AudioSource audioSource) =>
+            Entities.WithAll<LabelCountdownTag>().ForEach((Entity entity, ref AudioSource audioSource) =>
             {
                 if (showCountdown && !audioSource.isPlaying)
                 {
-                    PostUpdateCommands.AddComponent<AudioSourceStart>(entity);
+                    EntityManager.AddComponent<AudioSourceStart>(entity);
                 }
-            });
+            }).WithStructuralChanges().Run();
 
             // Update rank label
             var rank = 0;
@@ -52,66 +51,66 @@ namespace TinyRacing.Systems
             {
                 rank = carRank.Value;
                 currentLap = lapProgress.CurrentLap;
-            });
+            }).Run();
             Entities.WithAll<LabelRankTag>().ForEach((ref LabelNumber labelNumber) =>
             {
                 labelNumber.IsVisible = race.IsRaceStarted;
                 labelNumber.Number = rank;
-            });
+            }).Run();
 
             // Update total number of car label (rank total)
             var carCount = 0;
-            Entities.ForEach((ref Car car) => { carCount++; });
+            Entities.ForEach((ref Car car) => { carCount++; }).WithoutBurst().Run();
             Entities.WithAll<LabelRankTotalTag>().ForEach((ref LabelNumber labelNumber) =>
             {
                 labelNumber.IsVisible = race.IsRaceStarted;
                 labelNumber.Number = carCount;
-            });
+            }).Run();
 
             // Update current lap label
             Entities.WithAll<LabelLapCurrentTag>().ForEach((ref LabelNumber labelNumber) =>
             {
                 labelNumber.IsVisible = race.IsRaceStarted;
                 labelNumber.Number = math.clamp(currentLap, 1, race.LapCount);
-            });
+            }).Run();
 
             // Update total lap count label
             Entities.WithAll<LabelLapTotalTag>().ForEach((ref LabelNumber labelNumber) =>
             {
                 labelNumber.IsVisible = race.IsRaceStarted;
                 labelNumber.Number = race.LapCount;
-            });
+            }).Run();
         }
 
         private void SetMenuVisibility(bool isVisible)
         {
             if (isVisible)
             {
-                Entities.WithAll<GameplayMenuTag, AudioSource, Disabled>().ForEach(entity =>
+                Entities.WithAll<GameplayMenuTag, AudioSource, Disabled>().ForEach((Entity entity) =>
                 {
-                    PostUpdateCommands.AddComponent<AudioSourceStart>(entity);
-                });
+                    EntityManager.AddComponent<AudioSourceStart>(entity);
+                }).WithStructuralChanges().Run();
 
-                Entities.WithAll<GameplayMenuTag, Disabled>().ForEach(entity =>
+                Entities.WithAll<GameplayMenuTag, Disabled>().ForEach((Entity entity) =>
                 {
-                    PostUpdateCommands.RemoveComponent<Disabled>(entity);
-                });
+                    EntityManager.RemoveComponent<Disabled>(entity);
+                }).WithStructuralChanges().Run();
 
-                Entities.WithAll<DynamicGameplayMenuTag, Disabled>().ForEach(entity =>
+                Entities.WithAll<DynamicGameplayMenuTag, Disabled>().ForEach((Entity entity) =>
                 {
-                    PostUpdateCommands.RemoveComponent<Disabled>(entity);
-                });
+                    EntityManager.RemoveComponent<Disabled>(entity);
+                }).WithStructuralChanges().Run();
             }
             else
             {
-                Entities.WithAll<GameplayMenuTag>().ForEach(entity =>
+                Entities.WithAll<GameplayMenuTag>().ForEach((Entity entity) =>
                 {
-                    PostUpdateCommands.AddComponent<Disabled>(entity);
-                });
-                Entities.WithAll<DynamicGameplayMenuTag>().ForEach(entity =>
+                    EntityManager.AddComponent<Disabled>(entity);
+                }).WithStructuralChanges().Run();
+                Entities.WithAll<DynamicGameplayMenuTag>().ForEach((Entity entity) =>
                 {
-                    PostUpdateCommands.AddComponent<Disabled>(entity);
-                });
+                    EntityManager.AddComponent<Disabled>(entity);
+                }).WithStructuralChanges().Run();
             }
         }
     }

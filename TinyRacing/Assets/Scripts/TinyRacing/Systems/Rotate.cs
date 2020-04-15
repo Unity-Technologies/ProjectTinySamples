@@ -8,17 +8,17 @@ namespace TinyRacing.Systems
     /// <summary>
     ///     Rotate entities that have the Rotator component.
     /// </summary>
-    public class Rotate : JobComponentSystem
+    public class Rotate : SystemBase
     {
-        protected override JobHandle OnUpdate(JobHandle inputDeps)
+        protected override void OnUpdate()
         {
             var deltaTime = Time.DeltaTime;
 
-            return Entities.ForEach((ref Rotator rotator, ref Rotation rotation) =>
+            Entities.ForEach((ref Rotator rotator, ref Rotation rotation) =>
             {
                 var rotateAmount = rotator.RotateSpeed * deltaTime;
                 rotation.Value = math.mul(rotation.Value, quaternion.RotateY(math.radians(rotateAmount)));
-            }).Schedule(inputDeps);
+            }).ScheduleParallel();
         }
     }
 }

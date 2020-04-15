@@ -1,6 +1,7 @@
 ﻿using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Physics;
+using Unity.Tiny.Particles;
 using Unity.Transforms;
 #if UNITY_DOTSPLAYER
 using Unity.Tiny.Input;
@@ -14,7 +15,7 @@ namespace TinyRacing.Systems
     /// <summary>
     ///     End the race and reset car positions when user presses Escape or exits the game over screen
     /// </summary>
-    public class ResetRace : ComponentSystem
+    public class ResetRace : SystemBase
     {
         protected override void OnCreate()
         {
@@ -41,14 +42,17 @@ namespace TinyRacing.Systems
                     race.GameOverTimer += Time.DeltaTime;
                     SetSingleton(race);
                 }
+
+                var raceCompleted = isRaceComplete && race.GameOverTimer > 2f;
 #if UNITY_DOTSPLAYER
-                var something = Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0) ||
+                var UserInput = Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0) ||
                                 Input.TouchCount() > 0;
-                isGameOverResetButtonPressed = something && isRaceComplete && race.GameOverTimer > 2f;
+
+                isGameOverResetButtonPressed = UserInput && raceCompleted;
 #else
-                isGameOverResetButtonPressed = AnyKeyDown && isRaceComplete && race.GameOverTimer > 2f;
+                isGameOverResetButtonPressed = AnyKeyDown && raceCompleted;
 #endif
-            });
+            }).WithoutBurst().Run();
 
             // Return to main menu when user exits the game over menu or press Escape
             if (Input.GetKeyDown(KeyCode.Escape) || isGameOverResetButtonPressed) // TODO: Use Tiny/DOTS inputs
@@ -62,7 +66,7 @@ namespace TinyRacing.Systems
                 {
                     translation.Value = defaultState.StartPosition;
                     rotation.Value = defaultState.StartRotation;
-                });
+                }).ScheduleParallel();
 
                 Entities.ForEach((Entity entity, ref Translation translation,
                     ref PhysicsVelocity physicsVelocity,
@@ -77,12 +81,24 @@ namespace TinyRacing.Systems
 
                     physicsVelocity.Linear = float3.zero;
                     physicsVelocity.Angular = float3.zero;
-                });
+                }).ScheduleParallel();
 
                 Entities.WithAll<Car>().ForEach((ref SpeedMultiplier speedMultiplier) =>
                 {
                     speedMultiplier.RemainingTime = 0f;
-                });
+                }).ScheduleParallel();
+                
+                Entities.ForEach((ref Smoke smoke) =>
+                {
+                    if (smoke.Explosion != Entity.Null)
+                    { 
+                        EntityManager.DestroyEntity(smoke.Explosion); 
+                        smoke.Explosion = Entity.Null;
+                    }
+                       
+                    if (EntityManager.HasComponent<Disabled>(smoke.CarSmoke))
+                        EntityManager.RemoveComponent<Disabled>(smoke.CarSmoke);
+                }).WithStructuralChanges().Run();
             }
         }
     }

@@ -23,7 +23,10 @@
         "ResolutionX": 1280,
         "ResolutionY": 720,
         "AutoResizeFrame": true,
-        "DisableVsync": false,
-        "DisableSRGB": false
+        "DisableVsync": false
+    }, {
+        "$type": "Unity.Entities.Runtime.Build.DotsRuntimeRootAssembly, Unity.Entities.Runtime.Build",
+        "RootAssembly": "GlobalObjectId_V1-1-d21fc88516fbee64cac01755046674cd-5897886265953266890-0",
+        "BeeTargetOverride": null
     }]
 }

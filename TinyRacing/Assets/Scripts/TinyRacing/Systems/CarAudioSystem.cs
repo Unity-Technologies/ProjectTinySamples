@@ -8,40 +8,71 @@ namespace TinyRacing.Systems
     ///     Play audio when the player's car destroys an AI.
     ///     Play motor sound when the player is accelerating
     /// </summary>
-    internal class CarAudioSystem : ComponentSystem
+    internal class CarAudioSystem : SystemBase
     {
+        private Entity _audioCarCrashEntity;
+        private Entity _audioCarEngineEntity;
+        private AudioSource _carEngineAudioSource;
+        
+        protected override void OnCreate()
+        {
+            base.OnCreate();
+            RequireSingletonForUpdate<AudioCarCrash>();
+            RequireSingletonForUpdate<AudioCarEngine>();
+        }
+
+        protected override void OnStartRunning()
+        {
+            base.OnStartRunning();
+            _audioCarCrashEntity = GetSingletonEntity<AudioCarCrash>();
+            _audioCarEngineEntity = GetSingletonEntity<AudioCarEngine>();
+        }
+
         protected override void OnUpdate()
         {
-            Entities.WithAll<Car, AI>().ForEach((ref Car car) =>
+            _carEngineAudioSource = EntityManager.GetComponentData<AudioSource>(_audioCarEngineEntity);
+            Entities.WithAll<AI>().ForEach((ref Car car) =>
             {
                 if (car.PlayCrashAudio)
                 {
                     car.PlayCrashAudio = false;
-                    Entities.WithAll<AudioSource, AudioCarCrash>().ForEach(entity =>
-                    {
-                        PostUpdateCommands.AddComponent<AudioSourceStart>(entity);
-                    });
+                    EntityManager.AddComponent<AudioSourceStart>(_audioCarCrashEntity);
                 }
-            });
+            }).WithStructuralChanges().Run();
 
-            Entities.WithNone<AI>().ForEach((ref Car car, ref CarInputs carInputs) =>
+            Entities.WithNone<AI>().ForEach((ref Car car, ref PlayerTag playerTag) =>
             {
                 var currentSpeed = car.CurrentSpeed;
-                Entities.WithAll<AudioCarEngine>().ForEach((Entity entity, ref AudioSource audioSource) =>
+                if (currentSpeed > 50)
                 {
-                    if (currentSpeed > 50)
-                    {
-                        audioSource.volume = math.min(.8f, currentSpeed / 1000.0f);
-                        if (!audioSource.isPlaying)
-                            PostUpdateCommands.AddComponent<AudioSourceStart>(entity);
-                    }
-                    else
-                    {
-                        if (audioSource.isPlaying)
-                            PostUpdateCommands.AddComponent<AudioSourceStop>(entity);
-                    }
-                });
-            });
+                    _carEngineAudioSource.volume = math.min(.8f, currentSpeed / 1000.0f);
+                    EntityManager.SetComponentData(_audioCarEngineEntity, _carEngineAudioSource);
+                    if (!_carEngineAudioSource.isPlaying)
+                        EntityManager.AddComponent<AudioSourceStart>(_audioCarEngineEntity);
+                }
+                else
+                {
+                    if (_carEngineAudioSource.isPlaying)
+                        EntityManager.AddComponent<AudioSourceStop>(_audioCarEngineEntity);
+                }
+            }).WithStructuralChanges().Run();
+            
+            // AI car engine sounds.
+            Entities.ForEach((Entity entity, ref Car car, ref AudioAICarEngine engine, ref AudioSource audioSource) =>
+            {
+                var currentSpeed = car.CurrentSpeed;
+                if ((currentSpeed > 50) && !car.IsEngineDestroyed)
+                {
+                    audioSource.volume = math.min(.5f, currentSpeed / 1000.0f);
+                    if (!audioSource.isPlaying)
+                        EntityManager.AddComponent<AudioSourceStart>(entity);
+                }
+                else
+                {
+                    if (audioSource.isPlaying)
+                        EntityManager.AddComponent<AudioSourceStop>(entity);
+                }
+            }).WithStructuralChanges().Run();
         }
     }
 }
