@@ -1,4 +1,4 @@
-﻿using TinyRacing.Systems.Hybrid;
+using TinyRacing.Systems.Hybrid;
 using Unity.Entities;
 using UnityEngine;
 

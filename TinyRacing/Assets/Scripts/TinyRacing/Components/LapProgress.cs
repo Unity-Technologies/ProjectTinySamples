@@ -1,4 +1,4 @@
-﻿using Unity.Entities;
+using Unity.Entities;
 
 namespace TinyRacing
 {
@@ -7,6 +7,7 @@ namespace TinyRacing
     {
         public int CurrentLap;
         public int CurrentControlPoint;
+        public float TotalProgress;
         public float CurrentControlPointProgress;
     }
 }

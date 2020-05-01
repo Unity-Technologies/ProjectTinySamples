@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Unity.Entities;
 using Unity.Transforms;
 #if UNITY_DOTSPLAYER
@@ -16,6 +16,7 @@ namespace TinyRacing.Systems
     ///     Update the main menu UI
     /// </summary>
     [UpdateBefore(typeof(ResetRace))]
+    [UpdateAfter(typeof(TransformSystemGroup))]
     public class UpdateMainMenu : SystemBase
     {
         protected override void OnCreate()
@@ -25,7 +26,6 @@ namespace TinyRacing.Systems
             var window = World.GetExistingSystem<WindowSystem>();
             window.SetOrientationMask(ScreenOrientation.AutoRotationLandscape);
 #endif
-            RequireSingletonForUpdate<Race>();
         }
 
         protected override void OnUpdate()

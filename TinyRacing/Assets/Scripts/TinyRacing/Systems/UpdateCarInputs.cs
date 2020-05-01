@@ -1,8 +1,7 @@
-﻿using Unity.Entities;
+using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Tiny;
 #if UNITY_DOTSPLAYER
-using System;
 using Unity.Tiny.Input;
 
 #else
@@ -18,6 +17,14 @@ namespace TinyRacing.Systems
     [UpdateBefore(typeof(UpdateCarAIInputs))]
     public class UpdateCarInputs : SystemBase
     {
+        protected override void OnStartRunning()
+        {
+            base.OnStartRunning();
+            var di = GetSingleton<DisplayInfo>();
+            di.backgroundBorderColor = Colors.Black;
+            SetSingleton(di);
+        }
+
         protected override void OnUpdate()
         {
             var left = false;
@@ -61,7 +68,7 @@ namespace TinyRacing.Systems
             {
                 if (Input.GetMouseButton(0))
                 {
-                    var xpos = (int) Input.GetInputPosition().x;
+                    var xpos = (int)Input.GetInputPosition().x;
                     PressAtPosition(Input.GetInputPosition(), ref left, ref right, ref reverse, ref accelerate);
                 }
             }
@@ -95,6 +102,7 @@ namespace TinyRacing.Systems
 
 #if !UNITY_DOTSPLAYER
             int width = Screen.width;
+            int height = Screen.height;
 #else
             var di = GetSingleton<DisplayInfo>();
 
@@ -102,25 +110,29 @@ namespace TinyRacing.Systems
             // We might not be using the actual width.  DisplayInfo needs to get reworked.
             var height = di.height;
             int width = di.width;
+            var dpiScale = di.screenDpiScale > 0 ? di.screenDpiScale : 1;
+            inputScreenPosition = inputScreenPosition / dpiScale;
             float targetRatio = 1920.0f / 1080.0f;
-            float actualRatio = (float) width / (float) height;
+            float actualRatio = (float)width / (float)height;
             if (actualRatio > targetRatio)
             {
-                width = (int) (di.height * targetRatio);
+                width = (int)(di.height * targetRatio);
                 inputScreenPosition.x -= (di.width - width) / 2.0f;
             }
             // if height > width, then the full width will get used for display
 #endif
-
-            var screenRatio = inputScreenPosition.x / width;
-            if (screenRatio > 0.85f)
-                isAcceleratePressed = true;
-            else if (screenRatio > 0.7f)
-                isReversePressed = true;
-            else if (screenRatio < 0.15f)
-                isLeftPressed = true;
-            else if (screenRatio < 0.3f)
-                isRightPressed = true;
+            if (inputScreenPosition.y / height < 0.5)
+            {
+                var screenRatio = inputScreenPosition.x / width;
+                if (screenRatio > 0.85f)
+                    isAcceleratePressed = true;
+                else if (screenRatio > 0.7f)
+                    isReversePressed = true;
+                else if (screenRatio < 0.15f)
+                    isLeftPressed = true;
+                else if (screenRatio < 0.3f)
+                    isRightPressed = true;
+            }
         }
     }
 }

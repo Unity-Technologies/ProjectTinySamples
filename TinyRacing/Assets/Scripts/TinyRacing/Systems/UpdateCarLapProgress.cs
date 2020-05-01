@@ -1,6 +1,5 @@
-﻿using Unity.Collections;
+using Unity.Collections;
 using Unity.Entities;
-using Unity.Jobs;
 using Unity.Mathematics;
 using Unity.Transforms;
 
@@ -12,8 +11,6 @@ namespace TinyRacing.Systems
     public class UpdateCarLapProgress : SystemBase
     {
         private EntityQuery ControlPointsQuery;
-        public bool AreControlPointsInitialized { get; set; }
-
         public NativeList<float3> ControlPoints { get; set; }
 
         protected override void OnCreate()
@@ -22,21 +19,20 @@ namespace TinyRacing.Systems
             ControlPointsQuery = GetEntityQuery(ComponentType.ReadOnly<ControlPoints>());
         }
 
+        protected override void OnStartRunning()
+        {
+            base.OnStartRunning();
+            var controlPointsEntities = ControlPointsQuery.ToEntityArray(Allocator.TempJob);
+            var points = EntityManager.GetBuffer<ControlPoints>(controlPointsEntities[0]).Reinterpret<float3>()
+                .ToNativeArray(Allocator.Temp);
+            ControlPoints = new NativeList<float3>(Allocator.Persistent);
+            ControlPoints.AddRange(points);
+            points.Dispose();
+            controlPointsEntities.Dispose();
+        }
+
         protected override void OnUpdate()
         {
-            if (!AreControlPointsInitialized)
-            {
-                AreControlPointsInitialized = true;
-
-                var controlPointsEntities = ControlPointsQuery.ToEntityArray(Allocator.TempJob);
-                var points = EntityManager.GetBuffer<ControlPoints>(controlPointsEntities[0]).Reinterpret<float3>()
-                    .ToNativeArray(Allocator.Temp);
-                ControlPoints = new NativeList<float3>(Allocator.Persistent);
-                ControlPoints.AddRange(points);
-                points.Dispose();
-                controlPointsEntities.Dispose();
-            }
-
             var controlPoints = ControlPoints;
             Entities.ForEach((ref Car car, ref Translation translation, ref LapProgress lapProgress) =>
             {
@@ -64,7 +60,7 @@ namespace TinyRacing.Systems
                 var currentPoint = controlPoints[closestSegmentIndex];
                 var nextPoint = controlPoints[(closestSegmentIndex + 1) % controlPoints.Length];
                 var currentSegmentProgress = math.distance(closestPointOnSegment, currentPoint) /
-                                             math.distance(currentPoint, nextPoint);
+                    math.distance(currentPoint, nextPoint);
                 var controlPointProgress = closestSegmentIndex + currentSegmentProgress;
 
                 if (controlPointProgress > lapProgress.CurrentControlPoint + lapProgress.CurrentControlPointProgress)
@@ -78,6 +74,8 @@ namespace TinyRacing.Systems
                     lapProgress.CurrentControlPointProgress = currentSegmentProgress;
                     lapProgress.CurrentLap++;
                 }
+                lapProgress.TotalProgress = lapProgress.CurrentLap * 1000f + lapProgress.CurrentControlPoint +
+                    lapProgress.CurrentControlPointProgress;
             }).WithReadOnly(controlPoints).ScheduleParallel();
         }
 
@@ -99,8 +97,7 @@ namespace TinyRacing.Systems
 
         protected override void OnDestroy()
         {
-            if (AreControlPointsInitialized)
-                ControlPoints.Dispose();
+            ControlPoints.Dispose();
         }
     }
 }

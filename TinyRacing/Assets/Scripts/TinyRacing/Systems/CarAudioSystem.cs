@@ -1,4 +1,4 @@
-﻿using Unity.Entities;
+using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Tiny.Audio;
 
@@ -13,7 +13,7 @@ namespace TinyRacing.Systems
         private Entity _audioCarCrashEntity;
         private Entity _audioCarEngineEntity;
         private AudioSource _carEngineAudioSource;
-        
+
         protected override void OnCreate()
         {
             base.OnCreate();
@@ -43,7 +43,7 @@ namespace TinyRacing.Systems
             Entities.WithNone<AI>().ForEach((ref Car car, ref PlayerTag playerTag) =>
             {
                 var currentSpeed = car.CurrentSpeed;
-                if (currentSpeed > 50)
+                if (math.abs(currentSpeed) > 50)
                 {
                     _carEngineAudioSource.volume = math.min(.8f, currentSpeed / 1000.0f);
                     EntityManager.SetComponentData(_audioCarEngineEntity, _carEngineAudioSource);
@@ -56,7 +56,7 @@ namespace TinyRacing.Systems
                         EntityManager.AddComponent<AudioSourceStop>(_audioCarEngineEntity);
                 }
             }).WithStructuralChanges().Run();
-            
+
             // AI car engine sounds.
             Entities.ForEach((Entity entity, ref Car car, ref AudioAICarEngine engine, ref AudioSource audioSource) =>
             {

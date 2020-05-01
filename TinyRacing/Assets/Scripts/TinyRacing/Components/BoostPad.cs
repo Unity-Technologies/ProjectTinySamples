@@ -1,4 +1,4 @@
-﻿using Unity.Entities;
+using Unity.Entities;
 
 namespace TinyRacing
 {
@@ -7,6 +7,5 @@ namespace TinyRacing
     {
         public float SpeedMultiplier;
         public float SpeedBoostDuration;
-        public float Range;
     }
 }

@@ -11,4 +11,3 @@ namespace Tiny3D
         public float speedZ;
     }
 }
-

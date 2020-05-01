@@ -1,4 +1,4 @@
-﻿using Unity.Entities;
+using Unity.Entities;
 using Unity.Jobs;
 
 namespace TinyRacing.Systems
@@ -11,7 +11,7 @@ namespace TinyRacing.Systems
         protected override void OnUpdate()
         {
             float deltaTime = Time.DeltaTime;
-            
+
             Entities.ForEach((ref Race race) =>
             {
                 if (!race.IsRaceStarted)

@@ -23,4 +23,3 @@ namespace Tiny3D
         }
     }
 }
-

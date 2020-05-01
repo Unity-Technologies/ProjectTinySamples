@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Unity.Entities;
 using Unity.Rendering;
 using UnityEngine;
@@ -6,7 +6,7 @@ using UnityEngine;
 namespace TinyRacing.Systems.Hybrid
 {
     /// <summary>
-    /// Update temporary quad materials used as labels for displaying numbers since there's no UI text at the moment in Tiny/DOTS 
+    /// Update temporary quad materials used as labels for displaying numbers since there's no UI text at the moment in Tiny/DOTS
     /// </summary>
 #if !UNITY_DOTSPLAYER
 
@@ -59,4 +59,3 @@ namespace TinyRacing.Systems.Hybrid
     }
 #endif
 }
-

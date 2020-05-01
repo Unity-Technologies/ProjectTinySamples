@@ -1,4 +1,5 @@
-﻿using Unity.Entities;
+using Unity.Entities;
+using Unity.Transforms;
 #if UNITY_DOTSPLAYER
 using Unity.Tiny.Audio;
 
@@ -10,27 +11,13 @@ namespace TinyRacing.Systems
     ///     Update the race ending UI menu
     /// </summary>
     [UpdateAfter(typeof(ResetRace))]
-    [UpdateAfter(typeof(UpdateMainMenu))]
+    [UpdateAfter(typeof(TransformSystemGroup))]
     public class UpdateGameOverMenu : SystemBase
     {
-        protected override void OnCreate()
-        {
-            base.OnCreate();
-            RequireSingletonForUpdate<Race>();
-        }
-
         protected override void OnUpdate()
         {
             var race = GetSingleton<Race>();
-
-            var isGameOver = false;
-            Entities.WithNone<AI>().ForEach((ref Car car, ref LapProgress lapProgress) =>
-            {
-                var raceFinished = lapProgress.CurrentLap > race.LapCount;
-                isGameOver = race.IsRaceStarted && raceFinished;
-            }).WithoutBurst().Run();
-
-            SetMenuVisibility(isGameOver);
+            SetMenuVisibility(race.IsRaceFinished);
         }
 
         private void SetMenuVisibility(bool isVisible)

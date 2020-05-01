@@ -679,7 +679,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    maxNumParticles: 1000
+    maxNumParticles: 100
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -5011,6 +5011,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CurrentLap: 0
   CurrentControlPoint: 0
+  TotalProgress: 0
   CurrentControlPointProgress: 0
 --- !u!114 &7076360675072105128
 MonoBehaviour:

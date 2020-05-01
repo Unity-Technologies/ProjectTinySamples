@@ -1,4 +1,4 @@
-﻿using Unity.Entities;
+using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
 #if UNITY_DOTSPLAYER
@@ -23,12 +23,6 @@ namespace TinyRacing.Systems
 #if !UNITY_DOTSPLAYER
         UnityEngine.Transform cameraTransform;
 #endif
-        protected override void OnCreate()
-        {
-            base.OnCreate();
-            RequireSingletonForUpdate<Race>();
-        }
-
         protected override void OnStartRunning()
         {
 #if !UNITY_DOTSPLAYER
@@ -61,8 +55,8 @@ namespace TinyRacing.Systems
 
             // TODO: Find camera with entity query once there's a pure component for cameras
 #if !UNITY_DOTSPLAYER
-            var cameraPos = (float3) cameraTransform.position;
-            var cameraRot = (quaternion) cameraTransform.rotation;
+            var cameraPos = (float3)cameraTransform.position;
+            var cameraRot = (quaternion)cameraTransform.rotation;
 #else
             var cameraEntity = GetSingletonEntity<Camera>();
             var cameraPos = EntityManager.GetComponentData<Translation>(cameraEntity).Value;

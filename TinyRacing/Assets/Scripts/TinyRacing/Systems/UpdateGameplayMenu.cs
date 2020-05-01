@@ -1,6 +1,7 @@
-﻿using Unity.Entities;
+using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Tiny.Audio;
+using Unity.Transforms;
 
 namespace TinyRacing.Systems
 {
@@ -8,21 +9,15 @@ namespace TinyRacing.Systems
     ///     Update start of race countdown label, rank labels and lap labels
     /// </summary>
     [UpdateAfter(typeof(ResetRace))]
+    [UpdateAfter(typeof(TransformSystemGroup))]
     public class UpdateGameplayMenu : SystemBase
     {
-        protected override void OnCreate()
-        {
-            base.OnCreate();
-            RequireSingletonForUpdate<Race>();
-        }
-
         protected override void OnUpdate()
         {
             var race = GetSingleton<Race>();
 
             // Update gameplay menu visibility
-            SetMenuVisibility(race.IsRaceStarted);
-
+            SetMenuVisibility(race.IsRaceStarted && !race.IsRaceFinished);
             // Update Countdown label
             var showCountdown = race.IsRaceStarted && race.CountdownTimer > 0f;
             var countdownTimer = race.CountdownTimer;
@@ -31,7 +26,7 @@ namespace TinyRacing.Systems
                 labelNumber.IsVisible = showCountdown;
                 if (showCountdown)
                 {
-                    var number = (int) math.ceil(countdownTimer);
+                    var number = (int)math.ceil(countdownTimer);
                     labelNumber.Number = number;
                 }
             }).WithStructuralChanges().Run();
@@ -95,19 +90,10 @@ namespace TinyRacing.Systems
                 {
                     EntityManager.RemoveComponent<Disabled>(entity);
                 }).WithStructuralChanges().Run();
-
-                Entities.WithAll<DynamicGameplayMenuTag, Disabled>().ForEach((Entity entity) =>
-                {
-                    EntityManager.RemoveComponent<Disabled>(entity);
-                }).WithStructuralChanges().Run();
             }
             else
             {
                 Entities.WithAll<GameplayMenuTag>().ForEach((Entity entity) =>
-                {
-                    EntityManager.AddComponent<Disabled>(entity);
-                }).WithStructuralChanges().Run();
-                Entities.WithAll<DynamicGameplayMenuTag>().ForEach((Entity entity) =>
                 {
                     EntityManager.AddComponent<Disabled>(entity);
                 }).WithStructuralChanges().Run();

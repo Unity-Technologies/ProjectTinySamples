@@ -1,4 +1,4 @@
-﻿using Unity.Entities;
+using Unity.Entities;
 
 namespace TinyRacing
 {
@@ -7,6 +7,7 @@ namespace TinyRacing
     {
         public int LapCount;
         public bool IsRaceStarted;
+        public bool IsRaceFinished;
         public float CountdownTime;
         public float CountdownTimer;
         public float RaceTimer;

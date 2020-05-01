@@ -1,4 +1,4 @@
-﻿using Unity.Collections;
+using Unity.Collections;
 using Unity.Entities;
 using Unity.Tiny.Rendering;
 
@@ -44,7 +44,7 @@ namespace TinyRacing.Systems
                 {
                     var newMaterial = EntityManager.GetComponentData<SimpleMaterial>(e);
                     var currentMaterial = EntityManager.GetComponentData<SimpleMaterial>(renderMesh.material);
-                    if (!newMaterial.Equals(currentMaterial)) 
+                    if (!newMaterial.Equals(currentMaterial))
                         EntityManager.SetComponentData(renderMesh.material, newMaterial);
                 }
             }).WithStructuralChanges().Run();
