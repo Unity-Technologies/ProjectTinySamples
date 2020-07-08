@@ -27,6 +27,18 @@ Intended as a lightweight example of the type of content you can build with Proj
     </a>
 </p>
 
+## TinyPhysics
+Illustrates how to combine simple Unity Physics behaviors and common input methods (keyboard, touch, mouse).
+
+<p align="center"> 
+    <img src="./res/TinyPhysicsFullOverview.gif">
+</p>
+<p align="center"> 
+    <a href="https://tiny.vision/demos/TinyPhysics">
+        <img src="./res/Trynow.jpg">
+    </a>
+</p>
+
 ## TinyFactory
 Demonstrates how Animations can be added to a scene (no code).
 
