@@ -1,0 +1,27 @@
+{
+    "name": "TinyPhysics",
+    "references": [
+        "Unity.Jobs",
+        "Unity.Burst",
+        "Unity.Entities",
+        "Unity.Collections",
+        "Unity.Mathematics",
+        "Unity.Mathematics.Extensions",
+        "Unity.Transforms",
+        "Unity.Physics",
+        "Unity.Tiny.Core",
+        "Unity.Tiny.Input",
+        "Unity.Tiny.Rendering",
+        "Unity.Tiny.RendererExtras",
+        "Unity.Tiny.Rendering.Native"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
