@@ -1,0 +1,23 @@
+{
+    "name": "Unity.Tiny.Audio.Web",
+    "references": [
+        "Unity.Entities",
+        "Unity.Tiny.Core",
+        "Unity.Tiny.Web",
+        "Unity.Tiny.Audio"
+    ],
+    "includePlatforms": [
+        "Editor",
+        "WebGL"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "UNITY_DOTSPLAYER"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": true
+}

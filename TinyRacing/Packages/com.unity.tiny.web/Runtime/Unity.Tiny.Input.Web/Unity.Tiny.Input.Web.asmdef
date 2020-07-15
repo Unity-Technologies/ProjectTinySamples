@@ -1,0 +1,25 @@
+{
+    "name": "Unity.Tiny.Input.Web",
+    "references": [
+        "Unity.Entities",
+        "Unity.Mathematics",
+        "Unity.Tiny.Core",
+        "Unity.Collections",
+        "Unity.Tiny.Web",
+        "Unity.Tiny.Input"
+    ],
+    "includePlatforms": [
+        "Editor",
+        "WebGL"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "UNITY_DOTSPLAYER"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": true
+}
