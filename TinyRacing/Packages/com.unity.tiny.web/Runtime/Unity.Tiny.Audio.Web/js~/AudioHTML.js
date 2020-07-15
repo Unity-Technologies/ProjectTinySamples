@@ -122,25 +122,28 @@ mergeInto(LibraryManager.library, {
     },
 
     js_html_audioIsUnlocked : function() {
-        return this.unlockState == 2/*unlocked*/;
+        return false;
+        // return this.unlockState == 2/*unlocked*/;
     },
 
     // unlock audio for browsers
     js_html_audioUnlock : function () {
-        var self = this;
-        if (self.unlockState >= 1/*unlocking or unlocked*/ || !self.audioContext ||
-            typeof self.audioContext.resume !== 'function')
-            return;
+        return;
 
-        // setup a touch start listener to attempt an unlock in
-        document.addEventListener('click', ut._HTML.unlock, true);
-        document.addEventListener('touchstart', ut._HTML.unlock, true);
-        document.addEventListener('touchend', ut._HTML.unlock, true);
-        document.addEventListener('keydown', ut._HTML.unlock, true);
-        document.addEventListener('keyup', ut._HTML.unlock, true);
-        // Record that we are now in the unlocking attempt stage so that the above event listeners
-        // will not be attempted to be registered again.
-        self.unlockState = 1/*unlocking*/;
+    //     var self = this;
+    //     if (self.unlockState >= 1/*unlocking or unlocked*/ || !self.audioContext ||
+    //         typeof self.audioContext.resume !== 'function')
+    //         return;
+
+    //     // setup a touch start listener to attempt an unlock in
+    //     document.addEventListener('click', ut._HTML.unlock, true);
+    //     document.addEventListener('touchstart', ut._HTML.unlock, true);
+    //     document.addEventListener('touchend', ut._HTML.unlock, true);
+    //     document.addEventListener('keydown', ut._HTML.unlock, true);
+    //     document.addEventListener('keyup', ut._HTML.unlock, true);
+    //     // Record that we are now in the unlocking attempt stage so that the above event listeners
+    //     // will not be attempted to be registered again.
+    //     self.unlockState = 1/*unlocking*/;
     },
 
     // pause audio context
@@ -160,44 +163,46 @@ mergeInto(LibraryManager.library, {
     // load audio clip
     js_html_audioStartLoadFile : function (audioClipName, audioClipIdx) 
     {
-        if (!this.audioContext || audioClipIdx < 0)
-            return -1;
+        return -1;
 
-        audioClipName = UTF8ToString(audioClipName);
+        // if (!this.audioContext || audioClipIdx < 0)
+        //     return -1;
 
-        var url = audioClipName;
-        if (url.substring(0, 9) === "ut-asset:")
-            url = UT_ASSETS[url.substring(9)];
+        // audioClipName = UTF8ToString(audioClipName);
 
-        var self = this;
-        var request = new XMLHttpRequest();
+        // var url = audioClipName;
+        // if (url.substring(0, 9) === "ut-asset:")
+        //     url = UT_ASSETS[url.substring(9)];
 
-        self.audioBuffers[audioClipIdx] = 'loading';
-        request.open('GET', url, true);
-        request.responseType = 'arraybuffer';
-        request.onload =
-            function () {
-                self.audioContext.decodeAudioData(request.response, function (buffer) {
-                    self.audioBuffers[audioClipIdx] = buffer;
-                });
-            };
-        request.onerror =
-            function () {
-                self.audioBuffers[audioClipIdx] = 'error';
-            };
-        try {
-            request.send();
-            //Module._AudioService_AudioClip_OnLoading(entity,audioClipIdx);
-        } catch (e) {
-            // LG Nexus 5 + Android OS 4.4.0 + Google Chrome 30.0.1599.105 browser
-            // odd behavior: If loading from base64-encoded data URI and the
-            // format is unsupported, request.send() will immediately throw and
-            // not raise the failure at .onerror() handler. Therefore catch
-            // failures also eagerly from .send() above.
-            self.audioBuffers[audioClipIdx] = 'error';
-        }
+        // var self = this;
+        // var request = new XMLHttpRequest();
 
-        return audioClipIdx;
+        // self.audioBuffers[audioClipIdx] = 'loading';
+        // request.open('GET', url, true);
+        // request.responseType = 'arraybuffer';
+        // request.onload =
+        //     function () {
+        //         self.audioContext.decodeAudioData(request.response, function (buffer) {
+        //             self.audioBuffers[audioClipIdx] = buffer;
+        //         });
+        //     };
+        // request.onerror =
+        //     function () {
+        //         self.audioBuffers[audioClipIdx] = 'error';
+        //     };
+        // try {
+        //     request.send();
+        //     //Module._AudioService_AudioClip_OnLoading(entity,audioClipIdx);
+        // } catch (e) {
+        //     // LG Nexus 5 + Android OS 4.4.0 + Google Chrome 30.0.1599.105 browser
+        //     // odd behavior: If loading from base64-encoded data URI and the
+        //     // format is unsupported, request.send() will immediately throw and
+        //     // not raise the failure at .onerror() handler. Therefore catch
+        //     // failures also eagerly from .send() above.
+        //     self.audioBuffers[audioClipIdx] = 'error';
+        // }
+
+        // return audioClipIdx;
     },
 
     /*public enum LoadResult
@@ -208,33 +213,36 @@ mergeInto(LibraryManager.library, {
     };
     */
     js_html_audioCheckLoad : function (audioClipIdx) {
-        var WORKING_ON_IT = 0;
-        var SUCCESS = 1;
-        var FAILED = 2;
+        return 2;
 
-        if (!this.audioContext || audioClipIdx < 0)
-            return FAILED;
-        if (this.audioBuffers[audioClipIdx] == null)
-            return FAILED;
-        if (this.audioBuffers[audioClipIdx] === 'loading')
-            return WORKING_ON_IT; 
-        if (this.audioBuffers[audioClipIdx] === 'error')
-            return FAILED;
-        return SUCCESS;
+        // var WORKING_ON_IT = 0;
+        // var SUCCESS = 1;
+        // var FAILED = 2;
+
+        // if (!this.audioContext || audioClipIdx < 0)
+        //     return FAILED;
+        // if (this.audioBuffers[audioClipIdx] == null)
+        //     return FAILED;
+        // if (this.audioBuffers[audioClipIdx] === 'loading')
+        //     return WORKING_ON_IT; 
+        // if (this.audioBuffers[audioClipIdx] === 'error')
+        //     return FAILED;
+        // return SUCCESS;
     },
 
     js_html_audioFree : function (audioClipIdx) {
-        var audioBuffer = this.audioBuffers[audioClipIdx];
-        if (!audioBuffer)
-            return;
+        return;
+        // var audioBuffer = this.audioBuffers[audioClipIdx];
+        // if (!audioBuffer)
+        //     return;
 
-        for (var i = 0; i < this.audioSources.length; ++i) {
-            var sourceNode = this.audioSources[i];
-            if (sourceNode && sourceNode.buffer === audioBuffer)
-                sourceNode.stop();
-        }
+        // for (var i = 0; i < this.audioSources.length; ++i) {
+        //     var sourceNode = this.audioSources[i];
+        //     if (sourceNode && sourceNode.buffer === audioBuffer)
+        //         sourceNode.stop();
+        // }
 
-        this.audioBuffers[audioClipIdx] = null;
+        // this.audioBuffers[audioClipIdx] = null;
     },
 
     // create audio source node
