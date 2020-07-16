@@ -1,4 +1,4 @@
-var Module = Module;
+
 function out(text) {
   console.log(text);
 }
@@ -55,15 +55,7 @@ function ready() {
       intOnHeap = _allocateArrayOnHeap(new Int32Array(intArr));
       floatOnHeap = _allocateArrayOnHeap(new Float32Array(floatArr));
       bytesOnHeap = _allocateArrayOnHeap(new Uint8Array(byteArray));
-      _SendMessage(
-        messageOnHeap,
-        intOnHeap.byteOffset,
-        intArr.length,
-        floatOnHeap.byteOffset,
-        floatArr.length,
-        bytesOnHeap.byteOffset,
-        byteArray.length
-      );
+      _SendMessage(messageOnHeap,intOnHeap.byteOffset,intArr.length,floatOnHeap.byteOffset,floatArr.length, bytesOnHeap.byteOffset,byteArray.length);
     } finally {
       _freeStringFromHeap(messageOnHeap);
       _freeArrayFromHeap(intOnHeap);
@@ -6720,7 +6712,6 @@ WebAssembly.instantiate('TinyRacing.wasm.txt', imports).then(function (output) {
   stackRestore = asm["Th"];
   __growWasmMemory = asm["Uh"];
   dynCall_viiiii = asm["Vh"];
-  dynCall_vi = asm["Wh"];
   dynCall_viii = asm["Xh"];
   dynCall_viiiiii = asm["Yh"];
   dynCall_iii = asm["Zh"];
