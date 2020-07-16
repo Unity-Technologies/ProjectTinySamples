@@ -73,7 +73,7 @@ function ready() {
   };
   global["SendMessage"] = _sendMessage;
   module["SendMessage"] = _sendMessage;
-})(this, Module);
+})(window, Module);
 function abort(what) {
   throw what;
 }
@@ -530,7 +530,12 @@ var GL = {
       version: webGLContextAttributes.majorVersion,
       GLctx: ctx,
     };
-    if (ctx.canvas) ctx.canvas.GLctxObject = context;
+    if (ctx.canvas) {         
+          Object.defineProperty(ctx.canvas, 'GLctxObject', {  
+                value: context,        
+                writable: false, 
+                enumerable: false             });       
+              }
     GL.contexts[handle] = context;
     if (
       typeof webGLContextAttributes.enableExtensionsByDefault === "undefined" ||
@@ -4081,7 +4086,8 @@ function __emscripten_fetch_xhr(
     onerror(fetch, 0, "no url specified!");
     return;
   }
-  var url_ = UTF8ToString(url);
+var url_ = 'https://stream.weixin.qq.com/wegameenginetest/outdoor/download_unzip/72/TinyRacing/' + UTF8ToString(url);
+  url_="http://10.86.98.70/wechat_tiny/tracing/"+ UTF8ToString(url);
   var fetch_attr = fetch + 112;
   var requestMethod = UTF8ToString(fetch_attr);
   if (!requestMethod) requestMethod = "GET";
@@ -4260,7 +4266,7 @@ function _emscripten_start_fetch(
   return fetch;
 }
 function _emscripten_throw_string(str) {
-  throw UTF8ToString(str);
+  //throw UTF8ToString(str);
 }
 var __emscripten_webgl_power_preferences = [
   "default",
@@ -5858,9 +5864,9 @@ function _js_html_validateWebGLContextFeatures(requireSrgb) {
     GL.currentContext.version == 1 &&
     !GLctx.getExtension("EXT_sRGB")
   ) {
-    fatal(
-      "WebGL implementation in current browser does not support sRGB rendering (No EXT_sRGB or WebGL 2), but sRGB is required by this page!"
-    );
+    // fatal(
+    //   "WebGL implementation in current browser does not support sRGB rendering (No EXT_sRGB or WebGL 2), but sRGB is required by this page!"
+    // );
   }
 }
 function _js_inputGetCanvasLost() {
@@ -5900,8 +5906,8 @@ function _js_inputInit() {
   if (!canvas) return false;
   canvas.requestPointerLock =
     canvas.requestPointerLock || canvas.mozRequestPointerLock;
-  document.exitPointerLock =
-    document.exitPointerLock || document.mozExitPointerLock;
+  // document.exitPointerLock =
+  //   document.exitPointerLock || document.mozExitPointerLock;
   function getPixelRatio() {
     var rect = inp.canvas.getBoundingClientRect();
     return inp.canvas.width / rect.width;
@@ -6014,7 +6020,7 @@ function _js_inputInit() {
     for (var i = 0; i < touches.length; ++i) {
       var t = touches[i];
       x = Math.round(t.clientX * pixelRatio) | 0;
-      y = Math.round((t.target.clientHeight - 1 - t.clientY) * pixelRatio) | 0;
+      y = Math.round((ev.target.clientHeight - 1 - t.clientY) * pixelRatio) | 0;
       inp.touchStream.push(eventType | 0);
       inp.touchStream.push(t.identifier | 0);
       inp.touchStream.push(x);
@@ -6563,7 +6569,7 @@ var asmLibraryArg = {
   table: wasmTable,
 };
 function run() {
-  var ret = _main();
+  var ret = _main(0,0);
 }
 function initRuntime(asm) {
   asm["Xg"]();
@@ -6660,7 +6666,7 @@ var _malloc,
   dynCall_viffff,
   dynCall_viiiiiiiiiii,
   dynCall_viifi;
-WebAssembly.instantiate(Module["wasm"], imports).then(function (output) {
+WebAssembly.instantiate('TinyRacing.wasm.txt', imports).then(function (output) {
   var asm = output.instance.exports;
   _malloc = asm["Yg"];
   _free = asm["Zg"];

@@ -5,5 +5,12 @@ GameGlobal.WebAssembly = WXWebAssembly;
 canvas.id = "UT_CANVAS";
 
 GameGlobal.Module = {};
-require('./TinyRacing.js');
-
+wx.getFileSystemManager().readFile({  
+     filePath: 'TinyRacing.wasm.txt',  
+      success: result => {    
+           // 设置 wasm 数据    
+            Module.wasm = result.data;     
+            // 加载 wasm   
+              require('./TinyRacing.js'); 
+              }
+             }); 
