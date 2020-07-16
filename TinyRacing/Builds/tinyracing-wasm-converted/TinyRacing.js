@@ -4078,8 +4078,8 @@ function __emscripten_fetch_xhr(
     onerror(fetch, 0, "no url specified!");
     return;
   }
-var url_ = 'https://stream.weixin.qq.com/wegameenginetest/outdoor/download_unzip/72/TinyRacing/' + UTF8ToString(url);
-  url_="http://10.86.98.70/wechat_tiny/tracing/"+ UTF8ToString(url);
+  // var url_ = 'https://stream.weixin.qq.com/wegameenginetest/outdoor/download_unzip/72/TinyRacing/' + UTF8ToString(url);
+  var url_="http://10.86.98.70/wechat_tiny/tracing/"+ UTF8ToString(url);
   var fetch_attr = fetch + 112;
   var requestMethod = UTF8ToString(fetch_attr);
   if (!requestMethod) requestMethod = "GET";
