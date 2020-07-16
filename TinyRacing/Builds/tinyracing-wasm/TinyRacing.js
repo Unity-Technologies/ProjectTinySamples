@@ -5318,23 +5318,10 @@ function _glViewport(x0, x1, x2, x3) {
   GLctx["viewport"](x0, x1, x2, x3);
 }
 function _js_html_audioCheckLoad(audioClipIdx) {
-  var WORKING_ON_IT = 0;
-  var SUCCESS = 1;
-  var FAILED = 2;
-  if (!this.audioContext || audioClipIdx < 0) return FAILED;
-  if (this.audioBuffers[audioClipIdx] == null) return FAILED;
-  if (this.audioBuffers[audioClipIdx] === "loading") return WORKING_ON_IT;
-  if (this.audioBuffers[audioClipIdx] === "error") return FAILED;
-  return SUCCESS;
+  return 2;
 }
 function _js_html_audioFree(audioClipIdx) {
-  var audioBuffer = this.audioBuffers[audioClipIdx];
-  if (!audioBuffer) return;
-  for (var i = 0; i < this.audioSources.length; ++i) {
-    var sourceNode = this.audioSources[i];
-    if (sourceNode && sourceNode.buffer === audioBuffer) sourceNode.stop();
-  }
-  this.audioBuffers[audioClipIdx] = null;
+  return;
 }
 function _js_html_audioIsPlaying(audioSourceIdx) {
   if (!this.audioContext || audioSourceIdx < 0) return false;
@@ -5342,7 +5329,7 @@ function _js_html_audioIsPlaying(audioSourceIdx) {
   return this.audioSources[audioSourceIdx].isPlaying;
 }
 function _js_html_audioIsUnlocked() {
-  return this.unlockState == 2;
+  return false;
 }
 function _js_html_audioPause() {
   if (this.audioContext && this.audioContext.suspend) {
@@ -5415,29 +5402,7 @@ function _js_html_audioSetVolume(audioSourceIdx, volume) {
   return true;
 }
 function _js_html_audioStartLoadFile(audioClipName, audioClipIdx) {
-  if (!this.audioContext || audioClipIdx < 0) return -1;
-  audioClipName = UTF8ToString(audioClipName);
-  var url = audioClipName;
-  if (url.substring(0, 9) === "ut-asset:") url = UT_ASSETS[url.substring(9)];
-  var self = this;
-  var request = new XMLHttpRequest();
-  self.audioBuffers[audioClipIdx] = "loading";
-  request.open("GET", url, true);
-  request.responseType = "arraybuffer";
-  request.onload = function () {
-    self.audioContext.decodeAudioData(request.response, function (buffer) {
-      self.audioBuffers[audioClipIdx] = buffer;
-    });
-  };
-  request.onerror = function () {
-    self.audioBuffers[audioClipIdx] = "error";
-  };
-  try {
-    request.send();
-  } catch (e) {
-    self.audioBuffers[audioClipIdx] = "error";
-  }
-  return audioClipIdx;
+  return -1;
 }
 function _js_html_audioStop(audioSourceIdx, dostop) {
   if (!this.audioContext || audioSourceIdx < 0) return;
@@ -5451,19 +5416,7 @@ function _js_html_audioStop(audioSourceIdx, dostop) {
   }
 }
 function _js_html_audioUnlock() {
-  var self = this;
-  if (
-    self.unlockState >= 1 ||
-    !self.audioContext ||
-    typeof self.audioContext.resume !== "function"
-  )
-    return;
-  document.addEventListener("click", ut._HTML.unlock, true);
-  document.addEventListener("touchstart", ut._HTML.unlock, true);
-  document.addEventListener("touchend", ut._HTML.unlock, true);
-  document.addEventListener("keydown", ut._HTML.unlock, true);
-  document.addEventListener("keyup", ut._HTML.unlock, true);
-  self.unlockState = 1;
+  return;
 }
 function _js_html_checkLoadImage(idx) {
   var img = ut._HTML.images[idx];
@@ -5810,6 +5763,7 @@ function _js_html_initImageLoading() {
 function _js_html_loadImage(colorName, maskName) {
   colorName = colorName ? UTF8ToString(colorName) : null;
   maskName = maskName ? UTF8ToString(maskName) : null;
+  colorName += ".png";
   if (colorName == "::white1x1") {
     colorName =
       "data:image/gif;base64,R0lGODlhAQABAIAAAP7//wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==";
