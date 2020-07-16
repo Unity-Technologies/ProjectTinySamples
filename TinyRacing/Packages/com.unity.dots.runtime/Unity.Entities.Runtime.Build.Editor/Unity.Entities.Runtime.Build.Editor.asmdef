@@ -1,0 +1,37 @@
+{
+    "name": "Unity.Entities.Runtime.Build.Editor",
+    "references": [
+        "Unity.Build",
+        "Unity.Build.Common",
+        "Unity.Build.DotsRuntime",
+        "Unity.Build.Editor",
+        "Unity.Dots.TestRunner.Editor",
+        "Unity.Entities",
+        "Unity.Entities.Runtime.Build",
+        "Unity.Platforms"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "Newtonsoft.Json.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [
+        {
+            "name": "com.unity.entities",
+            "expression": "(0.4.0-preview.10,)",
+            "define": "USE_INCREMENTAL_CONVERSION"
+        },
+        {
+            "name": "com.unity.dots.testrunner",
+            "expression": "0.0",
+            "define": "DOTS_TEST_RUNNER"
+        }
+    ],
+    "noEngineReferences": false
+}

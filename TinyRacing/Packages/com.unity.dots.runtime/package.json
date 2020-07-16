@@ -1,0 +1,23 @@
+{
+  "name": "com.unity.dots.runtime",
+  "displayName": "DOTS Runtime",
+  "version": "0.26.0-preview.14",
+  "unity": "2019.3",
+  "unityRelease": "12f1",
+  "description": "This package provides base support for DOTS Runtime",
+  "keywords": [
+    "dots"
+  ],
+  "dependencies": {
+    "com.unity.entities": "0.11.0-preview.7",
+    "com.unity.platforms": "0.3.0-preview.4",
+    "nuget.mono-cecil": "0.1.5-preview",
+    "nuget.moq": "1.0.0"
+  },
+  "repository": {
+    "footprint": "c2236fd3cb18398e5f2e2acfe3c5f1cf60302085",
+    "type": "git",
+    "url": "https://github.com/Unity-Technologies/dots.git",
+    "revision": "fa21b69a5bde87e0be1ae2f6b4f914bd30f2b77c"
+  }
+}

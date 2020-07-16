@@ -1,0 +1,14 @@
+{
+    "name": "Unity.Tiny.Codec.Editor",
+    "references": [],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": true,
+    "precompiledReferences": ["liblz4.dll", "liblz4.dylib"],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": []
+}

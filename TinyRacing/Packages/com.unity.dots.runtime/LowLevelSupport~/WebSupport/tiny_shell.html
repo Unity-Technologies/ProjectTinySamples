@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en-us">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+</head>
+<body style="margin:0px; border:none; overflow:hidden; display:block;">
+<div id="error_log"></div>
+<canvas id="UT_CANVAS" tabindex="1" style='display:block; touch-action:none;'></canvas>
+<script>
+#if !MODULARIZE
+  var Module = {};
+#endif
+
+#if WASM == 2
+  var supportsWasm = window.WebAssembly;
+#endif
+
+// The action to perform when a fatal error occurs that cannot be recovered from. Override this function
+// in your own shell file to take a different action. Default behavior is to show a red error ribbon
+// at the top of the page.
+function fatal(msg) {
+	fatal.count = (fatal.count|0)+1;
+	if (fatal.count < 20) { // Cap the number of errors that are printed to prevent an infinite cascade if there is an error each frame.
+		document.querySelector('#error_log').innerHTML += "<div style='background-color:red; border: 2px solid yellow; padding: 5px; font-weight: bold; font-size: 2em '>" + msg + '</div>';
+	}
+}
+
+// The action to perform when a runtime browser warning occurs. Override this function in your own shell file
+// to customize the behavior. Default behavior is to show a yellow warning ribbon at the top of the page
+// that disappears after a while.
+function warn(msg) {
+	warn.count = (warn.count|0)+1;
+	if (warn.count < 3) { // Cap the number of simultaneous warnings.
+		var div = document.createElement('div');
+		div.innerHTML = "<div style='background-color:yellow; border: 2px solid black; padding: 5px; font-weight: bold; font-size: 2em;'>" + msg + ' <span style="cursor: pointer">[X]</span></div>';
+		function removeWarning() { if (div.parentNode) div.parentNode.removeChild(div); }
+		document.querySelector('#error_log').appendChild(div);
+		div.querySelector('span').onclick = removeWarning;
+		setTimeout(removeWarning, 20000);
+	}
+}
+
+// By default, uncaught global errors are routed to fatal error handler. Override these in your own
+// shell file to take a different action.
+window.onerror = function(message, source, lineno, colno) {
+	var msg = source;
+	if (lineno) msg += ':' + lineno;
+	if (colno) msg += ':' + colno;
+	msg += (msg ? ':':'') + message;
+	fatal(msg);
+}
+
+// Depending on the build flags that one uses, different files need to be downloaded
+// to load the compiled page. The right set of files will be expanded to be downloaded
+// via the directive below.
+
+{{{ DOWNLOAD_JS_AND_WASM_FILES }}}
+
+</script>
+</body>
+</html>
