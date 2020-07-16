@@ -1,0 +1,9 @@
+{
+  "name": "Unity.LowLevel",
+  "references": [
+  ],
+  "optionalUnityReferences": [],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": true
+}

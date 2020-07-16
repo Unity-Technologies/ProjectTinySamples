@@ -1,0 +1,16 @@
+{
+    "name": "Unity.Entities.Runtime",
+    "references": [
+        "Unity.Entities",
+        "Unity.Collections",
+        "Unity.Tiny.Codec"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": []
+}

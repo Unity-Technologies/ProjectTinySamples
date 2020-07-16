@@ -1,0 +1,23 @@
+{
+    "name": "Unity.Tiny.Image2D.Web",
+    "references": [
+        "Unity.Entities",
+        "Unity.Mathematics",
+        "Unity.Tiny.Core",
+        "Unity.Tiny.Image2D"
+    ],
+    "includePlatforms": [
+        "Editor",
+        "WebGL"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "UNITY_DOTSPLAYER"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": true
+}

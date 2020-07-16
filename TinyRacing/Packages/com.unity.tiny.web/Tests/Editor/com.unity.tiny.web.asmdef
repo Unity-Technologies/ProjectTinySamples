@@ -1,0 +1,12 @@
+{
+    "name": "com.unity.tiny.web.EditorTests",
+    "references": [
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": []
+}

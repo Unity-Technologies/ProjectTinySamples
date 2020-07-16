@@ -1,0 +1,20 @@
+{
+    "name": "Unity.Runtime.EntryPoint",
+    "references": [
+        "Unity.Tiny.UnityInstance",
+        "Unity.Platforms.RunLoop",
+        "Unity.Platforms.Common"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "UNITY_DOTS_ENTRYPOINT",
+        "UNITY_DOTSPLAYER"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

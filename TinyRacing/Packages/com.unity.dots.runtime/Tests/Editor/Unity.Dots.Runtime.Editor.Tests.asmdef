@@ -1,0 +1,26 @@
+{
+    "name": "Unity.Dots.Runtime.Editor.Tests",
+    "references": [
+        "Unity.Entities",
+        "Unity.Build",
+        "Unity.Build.Classic",
+        "Unity.Entities.Runtime.Build",
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
