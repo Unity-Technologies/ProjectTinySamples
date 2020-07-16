@@ -2,7 +2,6 @@
 Library/
 Logs/
 Temp/
-Builds/
 *.sln
 *.csproj
 *.log
