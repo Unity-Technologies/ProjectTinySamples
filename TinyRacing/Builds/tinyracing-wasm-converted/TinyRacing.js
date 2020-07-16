@@ -6712,6 +6712,7 @@ WebAssembly.instantiate('TinyRacing.wasm.txt', imports).then(function (output) {
   stackRestore = asm["Th"];
   __growWasmMemory = asm["Uh"];
   dynCall_viiiii = asm["Vh"];
+  dynCall_vi = asm["Wh"];
   dynCall_viii = asm["Xh"];
   dynCall_viiiiii = asm["Yh"];
   dynCall_iii = asm["Zh"];
