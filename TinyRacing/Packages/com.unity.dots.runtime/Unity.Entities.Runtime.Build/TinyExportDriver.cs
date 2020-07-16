@@ -41,6 +41,17 @@ namespace Unity.Entities.Runtime.Build
 
 #endif
 
+        private string GetImageExtension(string assetPath)
+        {
+            var extension = Path.GetExtension(assetPath);
+
+            // Only handle ".png" here as we only have ".png" used in Tiny Racing project.
+            if (string.Compare(".png", extension, StringComparison.OrdinalIgnoreCase) == 0)
+                return extension;
+
+            return string.Empty;
+        }
+
         public override Guid GetGuidForAssetExport(Object asset)
         {
             if (!m_Items.TryGetValue(asset, out var found))
@@ -52,7 +63,12 @@ namespace Unity.Entities.Runtime.Build
                     return Guid.Empty;
                 }
 
-                var exportFileInfo = m_ExportDataRoot.GetFile(guid.ToString("N"));
+                var exportFilePath = guid.ToString("N");
+                var imageExtension = GetImageExtension(assetPath);
+                if (!string.IsNullOrEmpty(imageExtension))
+                    exportFilePath += imageExtension;
+
+                var exportFileInfo = m_ExportDataRoot.GetFile(exportFilePath);
 
                 m_Items.Add(asset, found = new Item
                 {

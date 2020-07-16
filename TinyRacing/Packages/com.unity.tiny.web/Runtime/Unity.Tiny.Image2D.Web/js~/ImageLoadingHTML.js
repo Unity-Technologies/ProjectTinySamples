@@ -148,6 +148,8 @@ mergeInto(LibraryManager.library, {
     colorName = colorName ? UTF8ToString(colorName) : null;
     maskName = maskName ? UTF8ToString(maskName) : null;
 
+    colorName += ".png";
+
     // rewrite some special urls 
     if (colorName == "::white1x1") {
       colorName = "data:image/gif;base64,R0lGODlhAQABAIAAAP7//wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==";
