@@ -1,7 +1,7 @@
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
-#if UNITY_DOTSPLAYER
+#if UNITY_DOTSRUNTIME
 using Unity.Tiny.Rendering;
 using Unity.Tiny.Input;
 
@@ -20,19 +20,19 @@ namespace TinyRacing.Systems
         private quaternion DefaultCameraRot;
         private bool IsDefaultCameraPositionSet;
 
-#if !UNITY_DOTSPLAYER
+#if !UNITY_DOTSRUNTIME
         UnityEngine.Transform cameraTransform;
 #endif
         protected override void OnStartRunning()
         {
-#if !UNITY_DOTSPLAYER
+#if !UNITY_DOTSRUNTIME
             cameraTransform = UnityEngine.Camera.main.transform;
 #endif
         }
 
         protected override void OnUpdate()
         {
-#if UNITY_DOTSPLAYER
+#if UNITY_DOTSRUNTIME
             // if shift is held, don't do anything
             if (World.GetExistingSystem<InputSystem>().GetKey(KeyCode.LeftShift))
                 return;
@@ -42,19 +42,21 @@ namespace TinyRacing.Systems
             var carDirection = float3.zero;
             var carRotation = quaternion.identity;
             Entities.WithNone<AI>().ForEach(
-                (ref Car car, ref CarInputs inputs, ref Translation translation, ref LocalToWorld localToWorld,
-                    ref Rotation rotation) =>
+                (ref Car car, ref CarInputs inputs, in Translation translation, in LocalToWorld localToWorld,
+                    in Rotation rotation) =>
                 {
                     carPosition = translation.Value;
                     carDirection = localToWorld.Forward;
                     carRotation = rotation.Value;
                 }).Run();
             // Position the camera behind the car
+            if (!HasSingleton<Race>())
+                return;
             var race = GetSingleton<Race>();
             var targetPosition = carPosition + new float3(0f, 1.75f, 0f) + carDirection * -5.5f;
 
             // TODO: Find camera with entity query once there's a pure component for cameras
-#if !UNITY_DOTSPLAYER
+#if !UNITY_DOTSRUNTIME
             var cameraPos = (float3)cameraTransform.position;
             var cameraRot = (quaternion)cameraTransform.rotation;
 #else
@@ -63,11 +65,20 @@ namespace TinyRacing.Systems
             var cameraRot = EntityManager.GetComponentData<Rotation>(cameraEntity).Value;
 #endif
 
+            var deltaTime = math.clamp(Time.DeltaTime * 7f, 0, 1);
             if (race.IsRaceStarted)
             {
-                var deltaTime = math.clamp(Time.DeltaTime * 7f, 0, 1);
                 cameraPos = math.lerp(cameraPos, targetPosition, deltaTime);
                 cameraRot = math.slerp(cameraRot, carRotation, deltaTime);
+            }
+            else if (race.IsRaceFinished && HasSingleton<EndingCameraPostitionTag>())
+            {
+                var endingCameraPositionEntity = GetSingletonEntity<EndingCameraPostitionTag>();
+                var endingCameraPos = EntityManager.GetComponentData<Translation>(endingCameraPositionEntity).Value;
+                var endingCameraRot = EntityManager.GetComponentData<Rotation>(endingCameraPositionEntity).Value;
+
+                cameraPos = math.lerp(cameraPos, endingCameraPos, deltaTime);
+                cameraRot = math.slerp(cameraRot, endingCameraRot, deltaTime);
             }
             else
             {
@@ -82,7 +93,7 @@ namespace TinyRacing.Systems
                 cameraRot = DefaultCameraRot;
             }
 
-#if !UNITY_DOTSPLAYER
+#if !UNITY_DOTSRUNTIME
             cameraTransform.position = cameraPos;
             cameraTransform.rotation = cameraRot;
 #else
@@ -90,11 +101,11 @@ namespace TinyRacing.Systems
             EntityManager.SetComponentData(cameraEntity, new Rotation {Value = cameraRot});
 #endif
 
-            Entities.ForEach((ref UITag etag, ref Translation pos, ref Rotation rot) =>
+            Dependency = Entities.ForEach((ref UITag etag, ref Translation pos, ref Rotation rot) =>
             {
                 pos.Value = cameraPos;
                 rot.Value = cameraRot;
-            }).ScheduleParallel();
+            }).ScheduleParallel(Dependency);
         }
     }
 }

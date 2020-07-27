@@ -8,20 +8,38 @@ namespace TinyRacing.Systems
     /// </summary>
     public class UpdateRaceTimer : SystemBase
     {
+        private bool RaceWasStarted;
+
         protected override void OnUpdate()
         {
-            float deltaTime = Time.DeltaTime;
+            var race = GetSingleton<Race>();
 
-            Entities.ForEach((ref Race race) =>
+            if (!race.IsRaceStarted)
             {
-                if (!race.IsRaceStarted)
-                    return;
+                RaceWasStarted = false;
+                return;
+            }
 
-                if (race.CountdownTimer <= 0f)
-                    race.RaceTimer += deltaTime;
-                else
-                    race.CountdownTimer -= deltaTime;
-            }).ScheduleParallel();
+            if (!RaceWasStarted)
+            {
+                race.RaceStartTime = Time.ElapsedTime;
+                race.NumCars = CountCars();
+                RaceWasStarted = true;
+            }
+
+            if (race.CountdownTimer <= 0f)
+                race.RaceTimer += Time.DeltaTime;
+            else
+                race.CountdownTimer -= Time.DeltaTime;
+
+            SetSingleton(race);
+        }
+
+        private int CountCars()
+        {
+            var carCount = 0;
+            Entities.ForEach((ref Car car) => { carCount++; }).WithoutBurst().Run();
+            return carCount;
         }
     }
 }

@@ -9,7 +9,8 @@
         "Unity.Tiny.Rendering",
         "Unity.Tiny.Input",
         "Unity.Tiny.RendererExtras",
-        "Unity.Tiny.Animation"
+        "Unity.Tiny.Animation",
+        "Unity.Entities.Runtime"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

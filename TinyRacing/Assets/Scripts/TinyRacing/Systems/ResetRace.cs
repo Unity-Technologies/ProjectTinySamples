@@ -3,7 +3,8 @@ using Unity.Mathematics;
 using Unity.Physics;
 using Unity.Tiny.Particles;
 using Unity.Transforms;
-#if UNITY_DOTSPLAYER
+using Unity.Scenes;
+#if UNITY_DOTSRUNTIME
 using Unity.Tiny.Input;
 
 #else
@@ -17,7 +18,7 @@ namespace TinyRacing.Systems
     /// </summary>
     public class ResetRace : SystemBase
     {
-#if UNITY_DOTSPLAYER
+#if UNITY_DOTSRUNTIME
         private InputSystem Input => World.GetExistingSystem<InputSystem>();
         private bool AnyKeyDown => Input.GetKeyDown(KeyCode.Space);
 #else
@@ -26,6 +27,10 @@ namespace TinyRacing.Systems
 
         protected override void OnUpdate()
         {
+            if (!HasSingleton<Race>())
+                return;
+
+            var sceneSystem = World.GetExistingSystem<SceneSystem>();
             var race = GetSingleton<Race>();
             var isGameOverResetButtonPressed = false;
             Entities.WithNone<AI>().WithAll<Car>().ForEach((ref LapProgress lapProgress) =>
@@ -39,7 +44,7 @@ namespace TinyRacing.Systems
                 }
 
                 var raceCompleted = isRaceComplete && race.GameOverTimer > 2f;
-#if UNITY_DOTSPLAYER
+#if UNITY_DOTSRUNTIME
                 var UserInput = Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0) ||
                     Input.TouchCount() > 0;
 
@@ -49,9 +54,23 @@ namespace TinyRacing.Systems
 #endif
             }).WithoutBurst().Run();
 
+
+#if EXPERIMENTAL_SCENE_LOADING
+            if(race.IsRaceFinished)
+            {
+                var endingSceneEntity = GetSingletonEntity<EndingScene>();
+                var endingScene = EntityManager.GetComponentData<SceneReference>(endingSceneEntity);
+                sceneSystem.LoadSceneAsync(endingScene.SceneGUID, new SceneSystem.LoadParameters() { AutoLoad = true, Flags = SceneLoadFlags.LoadAdditive });
+            }
+#endif
+
             // Return to main menu when user exits the game over menu or press Escape
             if (Input.GetKeyDown(KeyCode.Escape) || isGameOverResetButtonPressed) // TODO: Use Tiny/DOTS inputs
             {
+                // Rendering seems to hold on to entities so this breaks
+                //var endingSceneEntity = GetSingletonEntity<EndingScene>();
+                //sceneSystem.UnloadScene(endingSceneEntity);
+
                 race.IsRaceStarted = false;
                 race.IsRaceFinished = false;
                 race.GameOverTimer = 0f;

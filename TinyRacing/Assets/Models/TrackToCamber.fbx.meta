@@ -1,27 +1,65 @@
 fileFormatVersion: 2
 guid: d64d45aad01a61a419213469c5e6094b
 ModelImporter:
-  serializedVersion: 23
-  fileIDToRecycleName:
-    100000: //RootNode
-    100002: Fence
-    100004: Track
-    400000: //RootNode
-    400002: Fence
-    400004: Track
-    2100000: TrackDark
-    2100002: TrackMidLight
-    2100004: TrackWhite
-    2100006: TrackMidDark
-    2300000: //RootNode
-    2300002: Fence
-    2300004: Track
-    3300000: //RootNode
-    3300002: Fence
-    3300004: Track
-    4300000: Track009
-    4300002: Track
-    4300004: Fence
+  serializedVersion: 20101
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: //RootNode
+  - first:
+      1: 100002
+    second: Fence
+  - first:
+      1: 100004
+    second: Track
+  - first:
+      4: 400000
+    second: //RootNode
+  - first:
+      4: 400002
+    second: Fence
+  - first:
+      4: 400004
+    second: Track
+  - first:
+      21: 2100000
+    second: TrackDark
+  - first:
+      21: 2100002
+    second: TrackMidLight
+  - first:
+      21: 2100004
+    second: TrackWhite
+  - first:
+      21: 2100006
+    second: TrackMidDark
+  - first:
+      23: 2300000
+    second: //RootNode
+  - first:
+      23: 2300002
+    second: Fence
+  - first:
+      23: 2300004
+    second: Track
+  - first:
+      33: 3300000
+    second: //RootNode
+  - first:
+      33: 3300002
+    second: Fence
+  - first:
+      33: 3300004
+    second: Track
+  - first:
+      43: 4300000
+    second: Track009
+  - first:
+      43: 4300002
+    second: Track
+  - first:
+      43: 4300004
+    second: Fence
   externalObjects:
   - first:
       type: UnityEngine:Material
@@ -29,7 +67,7 @@ ModelImporter:
       name: TemplateEnvironment
     second: {fileID: 2100000, guid: d11179e416c9b394c8176d36a0dcae52, type: 2}
   materials:
-    importMaterials: 1
+    materialImportMode: 1
     materialName: 1
     materialSearch: 2
     materialLocation: 1
@@ -62,25 +100,32 @@ ModelImporter:
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
+    fileIdsGeneration: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    bakeAxisConversion: 0
     preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 0
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
-    previousCalculatedGlobalScale: 1
-    hasPreviousCalculatedGlobalScale: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -89,10 +134,10 @@ ModelImporter:
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
+  referencedClips: []
   importAnimation: 0
-  copyAvatar: 0
   humanDescription:
-    serializedVersion: 2
+    serializedVersion: 3
     human: []
     skeleton: []
     armTwist: 0.5
@@ -102,13 +147,16 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
+    globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 0
   humanoidOversampling: 1
+  avatarSetup: 0
   additionalBone: 0
   userData: 
   assetBundleName: 

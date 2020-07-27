@@ -1,0 +1,27 @@
+{
+    "name": "TinyTime",
+    "references": [
+        "GUID:2665a8d13d1b3f18800f46e256720795",
+        "GUID:734d92eba21c94caba915361bd5ac177",
+        "GUID:d8b63aba1907145bea998dd612889d6b",
+        "GUID:a5baed0c9693541a5bd947d336ec7659",
+        "GUID:968008d463443624ba4326838f3e38d2",
+        "GUID:793fa2b5c914d594ea6d9ab913c9af3c",
+        "GUID:8ed1e3067dad7be4c941c7e33cae09a0",
+        "GUID:fafabf9ae5cf1864eadcd344ddac4b39",
+        "GUID:5f3cf485eb0554709a8abbeace890c86",
+        "GUID:0f6614c3cb330ff468a1f1b1658d8d30",
+        "GUID:c7540cc825d765943a3df00624ed16d9",
+        "GUID:e0cd26848372d4e5c891c569017e11f1",
+        "GUID:72d0f99724c9a4cbc9c723339a67d38d"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

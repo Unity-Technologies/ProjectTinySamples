@@ -39,7 +39,7 @@ namespace TinyPhysics.Systems
 
             public void UpdateCollideable(Entity entity, Entity collider)
             {
-                if (CollideableGroup.Exists(entity))
+                if (CollideableGroup.HasComponent(entity))
                 {
                     var collideable = CollideableGroup[entity];
                     collideable.CollisionEntity = collider;

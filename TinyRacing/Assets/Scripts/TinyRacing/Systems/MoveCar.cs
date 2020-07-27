@@ -54,7 +54,7 @@ namespace TinyRacing.Systems
                         var angle = 2.0f * math.atan(q.value.y / q.value.w);
                         rotation.Value = quaternion.RotateY(angle);
 
-                        velocity.SetAngularVelocity(mass, rotation , angular);
+                        velocity.SetAngularVelocityWorldSpace(mass, rotation , angular);
                     }
                 }).ScheduleParallel();
         }

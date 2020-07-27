@@ -1,10 +1,11 @@
+using System.Collections.Generic;
+using Unity.Collections;
 using Unity.Entities;
 
 namespace TinyRacing.Systems
 {
     /// <summary>
-    ///     Update the current rank (first, second, etc) of the player's car based on their progress around the track and
-    ///     current lap.
+    ///     Update all ranks based on progress
     /// </summary>
     [UpdateAfter(typeof(UpdateCarLapProgress))]
     public class UpdateCarRank : SystemBase
@@ -16,21 +17,44 @@ namespace TinyRacing.Systems
             _playerCarEntity = GetSingletonEntity<PlayerTag>();
         }
 
+        struct EntityAndProgress
+        {
+            public Entity car;
+            public float progress;
+        }
+
+        struct EntityAndProgressComparer : IComparer<EntityAndProgress>
+        {
+            public int Compare(EntityAndProgress x, EntityAndProgress y)
+            {
+                return y.progress.CompareTo(x.progress);
+            }
+        }
+
         protected override void OnUpdate()
         {
-            var playerRank = 1;
-            var playerProgressValue = EntityManager.GetComponentData<LapProgress>(_playerCarEntity);
+            var race = GetSingleton<Race>();
+            if (race.IsRaceFinished || !race.IsRaceStarted)
+                return;
 
-            // Get the current progress of the player's car
-            // For each opponent/AI car that has a better progress value, increment the player's rank by 1
-            Entities.WithAll<AI>().ForEach((ref Car car, ref LapProgress lapProgress) =>
+            var progress = new NativeList<EntityAndProgress>(race.NumCars, Allocator.Temp);
+            progress.ResizeUninitialized(race.NumCars);
+
+            int carIndex = 0;
+            Entities.WithAll<Car>().ForEach((Entity entity, ref LapProgress lapProgress) =>
             {
-                var aiProgressValue = lapProgress.TotalProgress;
-                if (aiProgressValue > playerProgressValue.TotalProgress)
-                    playerRank++;
+                progress[carIndex] = new EntityAndProgress { car = entity, progress = lapProgress.TotalProgress };
+                carIndex++;
             }).WithoutBurst().Run();
 
-            EntityManager.SetComponentData(_playerCarEntity, new CarRank {Value = playerRank});
+            progress.Sort(new EntityAndProgressComparer());
+
+            for (int i = 0; i < race.NumCars; ++i)
+            {
+                var rank = GetComponent<CarRank>(progress[i].car);
+                rank.Value = i + 1;
+                SetComponent(progress[i].car, rank);
+            }
         }
     }
 }

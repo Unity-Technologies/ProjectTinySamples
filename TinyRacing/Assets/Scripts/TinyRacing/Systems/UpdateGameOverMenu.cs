@@ -1,6 +1,6 @@
 using Unity.Entities;
 using Unity.Transforms;
-#if UNITY_DOTSPLAYER
+#if UNITY_DOTSRUNTIME
 using Unity.Tiny.Audio;
 
 #endif
@@ -24,13 +24,17 @@ namespace TinyRacing.Systems
         {
             if (isVisible)
             {
-#if UNITY_DOTSPLAYER
-                Entities.WithAll<GameOverMenuTag, AudioSource, Disabled>().ForEach((Entity entity) =>
+#if UNITY_DOTSRUNTIME
+                Entities
+                    .WithEntityQueryOptions(EntityQueryOptions.IncludeDisabled)
+                    .WithAll<GameOverMenuTag, AudioSource, Disabled>().ForEach((Entity entity) =>
                 {
                     EntityManager.AddComponent<AudioSourceStart>(entity);
                 }).WithStructuralChanges().Run();
 #endif
-                Entities.WithAll<GameOverMenuTag, Disabled>().ForEach((Entity entity) =>
+                Entities
+                    .WithEntityQueryOptions(EntityQueryOptions.IncludeDisabled)
+                    .WithAll<GameOverMenuTag, Disabled>().ForEach((Entity entity) =>
                 {
                     EntityManager.RemoveComponent<Disabled>(entity);
                 }).WithStructuralChanges().Run();

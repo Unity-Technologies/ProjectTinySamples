@@ -5,6 +5,7 @@ using Unity.Jobs;
 using Unity.Physics;
 using Unity.Physics.Systems;
 using Unity.Tiny.Audio;
+using Unity.Collections.LowLevel.Unsafe;
 
 namespace TinyRacing.Systems
 {
@@ -13,7 +14,7 @@ namespace TinyRacing.Systems
     ///     it a temporary speed boost.
     /// </summary>
     [UpdateAfter(typeof(EndFramePhysicsSystem))]
-    public class EnterBoostPad : JobComponentSystem
+    public class EnterBoostPad : SystemBase
     {
         private BuildPhysicsWorld _buildPhysicsWorldSystem;
         private EndSimulationEntityCommandBufferSystem _entityCommandBufferSystem;
@@ -26,20 +27,18 @@ namespace TinyRacing.Systems
             _entityCommandBufferSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
         }
 
-        protected override JobHandle OnUpdate(JobHandle inputDeps)
+        protected override void OnUpdate()
         {
-            var jobHandle = new EnterBoostPadJob
+            Dependency = new EnterBoostPadJob
             {
                 BoostPadGroup = GetComponentDataFromEntity<BoostPad>(true),
                 AudioSourceGroup = GetComponentDataFromEntity<AudioSource>(true),
                 PlayerGroup = GetComponentDataFromEntity<PlayerTag>(true),
                 SpeedMultiplierGroup = GetComponentDataFromEntity<SpeedMultiplier>(),
                 EntityCommandBuffer = _entityCommandBufferSystem.CreateCommandBuffer()
-            }.Schedule(_stepPhysicsWorldSystem.Simulation, ref _buildPhysicsWorldSystem.PhysicsWorld, inputDeps);
+            }.Schedule(_stepPhysicsWorldSystem.Simulation, ref _buildPhysicsWorldSystem.PhysicsWorld, Dependency);
 
-            _entityCommandBufferSystem.AddJobHandleForProducer(jobHandle);
-
-            return jobHandle;
+            _entityCommandBufferSystem.AddJobHandleForProducer(Dependency);
         }
 
         [BurstCompile]
@@ -47,16 +46,21 @@ namespace TinyRacing.Systems
         {
             [ReadOnly] public ComponentDataFromEntity<BoostPad> BoostPadGroup;
             [ReadOnly] public ComponentDataFromEntity<PlayerTag> PlayerGroup;
-            public ComponentDataFromEntity<SpeedMultiplier> SpeedMultiplierGroup;
             public EntityCommandBuffer EntityCommandBuffer;
             [ReadOnly] public ComponentDataFromEntity<AudioSource> AudioSourceGroup;
+
+            // Because multiple worker threads can write to this, the safety system won't normally allow this job to schedule.
+            // We guarantee they will never write to the same
+            // entity key, we disable safety restrictions which would normally not allow this
+            [NativeDisableContainerSafetyRestriction]
+            public ComponentDataFromEntity<SpeedMultiplier> SpeedMultiplierGroup;
 
             public Entity GetEntityFromComponentGroup<T>(Entity entityA, Entity entityB,
                 ComponentDataFromEntity<T> componentGroup) where T : struct, IComponentData
             {
-                if (componentGroup.Exists(entityA))
+                if (componentGroup.HasComponent(entityA))
                     return entityA;
-                if (componentGroup.Exists(entityB))
+                if (componentGroup.HasComponent(entityB))
                     return entityB;
                 return Entity.Null;
             }

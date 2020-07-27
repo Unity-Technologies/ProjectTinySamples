@@ -17,7 +17,8 @@
         "Unity.Tiny.Rendering.Native",
         "Unity.Tiny.RendererExtras",
         "Unity.Tiny.Main",
-        "Unity.Tiny.EntryPoint"
+        "Unity.Tiny.EntryPoint",
+        "Unity.Entities.Runtime"
     ],
     "includePlatforms": [],
     "excludePlatforms": [

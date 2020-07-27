@@ -1,6 +1,10 @@
+using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
+using Unity.Physics;
+using Unity.Tiny;
 using Unity.Tiny.Audio;
+using Unity.Tiny.Text;
 using Unity.Transforms;
 
 namespace TinyRacing.Systems
@@ -15,78 +19,162 @@ namespace TinyRacing.Systems
         protected override void OnUpdate()
         {
             var race = GetSingleton<Race>();
+            var player = GetSingletonEntity<PlayerTag>();
 
             // Update gameplay menu visibility
-            SetMenuVisibility(race.IsRaceStarted && !race.IsRaceFinished);
+            if (!race.IsRaceStarted || race.IsRaceFinished)
+            {
+                SetMenuVisibility(false);
+                return;
+            }
+
+            SetMenuVisibility(true);
+
+            var ui = GetSingleton<GameplayUI>();
+
             // Update Countdown label
-            var showCountdown = race.IsRaceStarted && race.CountdownTimer > 0f;
-            var countdownTimer = race.CountdownTimer;
-            Entities.ForEach((ref LabelCountdownTag labelCountdown, ref LabelNumber labelNumber) =>
+            var countdownTimer = race.IsRaceStarted ? (int) math.ceil(race.CountdownTimer) : 0;
+            if (countdownTimer > 0)
             {
-                labelNumber.IsVisible = showCountdown;
-                if (showCountdown)
+                EntityManager.RemoveComponent<Disabled>(ui.CountdownLabel);
+                var font = GetComponent<TextRenderer>(ui.CountdownLabel);
+                if (countdownTimer >= 3)
                 {
-                    var number = (int)math.ceil(countdownTimer);
-                    labelNumber.Number = number;
+                    font.Size = 8.0f;
+                    font.MeshColor = Colors.White;
                 }
-            }).WithStructuralChanges().Run();
-
-            Entities.WithAll<LabelCountdownTag>().ForEach((Entity entity, ref AudioSource audioSource) =>
-            {
-                if (showCountdown && !audioSource.isPlaying)
+                else if (countdownTimer == 2)
                 {
-                    EntityManager.AddComponent<AudioSourceStart>(entity);
+                    font.Size = 9.0f;
+                    font.MeshColor = Colors.Yellow;
                 }
-            }).WithStructuralChanges().Run();
+                else if (countdownTimer == 1)
+                {
+                    font.Size = 10.0f;
+                    font.MeshColor = Colors.Red;
+                }
 
-            // Update rank label
-            var rank = 0;
-            var currentLap = 0;
-            Entities.WithNone<AI>().ForEach((ref CarRank carRank, ref LapProgress lapProgress) =>
+                SetComponent(ui.CountdownLabel, font);
+
+                TextLayout.SetEntityTextRendererString(EntityManager, ui.CountdownLabel, $"{countdownTimer}");
+                if (!GetComponent<AudioSource>(ui.CountdownLabel).isPlaying)
+                    EntityManager.AddComponent<AudioSourceStart>(ui.CountdownLabel);
+            }
+            else
             {
-                rank = carRank.Value;
-                currentLap = lapProgress.CurrentLap;
-            }).Run();
-            Entities.WithAll<LabelRankTag>().ForEach((ref LabelNumber labelNumber) =>
+                EntityManager.AddComponent<Disabled>(ui.CountdownLabel);
+            }
+
+            // Update the lap/rank/etc. labels
+
+            var playerLap = GetComponent<LapProgress>(player).CurrentLap;
+            TextLayout.SetEntityTextRendererString(EntityManager, ui.LapLabel, $"LAP {playerLap} / {race.LapCount}");
+
+            var playerRank = GetComponent<CarRank>(player);
+            TextLayout.SetEntityTextRendererString(EntityManager, ui.RankLabel, $"{playerRank.Value}");
+            // TODO just do this once at the start of a race, the values won't change!
+            TextLayout.SetEntityTextRendererString(EntityManager, ui.RankTotalLabel, $"/ {race.NumCars}");
+
+            // Update the lap time and offset from leader labels
+            var raceTime = race.RaceTimer;
+            var includeMilliseconds = false; // we need to use a monospaced font for this readout, to not make the numebrs shift
+            TextLayout.SetEntityTextRendererString(EntityManager, ui.CurrentTimeLabel, FormatTime(raceTime, includeMilliseconds: includeMilliseconds));
+
+            // Find either the leader's time, or the second car's time
+            var otherLapTime = 0.0f;
+            Entities.ForEach((Entity entity, ref CarRank rank, ref LapProgress progress) =>
             {
-                labelNumber.IsVisible = race.IsRaceStarted;
-                labelNumber.Number = rank;
+                // we only care if a car has completed one lap
+                if (progress.CurrentLap < 2)
+                    return;
+
+                // then we want either the #2 car's time if we're the lead, or the lead's car if we're not
+                if ((playerRank.Value == 1 && rank.Value == 2) || (playerRank.Value != 1 && rank.Value == 1))
+                {
+                    otherLapTime = rank.LastLapTime;
+                }
             }).Run();
 
-            // Update total number of car label (rank total)
-            var carCount = 0;
-            Entities.ForEach((ref Car car) => { carCount++; }).WithoutBurst().Run();
-            Entities.WithAll<LabelRankTotalTag>().ForEach((ref LabelNumber labelNumber) =>
+            if (playerLap > 1 && otherLapTime > 0.0f)
             {
-                labelNumber.IsVisible = race.IsRaceStarted;
-                labelNumber.Number = carCount;
-            }).Run();
-
-            // Update current lap label
-            Entities.WithAll<LabelLapCurrentTag>().ForEach((ref LabelNumber labelNumber) =>
+                EntityManager.RemoveComponent<Disabled>(ui.TimeFromLeaderLabel);
+                var timeDiff = otherLapTime - playerRank.LastLapTime;
+                // timediff will be positive if player is in the lead, or negative if not
+                var font = GetComponent<TextRenderer>(ui.TimeFromLeaderLabel);
+                font.MeshColor = timeDiff > 0.0f ? Colors.Green : Colors.Red;
+                SetComponent(ui.TimeFromLeaderLabel, font);
+                TextLayout.SetEntityTextRendererString(EntityManager, ui.TimeFromLeaderLabel, FormatTime(timeDiff, includeSign: true, includeMilliseconds: true));
+            }
+            else
             {
-                labelNumber.IsVisible = race.IsRaceStarted;
-                labelNumber.Number = math.clamp(currentLap, 1, race.LapCount);
-            }).Run();
-
-            // Update total lap count label
-            Entities.WithAll<LabelLapTotalTag>().ForEach((ref LabelNumber labelNumber) =>
-            {
-                labelNumber.IsVisible = race.IsRaceStarted;
-                labelNumber.Number = race.LapCount;
-            }).Run();
+                EntityManager.AddComponent<Disabled>(ui.TimeFromLeaderLabel);
+            }
         }
+
+        private void AppendTime(ref FixedString32 timestr, double time, bool includeMilliseconds = false)
+        {
+            // time is in seconds
+            var min = (int) time / 60;
+            var sec = (int) math.floor(time - (min * 60.0));
+
+            // gross hacks without string building & formatting
+            if (min > 9)
+            {
+                timestr.Append(min / 10);
+            }
+            timestr.Append(min % 10);
+            timestr.AppendFrom(new FixedString32(":"));
+
+            timestr.Append(sec / 10);
+            timestr.Append(sec % 10);
+
+            if (includeMilliseconds)
+            {
+                //var ms = (int)math.floor((time - (min * 60.0) - sec) * 1000.0f);
+                var ms = (int)math.floor((time - (min * 60.0) - sec) * 100.0f);
+                timestr.AppendFrom(new FixedString32("."));
+                //if (ms < 1000.0)
+                //    timestr.AppendFrom(new FixedString32("0"));
+                //if (ms < 100.0)
+                //    timestr.AppendFrom(new FixedString32("0"));
+                if (ms < 10.0)
+                    timestr.AppendFrom(new FixedString32("0"));
+                timestr.Append(ms);
+            }
+        }
+
+        private string FormatTime(double time, bool includeSign = false, bool includeMilliseconds = false)
+        {
+            FixedString32 timestr = default;
+            if (time < 0.0f)
+            {
+                timestr.AppendFrom(new FixedString32("-"));
+                time = -time;
+            }
+            else if (includeSign && math.abs(time) >= 0.00)
+            {
+                timestr.AppendFrom(new FixedString32("+"));
+            }
+
+            AppendTime(ref timestr, time, includeMilliseconds);
+            return timestr.ToString();
+        }
+
 
         private void SetMenuVisibility(bool isVisible)
         {
             if (isVisible)
             {
-                Entities.WithAll<GameplayMenuTag, AudioSource, Disabled>().ForEach((Entity entity) =>
+                Entities
+                    .WithEntityQueryOptions(EntityQueryOptions.IncludeDisabled)
+                    .WithAll<GameplayMenuTag, AudioSource, Disabled>().ForEach((Entity entity) =>
                 {
                     EntityManager.AddComponent<AudioSourceStart>(entity);
                 }).WithStructuralChanges().Run();
 
-                Entities.WithAll<GameplayMenuTag, Disabled>().ForEach((Entity entity) =>
+                Entities
+                    .WithEntityQueryOptions(EntityQueryOptions.IncludeDisabled)
+                    .WithAll<GameplayMenuTag, Disabled>().ForEach((Entity entity) =>
                 {
                     EntityManager.RemoveComponent<Disabled>(entity);
                 }).WithStructuralChanges().Run();

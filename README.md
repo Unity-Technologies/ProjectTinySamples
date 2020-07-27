@@ -39,6 +39,19 @@ Illustrates how to combine simple Unity Physics behaviors and common input metho
     </a>
 </p>
 
+## TinyTime
+Demonstrates how to use in-game text rendering, Skinned mesh renderer and how to dynamically chagne the scene lighting.
+
+
+<p align="center"> 
+    <img src="./res/TinyTime.gif">
+</p>
+<p align="center"> 
+    <a href="https://tiny.vision/demos/TinyTime">
+        <img src="./res/Trynow.jpg">
+    </a>
+</p>
+
 ## TinyFactory
 Demonstrates how Animations can be added to a scene (no code).
 

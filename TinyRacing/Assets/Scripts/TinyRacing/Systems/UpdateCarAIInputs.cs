@@ -12,11 +12,15 @@ namespace TinyRacing.Systems
     {
         protected override void OnUpdate()
         {
+            var race = GetSingleton<Race>();
+            if (!race.IsRaceStarted)
+                return;
+
             var updateCarLapSystem = EntityManager.World.GetExistingSystem<UpdateCarLapProgress>();
             var controlPoints = updateCarLapSystem.ControlPoints;
 
-            Entities.ForEach((ref Car car, ref CarInputs inputs, ref AI opponent, ref LocalToWorld localToWorld, ref LapProgress lapProgress,
-                ref Translation translation) =>
+            Dependency = Entities.WithAll<Car>().ForEach((ref Car car, ref CarInputs inputs, in AI opponent, in LocalToWorld localToWorld, in LapProgress lapProgress,
+                in Translation translation) =>
                 {
                     var controlPointIndex = lapProgress.CurrentControlPoint;
                     var controlPointProgress = lapProgress.CurrentControlPointProgress;
@@ -45,7 +49,7 @@ namespace TinyRacing.Systems
 
                     // AI cars always accelerate to full speed
                     inputs.AccelerationAxis = 1f;
-                }).WithReadOnly(controlPoints).ScheduleParallel();
+                }).WithReadOnly(controlPoints).ScheduleParallel(Dependency);
         }
     }
 }

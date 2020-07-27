@@ -1,0 +1,23 @@
+{
+    "Dependencies": [
+        "GlobalObjectId_V1-1-a25f9bf585972264c84d293ca590288e-93214019566545601-0"
+    ],
+    "Components": [
+        {
+            "$type": "Unity.Build.DotsRuntime.DotsRuntimeBuildProfile, Unity.Build.DotsRuntime",
+            "Target": "asmjs",
+            "Configuration": 2,
+            "UseNewPipeline": false,
+            "PipelineConstructor": null
+        },
+        {
+            "$type": "Unity.Build.Web.DotsRuntime.EmscriptenSettings, Unity.Build.Web.DotsRuntime",
+            "EmccCmdLine": "-s TOTAL_MEMORY=128MB -s ALLOW_MEMORY_GROWTH=1",
+            "SingleFileOutput": false
+        },
+        {
+            "$type": "Unity.Entities.Runtime.Build.DotsRuntimeBurstSettings, Unity.Entities.Runtime.Build",
+            "EnableBurst": false
+        }
+    ]
+}

@@ -1,7 +1,7 @@
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Tiny;
-#if UNITY_DOTSPLAYER
+#if UNITY_DOTSRUNTIME
 using Unity.Tiny.Input;
 
 #else
@@ -20,9 +20,11 @@ namespace TinyRacing.Systems
         protected override void OnStartRunning()
         {
             base.OnStartRunning();
+#if UNITY_DOTSRUNTIME
             var di = GetSingleton<DisplayInfo>();
             di.backgroundBorderColor = Colors.Black;
             SetSingleton(di);
+#endif
         }
 
         protected override void OnUpdate()
@@ -31,7 +33,7 @@ namespace TinyRacing.Systems
             var right = false;
             var reverse = false;
             var accelerate = false;
-#if UNITY_DOTSPLAYER
+#if UNITY_DOTSRUNTIME
             var Input = World.GetExistingSystem<InputSystem>();
 #endif
 
@@ -45,7 +47,7 @@ namespace TinyRacing.Systems
             if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
                 right = true;
 
-#if !UNITY_DOTSPLAYER
+#if !UNITY_DOTSRUNTIME
             if (Input.GetMouseButton(0))
                 PressAtPosition(new float2(Input.mousePosition.x, Input.mousePosition.y), ref left, ref right, ref reverse, ref accelerate);
 
@@ -75,7 +77,7 @@ namespace TinyRacing.Systems
 #endif
 
             CarInputs inputs = default;
-#if UNITY_DOTSPLAYER
+#if UNITY_DOTSRUNTIME
             var carSteering = GetSingleton<CarAccelerometerSteering>();
             if (carSteering.HorizontalAxis != 0.0f)
                 inputs.HorizontalAxis = carSteering.HorizontalAxis;
@@ -100,7 +102,7 @@ namespace TinyRacing.Systems
             // Determine which button is pressed byt checking the x value of the screen position.
             // TODO: Replace this with a UI interaction system
 
-#if !UNITY_DOTSPLAYER
+#if !UNITY_DOTSRUNTIME
             int width = Screen.width;
             int height = Screen.height;
 #else
@@ -110,8 +112,6 @@ namespace TinyRacing.Systems
             // We might not be using the actual width.  DisplayInfo needs to get reworked.
             var height = di.height;
             int width = di.width;
-            var dpiScale = di.screenDpiScale > 0 ? di.screenDpiScale : 1;
-            inputScreenPosition = inputScreenPosition / dpiScale;
             float targetRatio = 1920.0f / 1080.0f;
             float actualRatio = (float)width / (float)height;
             if (actualRatio > targetRatio)

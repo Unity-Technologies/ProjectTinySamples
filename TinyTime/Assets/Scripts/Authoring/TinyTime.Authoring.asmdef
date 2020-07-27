@@ -1,0 +1,20 @@
+{
+    "name": "TinyTime.Authoring",
+    "references": [
+        "GUID:d8b63aba1907145bea998dd612889d6b",
+        "GUID:734d92eba21c94caba915361bd5ac177",
+        "GUID:8819f35a0fc84499b990e90a4ca1911f",
+        "GUID:793fa2b5c914d594ea6d9ab913c9af3c",
+        "GUID:b608606a8b2f59b4ea8efa11314d7f1b",
+        "GUID:968008d463443624ba4326838f3e38d2"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

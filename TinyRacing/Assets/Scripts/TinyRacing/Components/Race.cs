@@ -12,5 +12,11 @@ namespace TinyRacing
         public float CountdownTimer;
         public float RaceTimer;
         public float GameOverTimer;
+
+        // number of cars in the race
+        public int NumCars;
+
+        // absolute time race started
+        public double RaceStartTime;
     }
 }

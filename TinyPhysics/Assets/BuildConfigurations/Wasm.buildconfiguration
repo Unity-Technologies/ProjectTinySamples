@@ -4,20 +4,20 @@
     ],
     "Components": [
         {
-            "$type": "Unity.Entities.Runtime.Build.DotsRuntimeBuildProfile, Unity.Entities.Runtime.Build",
-            "ShouldWriteDataFiles": true,
-            "EnableManagedDebugging": false,
-            "EnableMultiThreading": false,
-            "EnableBurst": true,
-            "RootAssembly": "GlobalObjectId_V1-1-4f129a6e3a7cdf04d92eb4d1aca87700-5897886265953266890-0",
+            "$type": "Unity.Build.DotsRuntime.DotsRuntimeBuildProfile, Unity.Build.DotsRuntime",
             "Target": "wasm",
             "Configuration": 2,
-            "Pipeline": "GlobalObjectId_V1-1-56241f83dacec1141b7d967eb30bf934-93214019566545601-0",
-            "BeeTargetOverride": null
+            "UseNewPipeline": false,
+            "PipelineConstructor": null
         },
         {
-            "$type": "Unity.Platforms.Web.Build.EmscriptenSettings, Unity.Platforms.Web.Build",
-            "EmccCmdLine": "-s TOTAL_MEMORY=256MB --profiling"
+            "$type": "Unity.Build.Web.DotsRuntime.EmscriptenSettings, Unity.Build.Web.DotsRuntime",
+            "EmccCmdLine": "-s TOTAL_MEMORY=256MB -s ALLOW_MEMORY_GROWTH=1",
+            "SingleFileOutput": false
+        },
+        {
+            "$type": "Unity.Entities.Runtime.Build.DotsRuntimeBurstSettings, Unity.Entities.Runtime.Build",
+            "EnableBurst": false
         }
     ]
 }

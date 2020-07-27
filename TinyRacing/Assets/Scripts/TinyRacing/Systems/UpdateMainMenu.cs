@@ -1,7 +1,8 @@
 using System;
 using Unity.Entities;
 using Unity.Transforms;
-#if UNITY_DOTSPLAYER
+using Unity.Scenes;
+#if UNITY_DOTSRUNTIME
 using Unity.Tiny;
 using Unity.Tiny.Input;
 using Unity.Tiny.Audio;
@@ -19,25 +20,24 @@ namespace TinyRacing.Systems
     [UpdateAfter(typeof(TransformSystemGroup))]
     public class UpdateMainMenu : SystemBase
     {
-        protected override void OnCreate()
-        {
-            base.OnCreate();
-#if UNITY_DOTSPLAYER
-            var window = World.GetExistingSystem<WindowSystem>();
-            window.SetOrientationMask(ScreenOrientation.AutoRotationLandscape);
-#endif
-        }
-
         protected override void OnUpdate()
         {
             // Hide main menu when user presses any key
-#if !UNITY_DOTSPLAYER
+#if !UNITY_DOTSRUNTIME
             bool startRaceButtonPressed = Input.anyKeyDown;
 #else
             var Input = World.GetExistingSystem<InputSystem>();
-            var startRaceButtonPressed =
-                Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0) || Input.TouchCount() > 0;
+            var startRaceButtonPressed = Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0) || Input.TouchCount() > 0;
 #endif
+            if (!HasSingleton<Race>())
+            {
+                var sceneSystem = World.GetExistingSystem<SceneSystem>();
+                var raceSceneEntity = GetSingletonEntity<RaceScene>();
+                var raceScene = EntityManager.GetComponentData<SceneReference>(raceSceneEntity);
+                sceneSystem.LoadSceneAsync(raceScene.SceneGUID, new SceneSystem.LoadParameters() { AutoLoad = true, Flags = SceneLoadFlags.LoadAdditive });
+
+                return;
+            }
 
             var race = GetSingleton<Race>();
             if (startRaceButtonPressed && !race.IsRaceStarted)
@@ -68,21 +68,30 @@ namespace TinyRacing.Systems
         {
             if (isVisible)
             {
-#if UNITY_DOTSPLAYER
-                Entities.WithAll<MainMenuTag, AudioSource, Disabled>().ForEach((Entity entity) =>
+#if UNITY_DOTSRUNTIME
+                Entities
+                    .WithEntityQueryOptions(EntityQueryOptions.IncludeDisabled)
+                    .WithAll<MainMenuTag, AudioSource, Disabled>()
+                    .ForEach((Entity entity) =>
                 {
                     EntityManager.AddComponent<AudioSourceStart>(entity);
                 }).WithStructuralChanges().Run();
 #endif
-                Entities.WithAll<MainMenuTag, Disabled>().ForEach((Entity entity) =>
-                {
+                Entities
+                    .WithEntityQueryOptions(EntityQueryOptions.IncludeDisabled)
+                    .WithAll<MainMenuTag, Disabled>().ForEach((Entity entity) =>
+                    {
                     EntityManager.RemoveComponent<Disabled>(entity);
                 }).WithStructuralChanges().Run();
             }
             else
             {
-                Entities.WithAll<MainMenuTag>()
-                    .ForEach((Entity entity) => { EntityManager.AddComponent<Disabled>(entity); })
+                Entities
+                    .WithAll<MainMenuTag>()
+                    .ForEach((Entity entity) =>
+                    {
+                        EntityManager.AddComponent<Disabled>(entity);
+                    })
                     .WithStructuralChanges().Run();
             }
         }
