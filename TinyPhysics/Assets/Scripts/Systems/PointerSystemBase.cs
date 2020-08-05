@@ -107,7 +107,7 @@ namespace TinyPhysics.Systems
             var RaycastInput = new RaycastInput
             {
                 Start = rayOrigin,
-                End = rayOrigin - rayDirection * m_RayDistance,
+                End = rayOrigin + rayDirection * m_RayDistance,
                 Filter = collisionFilter
             };
 
