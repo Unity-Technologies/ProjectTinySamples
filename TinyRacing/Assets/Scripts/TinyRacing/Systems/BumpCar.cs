@@ -53,8 +53,8 @@ namespace TinyRacing.Systems
 
             public void Execute(CollisionEvent collisionEvent)
             {
-                var entityA = collisionEvent.Entities.EntityA;
-                var entityB = collisionEvent.Entities.EntityB;
+                var entityA = collisionEvent.EntityA;
+                var entityB = collisionEvent.EntityB;
                 var playerEntity = GetEntityFromComponentGroup(entityA, entityB, PlayerGroup);
                 var aiEntity = GetEntityFromComponentGroup(entityA, entityB, AIGroup);
                 if (playerEntity != Entity.Null && aiEntity != Entity.Null)

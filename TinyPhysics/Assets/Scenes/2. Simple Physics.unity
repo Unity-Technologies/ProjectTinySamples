@@ -43,7 +43,7 @@ RenderSettings:
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 11
+  serializedVersion: 12
   m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
@@ -98,7 +98,8 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_LightingSettings: {fileID: 4890085278179872738, guid: 1ae6b5fdeac7ac94b96da30d0a729cdb,
+    type: 2}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -118,6 +119,8 @@ NavMeshSettings:
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
+    maxJobWorkers: 0
+    preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
@@ -181,7 +184,7 @@ PrefabInstance:
     - target: {fileID: 5852874215061884609, guid: 200b946837fee3240839e9ce067928a8,
         type: 3}
       propertyPath: m_PrimitiveOrientation.Value.z
-      value: -90
+      value: 90
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 200b946837fee3240839e9ce067928a8, type: 3}
@@ -408,7 +411,7 @@ PrefabInstance:
     - target: {fileID: 5852874215061884609, guid: 200b946837fee3240839e9ce067928a8,
         type: 3}
       propertyPath: m_PrimitiveOrientation.Value.z
-      value: -90
+      value: 90
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 200b946837fee3240839e9ce067928a8, type: 3}
@@ -556,7 +559,7 @@ PrefabInstance:
     - target: {fileID: 5852874215061884609, guid: 200b946837fee3240839e9ce067928a8,
         type: 3}
       propertyPath: m_PrimitiveOrientation.Value.z
-      value: 90
+      value: -90
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 200b946837fee3240839e9ce067928a8, type: 3}
@@ -931,7 +934,7 @@ PrefabInstance:
     - target: {fileID: 5209560917731965151, guid: 99ccce90e69aa23498c14f9d693fe75c,
         type: 3}
       propertyPath: m_PrimitiveOrientation.Value.z
-      value: 90
+      value: -90
       objectReference: {fileID: 0}
     - target: {fileID: 5251250137349800969, guid: 99ccce90e69aa23498c14f9d693fe75c,
         type: 3}

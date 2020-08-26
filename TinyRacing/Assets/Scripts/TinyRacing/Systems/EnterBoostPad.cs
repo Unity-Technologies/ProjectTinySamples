@@ -67,8 +67,8 @@ namespace TinyRacing.Systems
 
             public void Execute(TriggerEvent collisionEvent)
             {
-                var entityA = collisionEvent.Entities.EntityA;
-                var entityB = collisionEvent.Entities.EntityB;
+                var entityA = collisionEvent.EntityA;
+                var entityB = collisionEvent.EntityB;
 
                 var boostPadEntity = GetEntityFromComponentGroup(entityA, entityB, BoostPadGroup);
                 var speedMultiplierEntity = GetEntityFromComponentGroup(entityA, entityB, SpeedMultiplierGroup);

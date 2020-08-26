@@ -1,0 +1,54 @@
+{
+    "Dependencies": [],
+    "Components": [
+        {
+            "$type": "Unity.Build.Common.GeneralSettings, Unity.Build",
+            "ProductName": "Product Name",
+            "CompanyName": "Company Name"
+        },
+        {
+            "$type": "Unity.Build.Common.SceneList, Unity.Build",
+            "$version": 1,
+            "BuildCurrentScene": false,
+            "SceneInfos": [
+                {
+                    "Scene": "GlobalObjectId_V1-1-2cda990e2423bbf4892e6590ba056729-102900000-0",
+                    "AutoLoad": true
+                }
+            ]
+        },
+        {
+            "$type": "Unity.Tiny.Rendering.Settings.TinyRenderingSettings, Unity.Tiny.Rendering.Authoring",
+            "WindowSize": {
+                "x": 1920,
+                "y": 1080
+            },
+            "RenderResolution": {
+                "x": 1920,
+                "y": 1080
+            },
+            "RenderGraphMode": 2,
+            "MaxResolution": 2048,
+            "AutoResizeFrame": true,
+            "DisableVsync": false,
+            "GPUSkinning": false
+        },
+        {
+            "$type": "Unity.Build.DotsRuntime.DotsRuntimeRootAssembly, Unity.Build.DotsRuntime",
+            "BeeTargetOverride": null,
+            "RootAssembly": "GlobalObjectId_V1-1-e426c88c5fd8d4cc7aa51f4e9eb45d82-5897886265953266890-0"
+        },
+        {
+            "$type": "Unity.Entities.Runtime.Build.DotsRuntimeBurstSettings, Unity.Entities.Runtime.Build",
+            "EnableBurst": true
+        },
+        {
+            "$type": "Unity.Build.Common.ScreenOrientations, Unity.Build",
+            "DefaultOrientation": 4,
+            "AllowAutoRotateToPortrait": true,
+            "AllowAutoRotateToReversePortrait": true,
+            "AllowAutoRotateToLandscape": true,
+            "AllowAutoRotateToReverseLandscape": true
+        }
+    ]
+}

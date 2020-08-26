@@ -33,7 +33,7 @@ namespace TinyTime
             var hours = DateTime.Now.Hour;
             timeData.IsNightTime = hours < 6 || hours > 17;
 
-            if (input.GetKey(KeyCode.Space))
+            if (input.GetKey(KeyCode.Space) || (input.IsTouchSupported() && input.TouchCount() > 0))
                 timeData.IsNightTime = !timeData.IsNightTime;
 
             SetSingleton(timeData);
