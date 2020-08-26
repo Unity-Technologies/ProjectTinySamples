@@ -11,8 +11,11 @@
             "PipelineConstructor": null
         },
         {
-            "$type": "Unity.Build.iOS.BundleIdentifier, Unity.Build.iOS",
-            "BundleName": "com.unity.TinyTime"
+            "$type": "Unity.Build.Common.ApplicationIdentifier, Unity.Build",
+            "PackageName": "com.unity.TinyTime"
+        },
+        {
+            "$type": "Unity.Build.iOS.iOSExportProject, Unity.Build.iOS"
         }
     ]
 }
