@@ -6,13 +6,13 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/TinySpaceship/Scenes/TinySpaceship.unity
+    path: Assets/Scenes/TinySpaceship.unity
     guid: 36fc9dadf4a1142afba7433124a28fd2
   - enabled: 1
-    path: Assets/TinySpaceship/Scenes/SubScenes/Main Camera.unity
+    path: Assets/Scenes/SubScenes/Main Camera.unity
     guid: 636f5c299902140a2b50cb418abb6a04
   - enabled: 1
-    path: Assets/TinySpaceship/Scenes/SubScenes/SubScene.unity
+    path: Assets/Scenes/SubScenes/SubScene.unity
     guid: cca1e09795602416a974a42372e0d08b
   m_configObjects:
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: bc2d4be77480e49f18e8f24d442651db,

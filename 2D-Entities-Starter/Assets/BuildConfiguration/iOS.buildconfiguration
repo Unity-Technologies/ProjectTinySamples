@@ -1,0 +1,21 @@
+{
+    "Dependencies": [
+        "GlobalObjectId_V1-1-5701091149bdc42b484d543bf288d740-93214019566545601-0"
+    ],
+    "Components": [
+        {
+            "$type": "Unity.Build.DotsRuntime.DotsRuntimeBuildProfile, Unity.Build.DotsRuntime",
+            "Target": "ios",
+            "Configuration": 2,
+            "UseNewPipeline": false,
+            "PipelineConstructor": null
+        },
+        {
+            "$type": "Unity.Build.Common.ApplicationIdentifier, Unity.Build",
+            "PackageName": "com.CompanyName.ProductName"
+        },
+        {
+            "$type": "Unity.Build.iOS.iOSExportProject, Unity.Build.iOS"
+        }
+    ]
+}

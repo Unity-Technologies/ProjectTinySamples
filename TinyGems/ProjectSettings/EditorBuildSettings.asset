@@ -6,12 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/TinyGems/Scenes/TinyGems.unity
+    path: Assets/Scenes/TinyGems.unity
     guid: f17be26d84eed4a7886804c2b15424d4
   - enabled: 1
-    path: Assets/TinyGems/Scenes/SubScenes/SubScene.unity
+    path: Assets/Scenes/SubScenes/SubScene.unity
     guid: bf1112f89f30a49edb06511794420c3b
   - enabled: 1
-    path: Assets/TinyGems/Scenes/SubScenes/Main Camera.unity
+    path: Assets/Scenes/SubScenes/Main Camera.unity
     guid: 02e193a5349444a7d8eccb1d72e96122
   m_configObjects: {}

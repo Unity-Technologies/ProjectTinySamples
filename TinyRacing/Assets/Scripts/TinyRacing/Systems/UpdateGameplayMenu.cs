@@ -123,7 +123,7 @@ namespace TinyRacing.Systems
                 timestr.Append(min / 10);
             }
             timestr.Append(min % 10);
-            timestr.AppendFrom(new FixedString32(":"));
+            timestr.Append(':');
 
             timestr.Append(sec / 10);
             timestr.Append(sec % 10);
@@ -132,13 +132,13 @@ namespace TinyRacing.Systems
             {
                 //var ms = (int)math.floor((time - (min * 60.0) - sec) * 1000.0f);
                 var ms = (int)math.floor((time - (min * 60.0) - sec) * 100.0f);
-                timestr.AppendFrom(new FixedString32("."));
+                timestr.Append('.');
                 //if (ms < 1000.0)
-                //    timestr.AppendFrom(new FixedString32("0"));
+                //    timestr.Append('0')
                 //if (ms < 100.0)
-                //    timestr.AppendFrom(new FixedString32("0"));
+                //    timestr.Append('0')
                 if (ms < 10.0)
-                    timestr.AppendFrom(new FixedString32("0"));
+                    timestr.Append('0');
                 timestr.Append(ms);
             }
         }
@@ -148,12 +148,12 @@ namespace TinyRacing.Systems
             FixedString32 timestr = default;
             if (time < 0.0f)
             {
-                timestr.AppendFrom(new FixedString32("-"));
+                timestr.Append('-');
                 time = -time;
             }
             else if (includeSign && math.abs(time) >= 0.00)
             {
-                timestr.AppendFrom(new FixedString32("+"));
+                timestr.Append('+');
             }
 
             AppendTime(ref timestr, time, includeMilliseconds);
