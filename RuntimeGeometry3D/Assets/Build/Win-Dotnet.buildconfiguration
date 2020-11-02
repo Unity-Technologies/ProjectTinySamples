@@ -4,11 +4,21 @@
     ],
     "Components": [
         {
-            "$type": "Unity.Build.DotsRuntime.DotsRuntimeBuildProfile, Unity.Build.DotsRuntime",
+            "$type": "Unity.Entities.Runtime.Build.DotsRuntimeBuildProfile, Unity.Entities.Runtime.Build",
             "Target": "windows-dotnet",
             "Configuration": 2,
             "UseNewPipeline": false,
             "PipelineConstructor": null
+        },
+        {
+            "$type": "Unity.Tiny.Rendering.Settings.TinyRenderingSettings, Unity.Tiny.Rendering.Authoring",
+            "ResolutionX": 1920,
+            "ResolutionY": 1080,
+            "RenderGraphMode": 1,
+            "MaxResolution": 2048,
+            "AutoResizeFrame": true,
+            "DisableVsync": false,
+            "GPUSkinning": false
         }
     ]
 }

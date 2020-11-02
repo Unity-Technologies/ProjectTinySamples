@@ -2,7 +2,7 @@ using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Tiny.Rendering;
 using Unity.Transforms;
-using Unity.U2D.Entities;
+using Unity.Tiny;
 using Unity.U2D.Entities.Physics;
 
 namespace Unity.Spaceship

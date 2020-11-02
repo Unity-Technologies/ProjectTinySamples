@@ -10,7 +10,6 @@ namespace TinyRacing.Systems
     /// <summary>
     ///     Update the race ending UI menu
     /// </summary>
-    [UpdateAfter(typeof(ResetRace))]
     [UpdateAfter(typeof(TransformSystemGroup))]
     public class UpdateGameOverMenu : SystemBase
     {

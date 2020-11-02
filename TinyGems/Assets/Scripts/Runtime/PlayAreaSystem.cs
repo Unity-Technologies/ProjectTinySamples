@@ -44,7 +44,7 @@ namespace Unity.TinyGems
 
         private void SpawnPlayArea()
         {
-            var cmdBuffer = new EntityCommandBuffer(Allocator.Temp);
+            var cmdBuffer = new EntityCommandBuffer(Allocator.TempJob);
             var cellManager = GetSingleton<CellManager>();
 
             for (var x = 0; x < cellManager.MaxCol; x++)
@@ -63,6 +63,7 @@ namespace Unity.TinyGems
             }
             
             cmdBuffer.Playback(EntityManager);
+            cmdBuffer.Dispose();
         }
     }
 }

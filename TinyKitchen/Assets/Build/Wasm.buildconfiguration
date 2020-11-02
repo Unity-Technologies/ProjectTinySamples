@@ -1,0 +1,30 @@
+{
+    "Dependencies": [
+        "GlobalObjectId_V1-1-f5f0e92c767c6a044a8aed00381b08f1-93214019566545601-0"
+    ],
+    "Components": [
+        {
+            "$type": "Unity.Build.DotsRuntime.DotsRuntimeBuildProfile, Unity.Build.DotsRuntime",
+            "Target": "wasm",
+            "Configuration": 2,
+            "UseNewPipeline": false,
+            "PipelineConstructor": null
+        },
+        {
+            "$type": "Unity.Entities.Runtime.Build.DotsRuntimeBurstSettings, Unity.Entities.Runtime.Build",
+            "EnableBurst": false
+        },
+        {
+            "$type": "Unity.Build.Web.DotsRuntime.WasmOutputSettings, Unity.Build.Web.DotsRuntime",
+            "OutputSingleHTMLFile": false,
+            "MinifyHTMLFile": true,
+            "MinifyOutputWithClosure": false,
+            "EmbedCpuProfiler": false,
+            "EmbedMemoryProfiler": false,
+            "IncludeSymbolsForBrowserCallstacks": false,
+            "EmitRuntimeMemoryDebugChecks": false,
+            "EmitRuntimeAllocationDebugChecks": false,
+            "WebTemplateFolder": "Assets/WebTemplate"
+        }
+    ]
+}

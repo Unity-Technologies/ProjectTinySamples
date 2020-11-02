@@ -16,7 +16,6 @@ namespace TinyRacing.Systems
     /// <summary>
     ///     Update the main menu UI
     /// </summary>
-    [UpdateBefore(typeof(ResetRace))]
     [UpdateAfter(typeof(TransformSystemGroup))]
     public class UpdateMainMenu : SystemBase
     {

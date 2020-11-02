@@ -15,7 +15,7 @@ namespace Unity.TinyGems
 
         protected override void OnUpdate()
         {
-            var cmdBuffer = new EntityCommandBuffer(Allocator.Temp);
+            var cmdBuffer = new EntityCommandBuffer(Allocator.TempJob);
             var cellMan = GetSingleton<CellManager>();
             Entities
                 .WithAll<CenterObjectTag>()
@@ -31,6 +31,7 @@ namespace Unity.TinyGems
             }).Run();
             
             cmdBuffer.Playback(EntityManager);
+            cmdBuffer.Dispose();
         }
     }
 }

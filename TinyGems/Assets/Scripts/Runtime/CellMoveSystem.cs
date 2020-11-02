@@ -22,7 +22,7 @@ namespace Unity.TinyGems
             if (gameState.State != GameState.Move)
                 return;
 
-            var cmdBuffer = new EntityCommandBuffer(Allocator.Temp);
+            var cmdBuffer = new EntityCommandBuffer(Allocator.TempJob);
             var somethingMoved = false;
             
             var deltaTime = Time.DeltaTime;
@@ -58,6 +58,7 @@ namespace Unity.TinyGems
             }
             
             cmdBuffer.Playback(EntityManager);
+            cmdBuffer.Dispose();
         }
     }
 }

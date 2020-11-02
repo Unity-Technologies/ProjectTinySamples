@@ -20,7 +20,7 @@ namespace Unity.TinyGems
                  return;
              
              var cellManager = GetSingleton<CellManager>();
-             var cmdBuffer = new EntityCommandBuffer(Allocator.Temp);
+             var cmdBuffer = new EntityCommandBuffer(Allocator.TempJob);
              
              for (var x = 0; x < cellManager.MaxCol; x++)
              {
@@ -60,6 +60,7 @@ namespace Unity.TinyGems
              SetSingleton(gameState);
              
              cmdBuffer.Playback(EntityManager);
+             cmdBuffer.Dispose();
          }
     }
 }

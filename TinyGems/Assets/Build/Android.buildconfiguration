@@ -1,0 +1,18 @@
+{
+    "Dependencies": [
+        "GlobalObjectId_V1-1-3f84da170ee964108b9a1db3f39c6b0a-93214019566545601-0"
+    ],
+    "Components": [
+        {
+            "$type": "Unity.Build.DotsRuntime.DotsRuntimeBuildProfile, Unity.Build.DotsRuntime",
+            "Target": "android_armv7",
+            "Configuration": 2,
+            "UseNewPipeline": false,
+            "PipelineConstructor": null
+        },
+        {
+            "$type": "Unity.Build.Android.AndroidArchitectures, Unity.Build.Android",
+            "Architectures": 2
+        }
+    ]
+}

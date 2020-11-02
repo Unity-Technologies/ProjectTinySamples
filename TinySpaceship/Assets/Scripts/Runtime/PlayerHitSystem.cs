@@ -10,7 +10,7 @@ namespace Unity.Spaceship
         protected override void OnCreate()
         {
             base.OnCreate();
-            
+
             RequireSingletonForUpdate<GameState>();
         }
 
@@ -19,7 +19,7 @@ namespace Unity.Spaceship
             var gameState = GetSingleton<GameState>();
             if (gameState.Value != GameStates.InGame)
                 return;
-            
+
             var gameStateEntity = GetSingletonEntity<GameState>();
 
             var physicsWorldSystem = World.GetExistingSystem<PhysicsWorldSystem>();
@@ -30,10 +30,10 @@ namespace Unity.Spaceship
                 .WithAll<Player>()
                 .WithoutBurst()
                 .ForEach((
-                    Entity e,
-                    ref PhysicsColliderBlob collider,
-                    ref Translation tr,
-                    ref Rotation rot) =>
+                    in Entity e,
+                    in PhysicsColliderBlob collider,
+                    in Translation tr,
+                    in Rotation rot) =>
                 {
                     // check with player
                     if (physicsWorld.OverlapCollider(
@@ -46,7 +46,7 @@ namespace Unity.Spaceship
                         out OverlapColliderHit hit))
                     {
                         wasPlayerHit = true;
-                        
+
                         // stop everything
                         EntityManager.SetComponentData(gameStateEntity, new GameState
                         {
@@ -54,7 +54,7 @@ namespace Unity.Spaceship
                         });
                     }
                 }).Run();
-            
+
             if(wasPlayerHit)
                 AudioUtils.PlaySound(EntityManager, AudioTypes.PlayerExplosion);
         }

@@ -1,0 +1,86 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8457800589045523982
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8457800589045523980}
+  - component: {fileID: 8457800589045523981}
+  - component: {fileID: 6900899294567083052}
+  m_Layer: 0
+  m_Name: Settings
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8457800589045523980
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8457800589045523982}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8457800589045523981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8457800589045523982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fc255a92ed3b4478adfc9a08d7ff6c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputScale:
+    x: 0.7
+    y: 0.6
+  sensitivity: 0.7
+  launchHeight: 0.5
+  launchStrengthMultiplier: 1.25
+  maxAirtime: 1.5
+  launchRotateAmount: 0.01
+  transparentTime: 0.08
+  changeLevelTime: 0.5
+  potEdgeThickness: 0.2
+  maxInputAngle: 30
+  cameraFollowAmount:
+    x: 0.05
+    y: 0.01
+    z: 0.02
+  cameraTrackAmount: 0.01
+  cameraDamp: 4
+  launchExp: 1.5
+  heightExp: 4
+  effectTime: 0
+--- !u!114 &6900899294567083052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8457800589045523982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 032fd28a0b88bd94189332406bce9204, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelConfigurationData:
+  - {fileID: 11400000, guid: f27fe0df30ce0e34987e63d60f956a04, type: 2}
+  - {fileID: 11400000, guid: 6b74278027f9e4f96a75f838f89ad065, type: 2}
+  - {fileID: 11400000, guid: 96e1d1480bf9d4f53b8b8691f55ad737, type: 2}
+  - {fileID: 11400000, guid: 32a9b66bb1569421b9203de7125d3380, type: 2}
+  - {fileID: 11400000, guid: 65025d0dc5bdc45928257ebe53641311, type: 2}
+  - {fileID: 11400000, guid: e8a16855cb222477e8aa5a2327d51e48, type: 2}

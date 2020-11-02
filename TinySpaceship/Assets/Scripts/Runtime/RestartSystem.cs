@@ -2,7 +2,7 @@ using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Tiny.Input;
 using Unity.Transforms;
-using Unity.U2D.Entities;
+using Unity.Tiny;
 
 namespace Unity.Spaceship
 {
@@ -10,20 +10,23 @@ namespace Unity.Spaceship
     {
         private EntityQuery m_AsteroidsQuery;
         private EntityQuery m_MissileQuery;
-    
+
         protected override void OnCreate()
         {
             base.OnCreate();
+
+            RequireSingletonForUpdate<GameState>();
             RequireSingletonForUpdate<HudShowState>();
+            RequireSingletonForUpdate<Player>();
 
             m_AsteroidsQuery = GetEntityQuery(new ComponentType[]
             {
-                ComponentType.ReadOnly<Asteroid>(), ComponentType.ReadOnly<SpriteRenderer>() 
+                ComponentType.ReadOnly<Asteroid>(), ComponentType.ReadOnly<SpriteRenderer>()
             });
-            
+
             m_MissileQuery = GetEntityQuery(new ComponentType[]
             {
-                ComponentType.ReadOnly<Missile>(), ComponentType.ReadOnly<SpriteRenderer>() 
+                ComponentType.ReadOnly<Missile>(), ComponentType.ReadOnly<SpriteRenderer>()
             });
         }
 
@@ -32,14 +35,14 @@ namespace Unity.Spaceship
             var gameState = GetSingleton<GameState>();
             var input = World.GetExistingSystem<InputSystem>();
             var playerEntity = GetSingletonEntity<Player>();
-            
-            if (gameState.Value == GameStates.Start 
+
+            if (gameState.Value == GameStates.Start
                 && IsPressingToStart(input))
             {
                 // remove all stuff
                 EntityManager.DestroyEntity(m_AsteroidsQuery);
                 EntityManager.DestroyEntity(m_MissileQuery);
-                
+
                 // put the ship back in the center
                 EntityManager.SetComponentData(playerEntity, new Translation
                 {
@@ -49,9 +52,9 @@ namespace Unity.Spaceship
                 {
                     Value = quaternion.identity
                 });
-                
-                AudioUtils.PlaySound(EntityManager, AudioTypes.ExtraShip);              
-                
+
+                AudioUtils.PlaySound(EntityManager, AudioTypes.ExtraShip);
+
                 gameState.Value = GameStates.InGame;
                 SetSingleton(gameState);
             }
@@ -60,7 +63,7 @@ namespace Unity.Spaceship
         private static bool IsPressingToStart(InputSystem input)
         {
             var isTouchSupported = input.IsTouchSupported();
-            
+
             if (isTouchSupported
                 && input.TouchCount() > 0
                 && input.GetTouch(0).phase == TouchState.Began)

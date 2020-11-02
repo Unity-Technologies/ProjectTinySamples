@@ -18,7 +18,8 @@
         "Unity.Tiny.RendererExtras",
         "Unity.Tiny.Main",
         "Unity.Tiny.EntryPoint",
-        "Unity.Entities.Runtime"
+        "Unity.Entities.Runtime",
+        "Unity.Scenes"
     ],
     "includePlatforms": [],
     "excludePlatforms": [
@@ -28,7 +29,7 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": false,
-    "defineConstraints": [],
+    "defineConstraints": ["UNITY_DOTSRUNTIME"],
     "versionDefines": [],
     "noEngineReferences": false
 }

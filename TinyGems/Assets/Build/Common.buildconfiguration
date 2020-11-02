@@ -1,0 +1,60 @@
+{
+    "Dependencies": [],
+    "Components": [
+        {
+            "$type": "Unity.Build.Common.GeneralSettings, Unity.Build",
+            "ProductName": "TinyGems",
+            "CompanyName": "Unity",
+            "Version": "1.0.0"
+        },
+        {
+            "$type": "Unity.Build.Common.SceneList, Unity.Build",
+            "$version": 1,
+            "BuildCurrentScene": false,
+            "SceneInfos": [
+                {
+                    "Scene": "GlobalObjectId_V1-1-f17be26d84eed4a7886804c2b15424d4-102900000-0",
+                    "AutoLoad": true
+                }
+            ]
+        },
+        {
+            "$type": "Unity.Tiny.Rendering.Settings.TinyRenderingSettings, Unity.Tiny.Rendering.Authoring",
+            "WindowSize": {
+                "x": 1920,
+                "y": 1080
+            },
+            "RenderResolution": {
+                "x": 1920,
+                "y": 1080
+            },
+            "RenderGraphMode": 2,
+            "MaxResolution": 2048,
+            "AutoResizeFrame": true,
+            "DisableVsync": false,
+            "GPUSkinning": false
+        },
+        {
+            "$type": "Unity.Build.DotsRuntime.DotsRuntimeRootAssembly, Unity.Build.DotsRuntime",
+            "BeeTargetOverride": null,
+            "RootAssembly": "GlobalObjectId_V1-1-589b3ebf5de584cbcbc67b722c196e7f-5897886265953266890-0"
+        },
+        {
+            "$type": "Unity.Entities.Runtime.Build.DotsRuntimeBurstSettings, Unity.Entities.Runtime.Build",
+            "EnableBurst": true
+        },
+        {
+            "$type": "Unity.Build.Common.ScreenOrientations, Unity.Build",
+            "DefaultOrientation": 4,
+            "AllowAutoRotateToPortrait": false,
+            "AllowAutoRotateToReversePortrait": false,
+            "AllowAutoRotateToLandscape": true,
+            "AllowAutoRotateToReverseLandscape": true
+        },
+        {
+            "$type": "Unity.Build.DotsRuntime.IL2CPPSettings, Unity.Build.DotsRuntime",
+            "ScriptDebugging": 2,
+            "WaitForDebugger": false
+        }
+    ]
+}

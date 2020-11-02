@@ -43,9 +43,9 @@ namespace TinyRacing.Systems
             Entities.WithNone<AI>().ForEach((ref Car car, ref PlayerTag playerTag) =>
             {
                 var currentSpeed = car.CurrentSpeed;
-                if (math.abs(currentSpeed) > 50)
+                if (math.abs(currentSpeed) > 5)
                 {
-                    _carEngineAudioSource.volume = math.min(.8f, currentSpeed / 1000.0f);
+                    _carEngineAudioSource.volume = math.min(.8f, currentSpeed / 100.0f);
                     EntityManager.SetComponentData(_audioCarEngineEntity, _carEngineAudioSource);
                     if (!_carEngineAudioSource.isPlaying)
                         EntityManager.AddComponent<AudioSourceStart>(_audioCarEngineEntity);
@@ -61,9 +61,9 @@ namespace TinyRacing.Systems
             Entities.ForEach((Entity entity, ref Car car, ref AudioAICarEngine engine, ref AudioSource audioSource) =>
             {
                 var currentSpeed = car.CurrentSpeed;
-                if ((currentSpeed > 50) && !car.IsEngineDestroyed)
+                if ((currentSpeed > 5) && !car.IsEngineDestroyed)
                 {
-                    audioSource.volume = math.min(.5f, currentSpeed / 1000.0f);
+                    audioSource.volume = math.min(.5f, currentSpeed / 100.0f);
                     if (!audioSource.isPlaying)
                         EntityManager.AddComponent<AudioSourceStart>(entity);
                 }

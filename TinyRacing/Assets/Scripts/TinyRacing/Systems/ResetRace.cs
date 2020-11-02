@@ -16,6 +16,8 @@ namespace TinyRacing.Systems
     /// <summary>
     ///     End the race and reset car positions when user presses Escape or exits the game over screen
     /// </summary>
+    [UpdateInGroup(typeof(SceneSystemGroup))]
+    [UpdateBefore(typeof(SceneSystem))]
     public class ResetRace : SystemBase
     {
 #if UNITY_DOTSRUNTIME
@@ -55,21 +57,19 @@ namespace TinyRacing.Systems
             }).WithoutBurst().Run();
 
 
-#if EXPERIMENTAL_SCENE_LOADING
             if(race.IsRaceFinished)
             {
                 var endingSceneEntity = GetSingletonEntity<EndingScene>();
                 var endingScene = EntityManager.GetComponentData<SceneReference>(endingSceneEntity);
-                sceneSystem.LoadSceneAsync(endingScene.SceneGUID, new SceneSystem.LoadParameters() { AutoLoad = true, Flags = SceneLoadFlags.LoadAdditive });
+                sceneSystem.LoadSceneAsync(endingScene.SceneGUID, new SceneSystem.LoadParameters() { AutoLoad = true });
             }
-#endif
 
             // Return to main menu when user exits the game over menu or press Escape
             if (Input.GetKeyDown(KeyCode.Escape) || isGameOverResetButtonPressed) // TODO: Use Tiny/DOTS inputs
             {
                 // Rendering seems to hold on to entities so this breaks
-                //var endingSceneEntity = GetSingletonEntity<EndingScene>();
-                //sceneSystem.UnloadScene(endingSceneEntity);
+                var endingSceneEntity = GetSingletonEntity<EndingScene>();
+                sceneSystem.UnloadScene(endingSceneEntity);
 
                 race.IsRaceStarted = false;
                 race.IsRaceFinished = false;

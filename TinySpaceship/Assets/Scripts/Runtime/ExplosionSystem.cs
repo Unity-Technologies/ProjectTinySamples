@@ -1,5 +1,5 @@
 using Unity.Entities;
-using Unity.U2D.Entities;
+using Unity.Tiny;
 
 namespace Unity.Spaceship
 {

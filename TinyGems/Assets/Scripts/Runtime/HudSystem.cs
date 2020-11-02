@@ -16,7 +16,7 @@ namespace Unity.TinyGems
         protected override void OnUpdate()
         {
             var activeScene = GetSingleton<ActiveScene>();
-            var cmdBuffer = new EntityCommandBuffer(Allocator.Temp);
+            var cmdBuffer = new EntityCommandBuffer(Allocator.TempJob);
 
             Entities
                 .ForEach((
@@ -36,6 +36,7 @@ namespace Unity.TinyGems
                 }).Run();
             
             cmdBuffer.Playback(EntityManager);
+            cmdBuffer.Dispose();
         }
     }
 }

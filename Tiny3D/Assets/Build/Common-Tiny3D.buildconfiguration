@@ -4,7 +4,8 @@
         {
             "$type": "Unity.Build.Common.GeneralSettings, Unity.Build",
             "ProductName": "Tiny3D",
-            "CompanyName": "Unity"
+            "CompanyName": "Unity",
+            "Version": "1.0.0"
         },
         {
             "$type": "Unity.Build.Common.SceneList, Unity.Build",
@@ -49,6 +50,11 @@
             "AllowAutoRotateToReversePortrait": true,
             "AllowAutoRotateToLandscape": false,
             "AllowAutoRotateToReverseLandscape": false
+        },
+        {
+            "$type": "Unity.Build.DotsRuntime.IL2CPPSettings, Unity.Build.DotsRuntime",
+            "ScriptDebugging": 2,
+            "WaitForDebugger": false
         }
     ]
 }

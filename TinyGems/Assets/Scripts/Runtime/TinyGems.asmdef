@@ -3,6 +3,7 @@
     "references": [
         "Unity.Entities",
         "Unity.Entities.Runtime",
+        "Unity.Scenes",
         "Unity.Transforms",
         "Unity.Mathematics",
         "Unity.Collections",
@@ -14,10 +15,8 @@
         "Unity.Tiny.Audio",
         "Unity.Tiny.Input",
         "Unity.Burst",
-        "Unity.2D.Entities",
-        "Unity.2D.Entities.Tiny",
-        "Unity.2D.Entities.SpriteRenderer",
-        "Unity.2D.Entities.SpriteRenderer.Tiny",
+        "Unity.Tiny.2D",
+        "Unity.Tiny.2D.Native",
         "Unity.2D.Entities.Physics"
     ],
     "includePlatforms": [],

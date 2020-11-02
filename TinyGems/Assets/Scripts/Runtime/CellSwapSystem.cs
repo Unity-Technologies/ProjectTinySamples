@@ -37,7 +37,7 @@ namespace Unity.TinyGems
             if (activeInput.Value.Cell == Entity.Null)
                 return;
 
-            var cmdBuffer = new EntityCommandBuffer(Allocator.Temp);
+            var cmdBuffer = new EntityCommandBuffer(Allocator.TempJob);
             var inputDelta = activeInput.Value.DeltaInput; 
             var cellA = activeInput.Value.Cell;
             var posA = EntityManager.GetComponentData<Cell>(cellA).Position;
@@ -87,6 +87,7 @@ namespace Unity.TinyGems
             SetSingleton(new ActiveInput());
             
             cmdBuffer.Playback(EntityManager);
+            cmdBuffer.Dispose();
         }
     }
 }

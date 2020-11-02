@@ -2,7 +2,7 @@ using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
 using Unity.Collections;
-using Unity.U2D.Entities;
+using Unity.Tiny;
 using System.Collections.Generic;
 
 namespace Unity.TinyGems
@@ -74,7 +74,7 @@ namespace Unity.TinyGems
             if (gameState.State != GameState.Spawn)
                 return;
 
-            var cmdBuffer = new EntityCommandBuffer(Allocator.Temp);
+            var cmdBuffer = new EntityCommandBuffer(Allocator.TempJob);
             var cellManagerEntity = GetSingletonEntity<CellManager>();
             var cellManager = GetSingleton<CellManager>();
             var cellSprites = EntityManager.GetBuffer<CellSprite>(cellManagerEntity);
@@ -121,6 +121,7 @@ namespace Unity.TinyGems
             SetSingleton(gameState);
             
             cmdBuffer.Playback(EntityManager);
+            cmdBuffer.Dispose();
         }
     }
 }

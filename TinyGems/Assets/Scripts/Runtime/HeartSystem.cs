@@ -28,7 +28,7 @@ namespace Unity.TinyGems
         protected override void OnUpdate()
         {
             var activeScene = GetSingleton<ActiveScene>();
-            m_CmdBuffer = new EntityCommandBuffer(Allocator.Temp);
+            m_CmdBuffer = new EntityCommandBuffer(Allocator.TempJob);
             
             if (activeScene.Value != m_CurrentScene)
                 SceneChangeUpdate(activeScene);
@@ -36,6 +36,7 @@ namespace Unity.TinyGems
                 HeartReduction();
             
             m_CmdBuffer.Playback(EntityManager);
+            m_CmdBuffer.Dispose();
         }
 
         private void SceneChangeUpdate(ActiveScene activeScene)

@@ -25,7 +25,7 @@ namespace Unity.Spaceship
 
             var explosions = GetSingleton<ExplosionSpawner>();
 
-            var cmdBuffer = new EntityCommandBuffer(Allocator.Temp);
+            var cmdBuffer = new EntityCommandBuffer(Allocator.TempJob);
 
             var didExplode = false;
              Entities.WithAll<Missile>()
@@ -58,6 +58,7 @@ namespace Unity.Spaceship
                 }).Run();
              
             cmdBuffer.Playback(EntityManager);
+            cmdBuffer.Dispose();
             
             if (didExplode)
             {

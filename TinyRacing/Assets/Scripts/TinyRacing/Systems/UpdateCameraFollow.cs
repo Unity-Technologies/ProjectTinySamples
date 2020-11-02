@@ -66,7 +66,7 @@ namespace TinyRacing.Systems
 #endif
 
             var deltaTime = math.clamp(Time.DeltaTime * 7f, 0, 1);
-            if (race.IsRaceStarted)
+            if (race.IsRaceStarted && !race.IsRaceFinished)
             {
                 cameraPos = math.lerp(cameraPos, targetPosition, deltaTime);
                 cameraRot = math.slerp(cameraRot, carRotation, deltaTime);
@@ -81,7 +81,7 @@ namespace TinyRacing.Systems
                 cameraRot = math.slerp(cameraRot, endingCameraRot, deltaTime);
             }
             else
-            {
+            { 
                 if (!IsDefaultCameraPositionSet)
                 {
                     DefaultCameraPosition = cameraPos;

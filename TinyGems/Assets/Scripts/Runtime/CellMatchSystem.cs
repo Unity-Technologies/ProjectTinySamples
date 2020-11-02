@@ -60,7 +60,7 @@ namespace Unity.TinyGems
             if (gameState.State != GameState.Match)
                 return;
 
-            m_CmdBuffer = new EntityCommandBuffer(Allocator.Temp);
+            m_CmdBuffer = new EntityCommandBuffer(Allocator.TempJob);
             var cellMan = GetSingleton<CellManager>();
             m_MatchCount = 0;
             
@@ -128,6 +128,7 @@ namespace Unity.TinyGems
             
             SetSingleton(gameState);
             m_CmdBuffer.Playback(EntityManager);
+            m_CmdBuffer.Dispose();
         }
 
         private AudioTypes GetMatchSound()

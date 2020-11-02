@@ -11,8 +11,12 @@
             "PipelineConstructor": null
         },
         {
-            "$type": "Unity.Build.Android.ApplicationIdentifier, Unity.Build.Android",
+            "$type": "Unity.Build.Common.ApplicationIdentifier, Unity.Build",
             "PackageName": "com.unity.RG3D"
+        },
+        {
+            "$type": "Unity.Build.Android.AndroidArchitectures, Unity.Build.Android",
+            "Architectures": 2
         }
     ]
 }

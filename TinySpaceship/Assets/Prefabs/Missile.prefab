@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8141171905561129601}
   - component: {fileID: -1775804360768986959}
   - component: {fileID: 3587199712338221151}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Missile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49,6 +49,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:

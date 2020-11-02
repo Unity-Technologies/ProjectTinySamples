@@ -11,13 +11,20 @@
             "PipelineConstructor": null
         },
         {
-            "$type": "Unity.Build.Web.DotsRuntime.EmscriptenSettings, Unity.Build.Web.DotsRuntime",
-            "EmccCmdLine": "-s TOTAL_MEMORY=128MB -s ALLOW_MEMORY_GROWTH=1",
-            "SingleFileOutput": false
-        },
-        {
             "$type": "Unity.Entities.Runtime.Build.DotsRuntimeBurstSettings, Unity.Entities.Runtime.Build",
             "EnableBurst": false
+        },
+        {
+            "$type": "Unity.Build.Web.DotsRuntime.WasmOutputSettings, Unity.Build.Web.DotsRuntime",
+            "OutputSingleHTMLFile": false,
+            "MinifyHTMLFile": true,
+            "MinifyOutputWithClosure": false,
+            "EmbedCpuProfiler": false,
+            "EmbedMemoryProfiler": false,
+            "IncludeSymbolsForBrowserCallstacks": false,
+            "EmitRuntimeMemoryDebugChecks": false,
+            "EmitRuntimeAllocationDebugChecks": false,
+            "WebTemplateFolder": ""
         }
     ]
 }

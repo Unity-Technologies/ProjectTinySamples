@@ -12,7 +12,6 @@ namespace TinyRacing.Systems
     /// <summary>
     ///     Update start of race countdown label, rank labels and lap labels
     /// </summary>
-    [UpdateAfter(typeof(ResetRace))]
     [UpdateAfter(typeof(TransformSystemGroup))]
     public class UpdateGameplayMenu : SystemBase
     {

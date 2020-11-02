@@ -1,0 +1,29 @@
+{
+    "name": "Tiny2D",
+    "references": [
+        "Unity.Entities",
+        "Unity.Transforms",
+        "Unity.Mathematics",
+        "Unity.Scenes",
+        "Unity.Collections",
+        "Unity.Jobs",
+        "Unity.Tiny.Core",
+        "Unity.Tiny.Rendering",
+        "Unity.Tiny.Audio",
+        "Unity.Tiny.Input",
+        "Unity.Burst",
+        "Unity.Tiny.2D",
+        "Unity.Tiny.2D.Native",
+        "Unity.Tiny.Image2D",
+        "Unity.Entities.Runtime"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

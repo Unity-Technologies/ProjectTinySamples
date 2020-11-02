@@ -4,7 +4,7 @@
     ],
     "Components": [
         {
-            "$type": "Unity.Entities.Runtime.Build.DotsRuntimeBuildProfile, Unity.Entities.Runtime.Build",
+            "$type": "Unity.Build.DotsRuntime.DotsRuntimeBuildProfile, Unity.Build.DotsRuntime",
             "Target": "windows-dotnet",
             "Configuration": 2,
             "UseNewPipeline": false,

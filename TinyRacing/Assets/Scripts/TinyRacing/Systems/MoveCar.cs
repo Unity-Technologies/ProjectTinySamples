@@ -38,12 +38,12 @@ namespace TinyRacing.Systems
                         if (hasSpeedBoost)
                             car.CurrentSpeed = maxSpeed * speedMultiplier.Multiplier;
 
-                        var currentVelocity = localToWorld.Forward * car.CurrentSpeed * deltaTime;
+                        var currentVelocity = localToWorld.Forward * car.CurrentSpeed;
                         velocity.Linear = new float3(currentVelocity.x, velocity.Linear.y, currentVelocity.z);
                         var rotationSpeed = 0f;
                         if (math.abs(car.CurrentSpeed) > 0.2f)
                         {
-                            rotationSpeed = inputs.HorizontalAxis * car.RotationSpeed * deltaTime;
+                            rotationSpeed = inputs.HorizontalAxis * car.RotationSpeed;
                         }
                         var angular = new float3(0f, rotationSpeed, 0f);
                         //Change the steering direction on reverse

@@ -49,8 +49,8 @@ namespace TinyPhysics.Systems
 
             public void Execute(CollisionEvent collisionEvent)
             {
-                var entityA = collisionEvent.Entities.EntityA;
-                var entityB = collisionEvent.Entities.EntityB;
+                var entityA = collisionEvent.EntityA;
+                var entityB = collisionEvent.EntityB;
 
                 UpdateCollideable(entityA, entityB);
                 UpdateCollideable(entityB, entityA);

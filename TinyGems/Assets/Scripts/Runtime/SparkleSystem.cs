@@ -1,7 +1,7 @@
 using Unity.Entities;
 using Unity.Transforms;
 using Unity.Mathematics;
-using Unity.U2D.Entities;
+using Unity.Tiny;
 
 namespace Unity.TinyGems
 {
