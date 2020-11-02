@@ -22,7 +22,19 @@ Intended as a lightweight example of the type of content you can build with Proj
     <img src="./res/TinyRacingTrailer.gif">
 </p>
 <p align="center"> 
-    <a href="https://tiny.vision/">
+    <a href="https://tiny.vision/demos/TinyRacing">
+        <img src="./res/Trynow.jpg">
+    </a>
+</p>
+
+## TinyKitchen
+Uses physics to showcase simple game play with colorful level design and advanced authoring workflow. In addition to that Tiny Kitchen uses custom web template.
+
+<p align="center"> 
+    <img src="./res/TinyKitchen.gif">
+</p>
+<p align="center"> 
+    <a href="https://tiny.vision/demos/TinyKitchen">
         <img src="./res/Trynow.jpg">
     </a>
 </p>
