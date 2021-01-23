@@ -17,7 +17,8 @@
         "Unity.Tiny.Animation",
         "Unity.Tiny.Particles",
         "Unity.Entities.Runtime",
-        "Unity.Scenes"
+        "Unity.Scenes",
+        "Unity.Tiny.Image2D"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

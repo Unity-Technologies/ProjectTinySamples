@@ -7,11 +7,11 @@ Current samples:
 A "Hello World" style sample with minimal assets & code. It's a great starting point for a new "clean" project.
 
 <p align="center"> 
-    <img src="./res/Tiny3DHelloWorld.gif">
+    <img src="./res/Tiny3D.gif">
 </p>
 <p align="center"> 
     <a href="https://tiny.vision/demos/Tiny3D">
-        <img src="./res/Trynow.jpg">
+        <img src="./res/Trynow.png">
     </a>
 </p>
 
@@ -23,9 +23,22 @@ Intended as a lightweight example of the type of content you can build with Proj
 </p>
 <p align="center"> 
     <a href="https://tiny.vision/demos/TinyRacing">
-        <img src="./res/Trynow.jpg">
+        <img src="./res/Trynow.png">
     </a>
 </p>
+
+## BlendShapeDemo 
+Demonstrates how to use the blendShape feature and showcases how to do a simple character selection.
+
+<p align="center"> 
+    <img src="./res/BlendShapeDemo.gif">
+</p>
+<p align="center"> 
+    <a href="https://tiny.vision/demos/BlendShapeDemo">
+        <img src="./res/Trynow.png">
+    </a>
+</p>
+
 
 ## TinyKitchen
 Uses physics to showcase simple game play with colorful level design and advanced authoring workflow. In addition to that Tiny Kitchen uses custom web template.
@@ -35,7 +48,7 @@ Uses physics to showcase simple game play with colorful level design and advance
 </p>
 <p align="center"> 
     <a href="https://tiny.vision/demos/TinyKitchen">
-        <img src="./res/Trynow.jpg">
+        <img src="./res/Trynow.png">
     </a>
 </p>
 
@@ -47,7 +60,7 @@ Illustrates how to combine simple Unity Physics behaviors and common input metho
 </p>
 <p align="center"> 
     <a href="https://tiny.vision/demos/TinyPhysics">
-        <img src="./res/Trynow.jpg">
+        <img src="./res/Trynow.png">
     </a>
 </p>
 
@@ -60,7 +73,7 @@ Demonstrates how to use in-game text rendering, Skinned mesh renderer and how to
 </p>
 <p align="center"> 
     <a href="https://tiny.vision/demos/TinyTime">
-        <img src="./res/Trynow.jpg">
+        <img src="./res/Trynow.png">
     </a>
 </p>
 
@@ -72,7 +85,7 @@ Demonstrates how Animations can be added to a scene (no code).
 </p>
 <p align="center"> 
     <a href="https://tiny.vision/demos/TinyFactory">
-        <img src="./res/Trynow.jpg">
+        <img src="./res/Trynow.png">
     </a>
 </p>
 
@@ -84,7 +97,7 @@ Demonstrates Particle System the first iteration of the particle system which mi
 </p>
 <p align="center"> 
     <a href="https://tiny.vision/demos/TinyAquarium">
-        <img src="./res/Trynow.jpg">
+        <img src="./res/Trynow.png">
     </a>
 </p>
 
@@ -95,7 +108,7 @@ Demonstrates how to do Dynamic meshes creation at runtime.
 </p>
 <p align="center"> 
     <a href="https://tiny.vision/demos/RuntimeGeometry3D">
-        <img src="./res/Trynow.jpg">
+        <img src="./res/Trynow.png">
     </a>
 </p>
 
@@ -107,7 +120,7 @@ Demonstrates how to do Dynamic meshes creation at runtime.
 </p>
 <p align="center"> 
     <a href="https://tiny.vision/demos/TinyGems">
-        <img src="./res/Trynow.jpg">
+        <img src="./res/Trynow.png">
     </a>
 </p>
 
@@ -116,6 +129,6 @@ Demonstrates how to do Dynamic meshes creation at runtime.
 </p>
 <p align="center"> 
     <a href="https://tiny.vision/demos/TinySpaceship">
-        <img src="./res/Trynow.jpg">
+        <img src="./res/Trynow.png">
     </a>
 </p>
