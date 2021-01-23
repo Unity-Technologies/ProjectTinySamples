@@ -10,7 +10,6 @@
         "Unity.Entities.Hybrid",
         "Unity.Collections",
         "TinyRacing",
-        "TinyRacing.Hybrid",
         "Unity.Tiny.Rendering",
         "Unity.Tiny.Core",
         "Unity.Build",

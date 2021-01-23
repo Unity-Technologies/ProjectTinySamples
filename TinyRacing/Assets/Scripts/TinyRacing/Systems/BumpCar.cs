@@ -1,7 +1,6 @@
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
-using Unity.Jobs;
 using Unity.Physics;
 using Unity.Physics.Systems;
 
@@ -10,7 +9,7 @@ namespace TinyRacing.Systems
     /// <summary>
     ///     Detect when the player's car bumps into an AI car to destroy their engine.
     /// </summary>
-    [UpdateAfter(typeof(EndFramePhysicsSystem))]
+    [UpdateInGroup(typeof(SimulationSystemGroup))]
     public class BumpCar : SystemBase
     {
         private BuildPhysicsWorld _buildPhysicsWorldSystem;
@@ -19,7 +18,7 @@ namespace TinyRacing.Systems
         protected override void OnCreate()
         {
             base.OnCreate();
-            RequireSingletonForUpdate<PlayerTag>();
+            RequireSingletonForUpdate<Player>();
             _buildPhysicsWorldSystem = World.GetOrCreateSystem<BuildPhysicsWorld>();
             _stepPhysicsWorldSystem = World.GetOrCreateSystem<StepPhysicsWorld>();
         }
@@ -30,7 +29,7 @@ namespace TinyRacing.Systems
             {
                 AIGroup = GetComponentDataFromEntity<AI>(true),
                 CarGroup = GetComponentDataFromEntity<Car>(),
-                PlayerGroup = GetComponentDataFromEntity<PlayerTag>()
+                PlayerGroup = GetComponentDataFromEntity<Player>()
             }.Schedule(_stepPhysicsWorldSystem.Simulation, ref _buildPhysicsWorldSystem.PhysicsWorld, Dependency);
         }
 
@@ -39,15 +38,21 @@ namespace TinyRacing.Systems
         {
             [ReadOnly] public ComponentDataFromEntity<AI> AIGroup;
             public ComponentDataFromEntity<Car> CarGroup;
-            [ReadOnly] public ComponentDataFromEntity<PlayerTag> PlayerGroup;
+            [ReadOnly] public ComponentDataFromEntity<Player> PlayerGroup;
 
             public Entity GetEntityFromComponentGroup<T>(Entity entityA, Entity entityB,
                 ComponentDataFromEntity<T> componentGroup) where T : struct, IComponentData
             {
                 if (componentGroup.HasComponent(entityA))
+                {
                     return entityA;
+                }
+
                 if (componentGroup.HasComponent(entityB))
+                {
                     return entityB;
+                }
+
                 return Entity.Null;
             }
 

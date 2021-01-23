@@ -1,11 +1,10 @@
 using Unity.Burst;
 using Unity.Collections;
+using Unity.Collections.LowLevel.Unsafe;
 using Unity.Entities;
-using Unity.Jobs;
 using Unity.Physics;
 using Unity.Physics.Systems;
 using Unity.Tiny.Audio;
-using Unity.Collections.LowLevel.Unsafe;
 
 namespace TinyRacing.Systems
 {
@@ -13,7 +12,7 @@ namespace TinyRacing.Systems
     ///     Detect when a car with the SpeedMultiplier component is near a BoostPad to give
     ///     it a temporary speed boost.
     /// </summary>
-    [UpdateAfter(typeof(EndFramePhysicsSystem))]
+    [UpdateInGroup(typeof(SimulationSystemGroup))]
     public class EnterBoostPad : SystemBase
     {
         private BuildPhysicsWorld _buildPhysicsWorldSystem;
@@ -33,7 +32,7 @@ namespace TinyRacing.Systems
             {
                 BoostPadGroup = GetComponentDataFromEntity<BoostPad>(true),
                 AudioSourceGroup = GetComponentDataFromEntity<AudioSource>(true),
-                PlayerGroup = GetComponentDataFromEntity<PlayerTag>(true),
+                PlayerGroup = GetComponentDataFromEntity<Player>(true),
                 SpeedMultiplierGroup = GetComponentDataFromEntity<SpeedMultiplier>(),
                 EntityCommandBuffer = _entityCommandBufferSystem.CreateCommandBuffer()
             }.Schedule(_stepPhysicsWorldSystem.Simulation, ref _buildPhysicsWorldSystem.PhysicsWorld, Dependency);
@@ -45,7 +44,7 @@ namespace TinyRacing.Systems
         private struct EnterBoostPadJob : ITriggerEventsJob
         {
             [ReadOnly] public ComponentDataFromEntity<BoostPad> BoostPadGroup;
-            [ReadOnly] public ComponentDataFromEntity<PlayerTag> PlayerGroup;
+            [ReadOnly] public ComponentDataFromEntity<Player> PlayerGroup;
             public EntityCommandBuffer EntityCommandBuffer;
             [ReadOnly] public ComponentDataFromEntity<AudioSource> AudioSourceGroup;
 
@@ -59,9 +58,15 @@ namespace TinyRacing.Systems
                 ComponentDataFromEntity<T> componentGroup) where T : struct, IComponentData
             {
                 if (componentGroup.HasComponent(entityA))
+                {
                     return entityA;
+                }
+
                 if (componentGroup.HasComponent(entityB))
+                {
                     return entityB;
+                }
+
                 return Entity.Null;
             }
 
@@ -83,7 +88,9 @@ namespace TinyRacing.Systems
 
                     var isPlaying = AudioSourceGroup[boostPadEntity].isPlaying;
                     if (PlayerGroup.HasComponent(speedMultiplierEntity) && !isPlaying)
+                    {
                         EntityCommandBuffer.AddComponent<AudioSourceStart>(boostPadEntity);
+                    }
                 }
             }
         }

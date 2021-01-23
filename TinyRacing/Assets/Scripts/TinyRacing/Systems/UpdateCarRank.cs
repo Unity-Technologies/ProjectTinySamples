@@ -11,49 +11,52 @@ namespace TinyRacing.Systems
     public class UpdateCarRank : SystemBase
     {
         private Entity _playerCarEntity;
+
         protected override void OnStartRunning()
         {
             base.OnStartRunning();
-            _playerCarEntity = GetSingletonEntity<PlayerTag>();
-        }
-
-        struct EntityAndProgress
-        {
-            public Entity car;
-            public float progress;
-        }
-
-        struct EntityAndProgressComparer : IComparer<EntityAndProgress>
-        {
-            public int Compare(EntityAndProgress x, EntityAndProgress y)
-            {
-                return y.progress.CompareTo(x.progress);
-            }
+            _playerCarEntity = GetSingletonEntity<Player>();
         }
 
         protected override void OnUpdate()
         {
             var race = GetSingleton<Race>();
-            if (race.IsRaceFinished || !race.IsRaceStarted)
+            if (!race.IsInProgress())
+            {
                 return;
+            }
 
             var progress = new NativeList<EntityAndProgress>(race.NumCars, Allocator.Temp);
             progress.ResizeUninitialized(race.NumCars);
 
-            int carIndex = 0;
+            var carIndex = 0;
             Entities.WithAll<Car>().ForEach((Entity entity, ref LapProgress lapProgress) =>
             {
-                progress[carIndex] = new EntityAndProgress { car = entity, progress = lapProgress.TotalProgress };
+                progress[carIndex] = new EntityAndProgress {car = entity, progress = lapProgress.TotalProgress};
                 carIndex++;
             }).WithoutBurst().Run();
 
             progress.Sort(new EntityAndProgressComparer());
 
-            for (int i = 0; i < race.NumCars; ++i)
+            for (var i = 0; i < race.NumCars; ++i)
             {
                 var rank = GetComponent<CarRank>(progress[i].car);
                 rank.Value = i + 1;
                 SetComponent(progress[i].car, rank);
+            }
+        }
+
+        private struct EntityAndProgress
+        {
+            public Entity car;
+            public float progress;
+        }
+
+        private struct EntityAndProgressComparer : IComparer<EntityAndProgress>
+        {
+            public int Compare(EntityAndProgress x, EntityAndProgress y)
+            {
+                return y.progress.CompareTo(x.progress);
             }
         }
     }

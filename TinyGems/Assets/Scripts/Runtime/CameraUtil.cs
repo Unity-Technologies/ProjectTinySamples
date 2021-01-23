@@ -14,7 +14,7 @@ namespace Unity.TinyGems
         {
 #if UNITY_DOTSRUNTIME
             var screenToWorldSystem = world.GetExistingSystem<ScreenToWorld>();
-            var worldPoint = screenToWorldSystem.ScreenSpaceToWorldSpacePos(screenPoint, k_NearClip, ScreenToWorldId.Sprites);
+            var worldPoint = screenToWorldSystem.ScreenSpaceToWorldSpacePos(screenPoint, k_NearClip);
             return worldPoint.xy;
 #else
             if (UnityEngine.Camera.main == null)

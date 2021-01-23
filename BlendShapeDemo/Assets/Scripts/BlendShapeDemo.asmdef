@@ -1,0 +1,29 @@
+{
+    "name": "BlendShapeDemo",
+    "references": [
+        "Unity.Burst",
+        "Unity.Entities",
+        "Unity.Mathematics",
+        "Unity.Transforms",
+        "Unity.Tiny.Core",
+        "Unity.Tiny.Input",
+        "Unity.Scenes",
+        "Unity.Entities.Runtime",
+        "Unity.Physics",
+        "Unity.Collections",
+        "Unity.Tiny.Animation",
+        "Unity.Tiny.Text",
+        "Unity.Tiny.Text.Authoring",
+        "Unity.Tiny.2D",
+        "Unity.Tiny.Rendering"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

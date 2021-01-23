@@ -15,12 +15,12 @@ public class SplineUtils
         var p2 = points[(firstPoint + 2) % points.Length];
         var p3 = points[(firstPoint + 3) % points.Length];
 
-        float3 a = 2f * p1;
-        float3 b = p2 - p0;
-        float3 c = 2f * p0 - 5f * p1 + 4f * p2 - p3;
-        float3 d = -p0 + 3f * p1 - 3f * p2 + p3;
+        var a = 2f * p1;
+        var b = p2 - p0;
+        var c = 2f * p0 - 5f * p1 + 4f * p2 - p3;
+        var d = -p0 + 3f * p1 - 3f * p2 + p3;
 
-        return 0.5f * (a + (b * t) + (c * t * t) + (d * t * t * t));
+        return 0.5f * (a + b * t + c * t * t + d * t * t * t);
     }
 
     public static float3 GetTangent(NativeArray<float3> points, int firstPoint, float t)

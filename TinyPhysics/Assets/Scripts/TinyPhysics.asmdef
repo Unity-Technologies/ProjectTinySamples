@@ -14,7 +14,8 @@
         "Unity.Tiny.Input",
         "Unity.Tiny.Rendering",
         "Unity.Tiny.RendererExtras",
-        "Unity.Tiny.Rendering.Native"
+        "Unity.Tiny.Rendering.Native",
+        "Unity.Tiny.Animation"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

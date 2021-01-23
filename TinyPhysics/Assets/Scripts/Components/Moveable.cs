@@ -8,5 +8,6 @@ namespace TinyPhysics
     {
         public float moveForce;
         public float3 moveDirection;
+        public bool isGrounded;
     }
 }

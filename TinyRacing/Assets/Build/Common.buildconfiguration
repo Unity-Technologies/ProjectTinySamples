@@ -43,9 +43,7 @@
             "$type": "Unity.Entities.Runtime.Build.DotsRuntimeScriptingSettings, Unity.Entities.Runtime.Build",
             "EnableSafetyChecks": 0,
             "EnableProfiler": 0,
-            "ScriptingDefines": [
-                "UNITY_DOTSRUNTIME_EXPERIMENTAL_FIXED_SIM"
-            ],
+            "ScriptingDefines": [],
             "EnableMultithreading": false
         },
         {

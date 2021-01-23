@@ -25,6 +25,12 @@
             "EmitRuntimeMemoryDebugChecks": false,
             "EmitRuntimeAllocationDebugChecks": false,
             "WebTemplateFolder": ""
+        },
+        {
+            "$type": "Unity.Build.Web.DotsRuntime.WasmMemorySettings, Unity.Build.Web.DotsRuntime",
+            "WasmStackSize": "512KB",
+            "WasmMemorySize": "128MB",
+            "AllowWasmMemoryGrowth": true
         }
     ]
 }

@@ -12,7 +12,8 @@
         "Unity.Tiny.Particles",
         "Unity.Tiny.Animation",
         "Unity.Entities.Runtime",
-        "Unity.Scenes"
+        "Unity.Scenes",
+        "Unity.Tiny.UI"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

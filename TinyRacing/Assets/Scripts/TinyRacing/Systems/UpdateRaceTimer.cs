@@ -1,5 +1,4 @@
 using Unity.Entities;
-using Unity.Jobs;
 
 namespace TinyRacing.Systems
 {
@@ -13,8 +12,9 @@ namespace TinyRacing.Systems
         protected override void OnUpdate()
         {
             var race = GetSingleton<Race>();
-
-            if (!race.IsRaceStarted)
+            var player = GetSingletonEntity<Player>();
+            var playerRank = GetComponent<CarRank>(player);
+            if (!race.IsInProgress())
             {
                 RaceWasStarted = false;
                 return;
@@ -28,10 +28,29 @@ namespace TinyRacing.Systems
             }
 
             if (race.CountdownTimer <= 0f)
+            {
                 race.RaceTimer += Time.DeltaTime;
+            }
             else
+            {
                 race.CountdownTimer -= Time.DeltaTime;
+            }
 
+            // Find either the leader's time, or the second car's time
+            Entities.ForEach((Entity entity, ref CarRank rank, ref LapProgress progress) =>
+            {
+                // we only care if a car has completed one lap
+                if (progress.CurrentLap < 2)
+                {
+                    return;
+                }
+
+                // then we want either the #2 car's time if we're the lead, or the lead's car if we're not
+                if (playerRank.Value == 1 && rank.Value == 2 || playerRank.Value != 1 && rank.Value == 1)
+                {
+                    race.OthersLapTime = rank.LastLapTime;
+                }
+            }).WithStructuralChanges().Run();
             SetSingleton(race);
         }
 

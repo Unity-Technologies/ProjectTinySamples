@@ -312,11 +312,11 @@ namespace RuntimeGeometryExample
                     MeshHelper.SetAlbedoColor(
                         vBuffer.AsNativeArray().Reinterpret<DynamicLitVertex, LitVertex>(),
                         new float4(drawColor, 1));
-                    MeshBounds mb;
                     DynamicMeshData dmd = EntityManager.GetComponentData<DynamicMeshData>(eCurrentShape);
                     dmd.Dirty = true;
                     dmd.NumIndices = iBuffer.Length;
                     dmd.NumVertices = vBuffer.Length;
+                    MeshBounds mb;
                     mb.Bounds = MeshHelper.ComputeBounds(vBuffer.AsNativeArray().Reinterpret<DynamicLitVertex, LitVertex>());
                     EntityManager.SetComponentData<DynamicMeshData>(eCurrentShape, dmd);
                     EntityManager.SetComponentData(eCurrentShape, mb);

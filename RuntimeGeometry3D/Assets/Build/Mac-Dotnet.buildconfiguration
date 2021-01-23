@@ -2,16 +2,13 @@
     "Dependencies": [
         "GlobalObjectId_V1-1-09f53f67068e26e45bb9f9f518b6f419-93214019566545601-0"
     ],
-    "Components": [{
-        "$type": "Unity.Entities.Runtime.Build.DotsRuntimeBuildProfile, Unity.Entities.Runtime.Build",
-        "ShouldWriteDataFiles": true,
-        "EnableManagedDebugging": false,
-        "EnableMultiThreading": false,
-        "EnableBurst": true,
-        "RootAssembly": "GlobalObjectId_V1-1-d21fc88516fbee64cac01755046674cd-5897886265953266890-0",
-        "Target": "macos-dotnet",
-        "Configuration": 2,
-        "Pipeline": "GlobalObjectId_V1-1-56241f83dacec1141b7d967eb30bf934-93214019566545601-0",
-        "BeeTargetOverride": null
-    }]
+    "Components": [
+        {
+            "$type": "Unity.Build.DotsRuntime.DotsRuntimeBuildProfile, Unity.Build.DotsRuntime",
+            "Target": "macos-dotnet",
+            "Configuration": 2,
+            "UseNewPipeline": false,
+            "PipelineConstructor": null
+        }
+    ]
 }

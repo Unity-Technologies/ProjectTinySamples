@@ -40,7 +40,8 @@ namespace TinyPhysics.Systems
 
                 // Store center point of virtual joystick
                 var localToWorld = GetComponent<LocalToWorld>(pointerEntity);
-                var screenPosition = m_ScreenToWorld.WorldSpaceToScreenSpace(localToWorld.Position, ScreenToWorldId.MainCamera);
+                var mainCamera = GetSingletonEntity<Camera>();
+                var screenPosition = m_ScreenToWorld.WorldSpaceToScreenSpace(localToWorld.Position, mainCamera);
                 virtualJoystick.Center = new float2(screenPosition.x, screenPosition.y);
 
                 SetComponent(pointerEntity, virtualJoystick);

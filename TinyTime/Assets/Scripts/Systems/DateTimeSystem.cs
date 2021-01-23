@@ -2,6 +2,7 @@
 using Unity.Entities;
 using Unity.Tiny.Input;
 using Unity.Tiny.Text;
+using Unity.Tiny.UI;
 
 namespace TinyTime
 {
@@ -13,15 +14,13 @@ namespace TinyTime
         protected override void OnCreate()
         {
             RequireSingletonForUpdate<TimeData>();
-            RequireSingletonForUpdate<DateText>();
-            RequireSingletonForUpdate<TimeText>();
+
             base.OnCreate();
         }
 
         protected override void OnStartRunning()
         {
-            DateEntity = GetSingletonEntity<DateText>();
-            TimeEntity = GetSingletonEntity<TimeText>();
+
             base.OnStartRunning();
         }
 
@@ -31,6 +30,8 @@ namespace TinyTime
             var input = World.GetOrCreateSystem<InputSystem>();
             var timeData = GetSingleton<TimeData>();
             var hours = DateTime.Now.Hour;
+            DateEntity = World.GetExistingSystem<ProcessUIEvents>().GetEntityByUIName("DateText");
+            TimeEntity = World.GetExistingSystem<ProcessUIEvents>().GetEntityByUIName("TimeText");
             timeData.IsNightTime = hours < 6 || hours > 17;
 
             if (input.GetKey(KeyCode.Space) || (input.IsTouchSupported() && input.TouchCount() > 0))

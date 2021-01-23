@@ -44,6 +44,7 @@ namespace TinyPhysics.Systems
                     var collideable = CollideableGroup[entity];
                     collideable.CollisionEntity = collider;
                     CollideableGroup[entity] = collideable;
+                    UnityEngine.Debug.Log("Collide");
                 }
             }
 

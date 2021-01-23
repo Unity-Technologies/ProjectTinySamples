@@ -4,10 +4,11 @@
     ],
     "Components": [
         {
-            "$type": "Unity.Entities.Runtime.Build.DotsRuntimeBuildProfile, Unity.Entities.Runtime.Build",
+            "$type": "Unity.Build.DotsRuntime.DotsRuntimeBuildProfile, Unity.Build.DotsRuntime",
             "Target": "macos-dotnet",
             "Configuration": 2,
-            "Pipeline": "GlobalObjectId_V1-1-56241f83dacec1141b7d967eb30bf934-93214019566545601-0"
+            "UseNewPipeline": false,
+            "PipelineConstructor": null
         }
     ]
 }

@@ -23,50 +23,55 @@ namespace TinyRacing.Systems
         {
             base.OnStartRunning();
             var controlPointsEntities = ControlPointsQuery.ToEntityArray(Allocator.TempJob);
-            ControlPoints = EntityManager.GetBuffer<ControlPoints>(controlPointsEntities[0]).Reinterpret<float3>().ToNativeArray(Allocator.Persistent);
+            ControlPoints = EntityManager.GetBuffer<ControlPoints>(controlPointsEntities[0]).Reinterpret<float3>()
+                .ToNativeArray(Allocator.Persistent);
             controlPointsEntities.Dispose();
         }
 
         protected override void OnUpdate()
         {
             var race = GetSingleton<Race>();
-            if (!race.IsRaceStarted)
+            if (!race.IsInProgress())
+            {
                 return;
+            }
 
             var controlPoints = ControlPoints;
             var time = Time;
 
             // Schedule a parallel job to compute each car's position around the track
-            Dependency = Entities.ForEach((ref Car car, ref CarRank rank, ref LapProgress lapProgress, in Translation translation) =>
-            {
-                var carPosition = translation.Value;
-
-                // Find where the car is closest to the track
-                ComputeClosest(controlPoints, carPosition, out var closestDistance, out var closestSegmentIndex, out var closestPointOnSegment);
-
-                var currentPoint = controlPoints[closestSegmentIndex];
-                var nextPoint = controlPoints[(closestSegmentIndex + 1) % controlPoints.Length];
-                var currentSegmentProgress = math.distance(closestPointOnSegment, currentPoint) /
-                    math.distance(currentPoint, nextPoint);
-                var controlPointProgress = closestSegmentIndex + currentSegmentProgress;
-
-                // is this the beginning of the race and we just crossed the line?
-                if (lapProgress.CurrentControlPoint == -1 && controlPointProgress < 0.0f)
+            Dependency = Entities.ForEach(
+                (ref Car car, ref CarRank rank, ref LapProgress lapProgress, in Translation translation) =>
                 {
-                    return;
-                }
+                    var carPosition = translation.Value;
 
-                // did we just complete a lap?
-                if (controlPointProgress < 1f && lapProgress.CurrentControlPoint >= controlPoints.Length - 1)
-                {
-                    lapProgress.CurrentLap++;
-                    rank.LastLapTime = race.RaceTimer; //(float) (time.ElapsedTime - race.RaceStartTime);
-                }
+                    // Find where the car is closest to the track
+                    ComputeClosest(controlPoints, carPosition, out var closestDistance, out var closestSegmentIndex,
+                        out var closestPointOnSegment);
 
-                lapProgress.CurrentControlPoint = closestSegmentIndex;
-                lapProgress.CurrentControlPointProgress = currentSegmentProgress;
-                lapProgress.TotalProgress = lapProgress.CurrentLap * 1000f + controlPointProgress;
-            }).WithReadOnly(controlPoints).ScheduleParallel(Dependency);
+                    var currentPoint = controlPoints[closestSegmentIndex];
+                    var nextPoint = controlPoints[(closestSegmentIndex + 1) % controlPoints.Length];
+                    var currentSegmentProgress = math.distance(closestPointOnSegment, currentPoint) /
+                                                 math.distance(currentPoint, nextPoint);
+                    var controlPointProgress = closestSegmentIndex + currentSegmentProgress;
+
+                    // is this the beginning of the race and we just crossed the line?
+                    if (lapProgress.CurrentControlPoint == -1 && controlPointProgress < 0.0f)
+                    {
+                        return;
+                    }
+
+                    // did we just complete a lap?
+                    if (controlPointProgress < 1f && lapProgress.CurrentControlPoint >= controlPoints.Length - 1)
+                    {
+                        lapProgress.CurrentLap++;
+                        rank.LastLapTime = race.RaceTimer; //(float) (time.ElapsedTime - race.RaceStartTime);
+                    }
+
+                    lapProgress.CurrentControlPoint = closestSegmentIndex;
+                    lapProgress.CurrentControlPointProgress = currentSegmentProgress;
+                    lapProgress.TotalProgress = lapProgress.CurrentLap * 1000f + controlPointProgress;
+                }).WithReadOnly(controlPoints).ScheduleParallel(Dependency);
         }
 
         private static void ComputeClosest(NativeArray<float3> controlPoints,
@@ -103,9 +108,15 @@ namespace TinyRacing.Systems
             var distance = ABAPproduct / magnitudeAB;
 
             if (distance < 0)
+            {
                 return pA;
+            }
+
             if (distance > 1)
+            {
                 return pB;
+            }
+
             return pA + AB * distance;
         }
 

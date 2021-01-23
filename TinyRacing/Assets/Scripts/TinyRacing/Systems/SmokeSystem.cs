@@ -1,5 +1,4 @@
 using Unity.Entities;
-using Unity.Mathematics;
 using Unity.Transforms;
 
 namespace TinyRacing.Systems
@@ -14,18 +13,24 @@ namespace TinyRacing.Systems
             var deltaTime = Time.DeltaTime;
             Entities.ForEach((Entity entity, ref Smoke smoke, ref Car car, ref Translation translation,
                 ref LocalToWorld localToWorld) =>
+            {
+                if (smoke.ExplosionPrefab == Entity.Null)
                 {
-                    if (smoke.ExplosionPrefab == Entity.Null)
-                        return;
-                    if (car.PlayCrashAudio)
-                    {
-                        var explosionEntity = EntityManager.Instantiate(smoke.ExplosionPrefab);
-                        smoke.Explosion = explosionEntity;
-                        EntityManager.AddComponent<Disabled>(smoke.CarSmoke);
-                    }
-                    if (smoke.Explosion != Entity.Null)
-                        EntityManager.SetComponentData(smoke.Explosion, translation);
-                }).WithStructuralChanges().Run();
+                    return;
+                }
+
+                if (car.PlayCrashAudio)
+                {
+                    var explosionEntity = EntityManager.Instantiate(smoke.ExplosionPrefab);
+                    smoke.Explosion = explosionEntity;
+                    EntityManager.AddComponent<Disabled>(smoke.CarSmoke);
+                }
+
+                if (smoke.Explosion != Entity.Null)
+                {
+                    EntityManager.SetComponentData(smoke.Explosion, translation);
+                }
+            }).WithStructuralChanges().Run();
         }
     }
 }

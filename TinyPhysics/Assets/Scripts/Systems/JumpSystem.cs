@@ -25,7 +25,7 @@ namespace TinyPhysics.Systems
                     // Consume trigger
                     jumper.JumpTrigger = false;
                 }
-            }).ScheduleParallel();
+            }).WithStructuralChanges().Run();
         }
     }
 }

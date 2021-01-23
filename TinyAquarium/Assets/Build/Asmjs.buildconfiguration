@@ -15,6 +15,12 @@
             "EnableBurst": false
         },
         {
+            "$type": "Unity.Build.Web.DotsRuntime.WasmMemorySettings, Unity.Build.Web.DotsRuntime",
+            "WasmStackSize": "512KB",
+            "WasmMemorySize": "128MB",
+            "AllowWasmMemoryGrowth": true
+        },
+        {
             "$type": "Unity.Build.Web.DotsRuntime.WasmOutputSettings, Unity.Build.Web.DotsRuntime",
             "OutputSingleHTMLFile": false,
             "MinifyHTMLFile": true,

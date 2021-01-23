@@ -1,8 +1,7 @@
-#if UNITY_DOTSRUNTIME
 using Unity.Entities;
 using Unity.Mathematics;
-using Unity.Tiny;
 using Unity.Tiny.Input;
+using Unity.Tiny.UI;
 
 namespace TinyRacing.Systems
 {
@@ -14,117 +13,94 @@ namespace TinyRacing.Systems
     {
         private const float kDeadZone = 0.1f;
         private const float kMaxAngle = 0.6f;
-        private Entity _accelerometerOff;
-        private Entity _accelerometerOn;
 
         protected override void OnCreate()
         {
             base.OnCreate();
-            RequireSingletonForUpdate<Race>();
             RequireSingletonForUpdate<CarAccelerometerSteering>();
-            RequireSingletonForUpdate<ButtonAccelerometerOnTag>();
-            RequireSingletonForUpdate<ButtonAccelerometerOffTag>();
-
-            var Input = World.GetExistingSystem<InputSystem>();
-            var carSteering = EntityManager.CreateEntity(typeof(CarAccelerometerSteering));
-            var carSteeringData = new CarAccelerometerSteering
-            {
-                HorizontalAxis = 0.0f,
-                State = Input.IsAvailable<AccelerometerSensor>() ? SensorState.Disabled : SensorState.NotAvailable
-            };
-            EntityManager.SetComponentData(carSteering, carSteeringData);
-        }
-
-        protected override void OnStartRunning()
-        {
-            base.OnStartRunning();
-            _accelerometerOn = GetSingletonEntity<ButtonAccelerometerOnTag>();
-            _accelerometerOff = GetSingletonEntity<ButtonAccelerometerOffTag>();
         }
 
         protected override void OnUpdate()
         {
-            var race = GetSingleton<Race>();
             var carSteering = GetSingleton<CarAccelerometerSteering>();
-
-            if (!race.IsRaceStarted || carSteering.State == SensorState.NotAvailable)
+            var Input = World.GetExistingSystem<InputSystem>();
+            if (!Input.IsAvailable<AccelerometerSensor>())
             {
-                EntityManager.SetEnabled(_accelerometerOn, false);
-                EntityManager.SetEnabled(_accelerometerOff, false);
+                var rectTransform = EntityManager.GetComponentData<RectTransform>(carSteering.UIToggle);
+                rectTransform.Hidden = true;
+                EntityManager.SetComponentData(carSteering.UIToggle, rectTransform);
+                Enabled = false;
                 return;
             }
 
-            var Input = World.GetExistingSystem<InputSystem>();
-            if (Input.IsTouchSupported() && Input.TouchCount() > 0)
-                for (var i = 0; i < Input.TouchCount(); i++)
+            if (carSteering.State == SensorState.NotAvailable)
+            {
+                carSteering.State = SensorState.Disabled;
+            }
+
+            var useAccelerometer = false;
+            Entities.ForEach(
+                (Entity e, ref Toggleable toggleable, ref RectTransform rectTransform,
+                    ref CarAccelerometerSteering carAccelerometerSteering) =>
                 {
-                    var itouch = Input.GetTouch(i);
-                    var pos = new float2(itouch.x, itouch.y);
-                    if (itouch.phase == TouchState.Ended)
+                    useAccelerometer = toggleable.IsToggled;
+                }).Run();
+
+            if (carSteering.State == SensorState.Disabled)
+            {
+                carSteering.State = SensorState.NoData;
+                Input.EnableSensor<AccelerometerSensor>();
+                Input.SetSensorSamplingFrequency<AccelerometerSensor>(30);
+            }
+
+            if (useAccelerometer)
+            {
+                var dir = 0.0f;
+                if (carSteering.State == SensorState.NoData && HasSingleton<AccelerometerSensor>())
+                {
+                    carSteering.State = SensorState.Available;
+                }
+
+                if (carSteering.State == SensorState.Available)
+                {
+                    var data = GetSingleton<AccelerometerSensor>();
+                    var x = data.Acceleration.y;
+                    var y = -data.Acceleration.x;
+                    if (x < 0)
                     {
-                        var di = GetSingleton<DisplayInfo>();
-                        // TODO currently rendering is done with 1080p, with aspect kept.
-                        // We might not be using the actual width.  DisplayInfo needs to get reworked.
-                        var height = di.height;
-                        var width = di.width;
-                        var targetRatio = 1920.0f / 1080.0f;
-                        var actualRatio = width / (float)height;
-                        if (actualRatio > targetRatio)
+                        x = -x;
+                        y = -y;
+                    }
+
+                    var angle = math.atan2(y, x);
+                    if (angle < -kDeadZone)
+                    {
+                        if (angle < -kMaxAngle)
                         {
-                            width = (int)(di.height * targetRatio);
-                            pos.x -= (di.width - width) / 2.0f;
+                            angle = -kMaxAngle;
                         }
 
-                        var screenRatio = pos.x / width;
-                        if (pos.x / width < 0.15f && pos.y / height > 0.75f)
+                        dir = (angle + kDeadZone) / (kMaxAngle - kDeadZone);
+                    }
+                    else if (angle > kDeadZone)
+                    {
+                        if (angle > kMaxAngle)
                         {
-                            if (carSteering.State == SensorState.Disabled)
-                            {
-                                carSteering.State = SensorState.NoData;
-                                Input.EnableSensor<AccelerometerSensor>();
-                                Input.SetSensorSamplingFrequency<AccelerometerSensor>(30);
-                            }
-                            else if (carSteering.State > SensorState.Disabled)
-                            {
-                                carSteering.State = SensorState.Disabled;
-                                Input.DisableSensor<AccelerometerSensor>();
-                            }
+                            angle = kMaxAngle;
                         }
+
+                        dir = (angle - kDeadZone) / (kMaxAngle - kDeadZone);
                     }
                 }
 
-            var dir = 0.0f;
-            if (carSteering.State == SensorState.NoData && HasSingleton<AccelerometerSensor>())
-                carSteering.State = SensorState.Available;
-            if (carSteering.State == SensorState.Available)
+                carSteering.HorizontalAxis = dir;
+            }
+            else
             {
-                var data = GetSingleton<AccelerometerSensor>();
-                var x = data.Acceleration.y;
-                var y = -data.Acceleration.x;
-                if (x < 0)
-                {
-                    x = -x;
-                    y = -y;
-                }
-
-                var angle = math.atan2(y, x);
-                if (angle < -kDeadZone)
-                {
-                    if (angle < -kMaxAngle) angle = -kMaxAngle;
-                    dir = (angle + kDeadZone) / (kMaxAngle - kDeadZone);
-                }
-                else if (angle > kDeadZone)
-                {
-                    if (angle > kMaxAngle) angle = kMaxAngle;
-                    dir = (angle - kDeadZone) / (kMaxAngle - kDeadZone);
-                }
+                carSteering.State = SensorState.NoData;
             }
 
-            carSteering.HorizontalAxis = dir;
             SetSingleton(carSteering);
-            EntityManager.SetEnabled(_accelerometerOn, carSteering.State > SensorState.Disabled);
-            EntityManager.SetEnabled(_accelerometerOff, carSteering.State == SensorState.Disabled);
         }
     }
 }
-#endif
