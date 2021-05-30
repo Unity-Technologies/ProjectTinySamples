@@ -65,7 +65,7 @@ Illustrates how to combine simple Unity Physics behaviors and common input metho
 </p>
 
 ## TinyTime
-Demonstrates how to use in-game text rendering, Skinned mesh renderer and how to dynamically chagne the scene lighting.
+Demonstrates how to use in-game text rendering, Skinned mesh renderer and how to dynamically change the scene lighting.
 
 
 <p align="center"> 
